@@ -19,7 +19,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
   background-color: ${({ theme }) => theme['bg-secondary']};
-  padding: 24px 60px;
+  align-items: center;
 `;
 
 const Wrapper = styled(LayoutPadding)`

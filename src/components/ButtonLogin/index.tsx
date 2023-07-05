@@ -47,7 +47,7 @@ const ButtonLogin = React.memo(() => {
       {state.isLogged && (
         <Dropdown
           element={
-            <Text color="txt-primary" fontWeight="medium" size="16" onClick={() => onCopy(keySet.address)}>
+            <Text color="txt-primary" fontWeight="medium" size="18" onClick={() => onCopy(keySet.address)}>
               {formatter.ellipsisCenter({ str: keySet.address, limit: 6 })} <S.VerticalLine>|</S.VerticalLine>{' '}
               {balance.amount} TC
             </Text>

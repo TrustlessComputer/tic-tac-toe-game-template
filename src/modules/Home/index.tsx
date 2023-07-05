@@ -1,10 +1,12 @@
-import Board from '@/modules/Home/components/Board';
+import Game from '@/modules/Home/components/Game';
+import DashBoard from '@/modules/Home/components/DashBoard';
 import * as S from '@/modules/styled';
 
 const Home = () => {
   return (
     <S.Container>
-      <Board />
+      <DashBoard />
+      <Game />
     </S.Container>
   );
 };

@@ -6,6 +6,7 @@ const Container = styled.div``;
 const DropdownList = styled.div`
   display: grid;
   gap: ${px2rem(24)} !important;
+  min-width: 240px;
 `;
 
 const QRCodeWrapper = styled.div`
@@ -15,8 +16,8 @@ const QRCodeWrapper = styled.div`
 `;
 
 const VerticalLine = styled.span`
-  margin-left: 12px;
-  margin-right: 12px;
+  margin-left: 24px;
+  margin-right: 24px;
 `;
 
 export { Container, DropdownList, VerticalLine, QRCodeWrapper };

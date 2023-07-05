@@ -24,6 +24,8 @@ const COUNTER_TIME = 500;
 
 const MIN_AMOUNT = 0.005 * 1e18;
 
+const NUMBER_COLUMN = 15;
+
 export {
   APP_ENV,
   isProduction,
@@ -35,4 +37,5 @@ export {
   SLEEP_TIME,
   COUNTER_TIME,
   MIN_AMOUNT,
+  NUMBER_COLUMN,
 };
