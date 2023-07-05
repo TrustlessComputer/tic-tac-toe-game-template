@@ -15,10 +15,11 @@ export default function ThemeProvider({ children }: { children: React.ReactNode 
 }
 
 export const ThemedGlobalStyle = createGlobalStyle`
-  html{
+  html {
     font-size: 16px;
     letter-spacing: 0.01em;
     background-color:  ${({ theme }) => theme['bg-primary']};
+    color: ${({ theme }) => theme['txt-primary']};
 
     @media screen and (min-width: 1920px) {
       font-size: 18px;

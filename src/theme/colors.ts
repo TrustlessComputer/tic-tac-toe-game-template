@@ -64,6 +64,9 @@ export const darkTheme = {
   'txt-primary': commonTheme.light['100'],
   'txt-secondary': commonTheme.light['60'],
   'txt-error': commonTheme.red.A,
+  'txt-highlight': commonTheme.yellow.C,
+  'txt-parallel': commonTheme.dark['100'],
+
   'txt-1': commonTheme.dark['100'],
 
   'border-primary': commonTheme.dark['10'],
@@ -82,6 +85,8 @@ export const lightTheme = {
   'txt-primary': commonTheme.dark['100'],
   'txt-secondary': commonTheme.dark['60'],
   'txt-error': commonTheme.red.A,
+  'txt-highlight': commonTheme.yellow['A'],
+  'txt-parallel': commonTheme.light['100'],
   'txt-1': commonTheme.light['100'],
 
   'btn-primary': commonTheme.blue.A,

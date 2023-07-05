@@ -34,3 +34,12 @@ export const StyledIconSVG = styled.div<any>`
     );
   }};
 `;
+
+export const IconWrapper = styled.div`
+  background-color: ${({ theme }) => theme['bg-primary']};
+  padding: 4px;
+  border-radius: 4px;
+  :hover {
+    opacity: 0.8;
+  }
+`;

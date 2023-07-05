@@ -6,6 +6,7 @@ const BaseText = styled.p<{
   align: string;
   maxWidth: string | number;
 }>`
+  color: ${({ color, theme }) => (color ? (theme as any)[color] : theme['txt-primary'])};
   text-align: ${({ align }) => align};
   max-width: ${({ maxWidth }) => maxWidth};
   line-height: 140%;
