@@ -1,5 +1,12 @@
+import * as S from './styled';
+import ButtonLogin from '@/components/ButtonLogin';
+
 const Header = () => {
-  return <div />;
+  return (
+    <S.Container>
+      <ButtonLogin />
+    </S.Container>
+  );
 };
 
 export default Header;

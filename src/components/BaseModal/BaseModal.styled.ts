@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 export const StyledModal = styled(Modal)<{ width?: number }>`
   &.modal {
+    --bs-modal-color: ${({ theme }) => theme['bg-secondary']};
     --bs-modal-width: ${({ width }: { width?: number }) => px2rem(width || 500)};
     overflow-y: hidden;
   }
@@ -13,6 +14,7 @@ export const StyledModal = styled(Modal)<{ width?: number }>`
     border-radius: ${px2rem(8)};
     padding: ${px2rem(32)};
     padding-top: ${px2rem(8)};
+    background: ${({ theme }) => theme['bg-secondary']};
   }
 
   .modal-header {
@@ -53,6 +55,7 @@ export const Title = styled.p`
   :first-letter {
     text-transform: uppercase;
   }
+  color: ${({ theme }) => theme['txt-primary']};
 `;
 
 export const SubTitle = styled.p`

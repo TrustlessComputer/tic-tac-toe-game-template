@@ -18,7 +18,8 @@ export const ThemedGlobalStyle = createGlobalStyle`
   html{
     font-size: 16px;
     letter-spacing: 0.01em;
-    
+    background-color:  ${({ theme }) => theme['bg-primary']};
+
     @media screen and (min-width: 1920px) {
       font-size: 18px;
     }
@@ -27,7 +28,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
       font-size: 20px;
     }
 
-    a{
+    a {
       color: inherit;
       text-decoration: none;
 

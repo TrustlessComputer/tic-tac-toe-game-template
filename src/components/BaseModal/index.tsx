@@ -10,7 +10,7 @@ type Props = {
   children: React.ReactElement;
   show: boolean;
   handleClose: () => void;
-  width?: number;
+  width?: number | '550';
   onScrollBody?: (event: React.UIEvent<HTMLDivElement>) => void;
 };
 

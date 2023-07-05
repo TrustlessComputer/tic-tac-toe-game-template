@@ -14,15 +14,19 @@ export const StyledButton = styled.button`
     background-color: transparent;
     text-decoration: underline;
     border: 1px solid transparent;
+    color: ${({ theme }) => theme['btn-primary']};
   }
 
   &.ghost {
     background-color: transparent;
     text-decoration: none;
     border: 1px solid transparent;
+    color: ${({ theme }) => theme['btn-primary']};
   }
 
   &.primary {
+    background-color: ${({ theme }) => theme['btn-primary']};
+    color: ${({ theme }) => theme['txt-1']};
   }
 
   &.outline {

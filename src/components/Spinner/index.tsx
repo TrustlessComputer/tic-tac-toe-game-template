@@ -5,6 +5,6 @@ interface IProps {
   size?: number;
 }
 
-const Spinner = ({ className, size = 40 }: IProps) => <Container className={className} size={size} />;
+const Spinner = ({ className, size = 45 }: IProps) => <Container className={className} size={size} />;
 
 export default Spinner;
