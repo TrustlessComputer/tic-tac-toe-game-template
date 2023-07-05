@@ -17,7 +17,6 @@ const MediaXl = css`
 
 const Container = styled.div`
   display: flex;
-  justify-content: flex-end;
   width: 100%;
   background-color: ${({ theme }) => theme['bg-secondary']};
   padding: 24px 60px;

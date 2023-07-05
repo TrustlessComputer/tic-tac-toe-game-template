@@ -69,7 +69,7 @@ export const darkTheme = {
 
   'txt-1': commonTheme.dark['100'],
 
-  'border-primary': commonTheme.dark['10'],
+  'border-primary': commonTheme.dark['60'],
   'border-secondary': commonTheme.yellow.C,
 
   'loader-primary': commonTheme.blue.A,
