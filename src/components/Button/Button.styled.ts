@@ -35,6 +35,8 @@ export const StyledButton = styled.button`
 
   &.outline {
     background-color: transparent;
+    border: 1px solid ${({ theme }) => theme['btn-primary']};
+    color: ${({ theme }) => theme['btn-primary']};
   }
 
   &.outline-negative {
