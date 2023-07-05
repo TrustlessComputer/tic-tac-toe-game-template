@@ -28,7 +28,7 @@ const App: React.FC = (): React.ReactElement => {
             </WalletProvider>
           </LoaderProvider>
           <Toaster
-            position="top-right"
+            position="top-center"
             reverseOrder={false}
             toastOptions={{
               style: {

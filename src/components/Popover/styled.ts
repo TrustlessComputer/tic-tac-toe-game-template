@@ -45,7 +45,7 @@ const Wrapper = styled.div<{ show?: boolean }>`
   justify-content: center;
 
   background: ${({ theme, show }) => (show ? theme['btn-primary'] : 'transparent')};
-  border: 1px solid ${({ theme }) => theme['border-primary']};
+  border: 1px solid ${({ theme }) => theme['border-secondary']};
   padding: ${px2rem(0)} ${px2rem(12)};
   border-radius: ${px2rem(8)};
   height: ${px2rem(48)};
@@ -58,6 +58,7 @@ const Wrapper = styled.div<{ show?: boolean }>`
     gap: ${px2rem(12)};
     p {
       color: ${({ theme, show }) => (show ? theme['txt-parallel'] : theme['txt-highlight'])};
+      font-weight: 600;
     }
 
     .arrow {

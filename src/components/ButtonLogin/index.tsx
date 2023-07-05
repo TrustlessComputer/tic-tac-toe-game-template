@@ -13,7 +13,6 @@ import { AssetsContext } from '@/contexts/assets.context';
 import onCopy from '@/utils/copy';
 import QRCode from 'react-qr-code';
 import CopyIcon from '@/components/Icons/Copy';
-import { Row } from '@/components/Row';
 import { IconWrapper } from '@/components/IconSVG/IconSVG.styled';
 
 const ButtonLogin = React.memo(() => {
@@ -43,7 +42,11 @@ const ButtonLogin = React.memo(() => {
   return (
     <>
       {state.isNeedCreate && <Button onClick={onShowCreate}>Create wallet</Button>}
-      {state.isNeedLogin && <Button onClick={onShowLogin}>Login</Button>}
+      {state.isNeedLogin && (
+        <Button onClick={onShowLogin} sizes="large">
+          Login
+        </Button>
+      )}
       {state.isLogged && (
         <Dropdown
           element={
@@ -66,14 +69,14 @@ const ButtonLogin = React.memo(() => {
                 viewBox={`0 0 165 165`}
               />
             </S.QRCodeWrapper>
-            <Row justify="space-between" gap="12px">
+            <S.AddressBar justify="space-between" gap="12px">
               <Text color="txt-primary" size="18">
                 {formatter.ellipsisCenter({ str: keySet.address, limit: 7 })}
               </Text>
               <IconWrapper>
                 <CopyIcon maxWidth="18" content={keySet.address} />
               </IconWrapper>
-            </Row>
+            </S.AddressBar>
           </S.DropdownList>
         </Dropdown>
       )}

@@ -26,8 +26,7 @@ const Container = styled.div`
   margin-right: auto;
   display: flex;
   flex-direction: column;
-  padding-top: ${px2rem(32)};
-  padding-bottom: ${px2rem(32)};
+  padding-top: ${px2rem(12)};
 `;
 
 const ContentWrapper = styled(LayoutPadding)`

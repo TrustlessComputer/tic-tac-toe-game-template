@@ -18,9 +18,10 @@ export const ThemedGlobalStyle = createGlobalStyle`
   html {
     font-size: 16px;
     letter-spacing: 0.01em;
-    background-color:  ${({ theme }) => theme['bg-primary']};
     color: ${({ theme }) => theme['txt-primary']};
-
+    background-color: rgb(19, 26, 42) !important;
+    background: linear-gradient(180deg,#202738 0,#070816 100%);
+    
     @media screen and (min-width: 1920px) {
       font-size: 18px;
     }

@@ -9,6 +9,10 @@ export const StyledButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 12px;
+  :hover {
+    transform: scaleX(1.03);
+    transition: all 0.3s linear;
+  }
 
   &.underline {
     background-color: transparent;
@@ -44,6 +48,11 @@ export const StyledButton = styled.button`
 
   &.normal {
     padding: ${px2rem(11)} ${px2rem(34)};
+    font-size: ${px2rem(16)};
+  }
+
+  &.large {
+    padding: ${px2rem(11)} ${px2rem(48)};
     font-size: ${px2rem(16)};
   }
 

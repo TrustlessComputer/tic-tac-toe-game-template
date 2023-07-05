@@ -1,4 +1,5 @@
 import styled, { DefaultTheme, css } from 'styled-components';
+import px2rem from '@/utils/px2rem';
 
 export const StyledIconSVG = styled.div<any>`
   font-size: 0;
@@ -37,8 +38,8 @@ export const StyledIconSVG = styled.div<any>`
 
 export const IconWrapper = styled.div`
   background-color: ${({ theme }) => theme['bg-primary']};
-  padding: 4px;
-  border-radius: 4px;
+  padding: ${px2rem(4)};
+  border-radius: ${px2rem(4)};
   :hover {
     opacity: 0.8;
   }

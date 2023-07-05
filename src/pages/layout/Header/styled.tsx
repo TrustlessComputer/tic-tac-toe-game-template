@@ -18,7 +18,6 @@ const MediaXl = css`
 const Container = styled.div`
   display: flex;
   width: 100%;
-  background-color: ${({ theme }) => theme['bg-secondary']};
   align-items: center;
 `;
 
