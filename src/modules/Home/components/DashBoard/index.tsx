@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 import * as formatter from 'tc-formatter';
 import { AssetsContext } from '@/contexts/assets.context';
 import { MIN_AMOUNT } from '@/configs';
+import Header from '@/pages/layout/Header';
 
 const DashBoard = React.memo(() => {
   const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading } = useContext(GameContext);
@@ -101,7 +102,12 @@ const DashBoard = React.memo(() => {
     );
   };
 
-  return <S.Container>{renderContent()}</S.Container>;
+  return (
+    <S.Container>
+      <Header />
+      {renderContent()}
+    </S.Container>
+  );
 });
 
 export default DashBoard;

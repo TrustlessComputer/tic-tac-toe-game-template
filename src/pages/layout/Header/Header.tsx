@@ -2,17 +2,14 @@ import * as S from './styled';
 import ButtonLogin from '@/components/ButtonLogin';
 import LogoIcon from '@/components/Icons/Logo';
 import { Row } from '@/components/Row';
-import { Wrapper } from './styled';
 
 const Header = () => {
   return (
     <S.Container>
-      <Wrapper>
-        <Row gap="60px">
-          <LogoIcon />
-          <ButtonLogin />
-        </Row>
-      </Wrapper>
+      <Row gap="60px" padding="12px 0">
+        <LogoIcon />
+        <ButtonLogin />
+      </Row>
     </S.Container>
   );
 };

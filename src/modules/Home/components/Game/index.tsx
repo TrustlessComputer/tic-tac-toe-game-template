@@ -15,14 +15,16 @@ const Game = React.memo(() => {
 
   return (
     <S.Container>
-      {LIST_MATRIX.map(ind => (
-        <Square
-          key={ind}
-          ind={ind}
-          updateSquares={updateSquares}
-          clsName={squares[Number(ind)] || localState[Number(ind)]}
-        />
-      ))}
+      <S.GridContainer>
+        {LIST_MATRIX.map(ind => (
+          <Square
+            key={ind}
+            ind={ind}
+            updateSquares={updateSquares}
+            clsName={squares[Number(ind)] || localState[Number(ind)]}
+          />
+        ))}
+      </S.GridContainer>
     </S.Container>
   );
 });

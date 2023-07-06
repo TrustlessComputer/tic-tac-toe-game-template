@@ -2,7 +2,6 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Meta from './Meta';
 import Footer from './Footer';
-import Header from './Header';
 import { Container, ContentWrapper } from '@/pages/layout';
 import { useContentSize } from '@/hooks/useContentSize';
 
@@ -11,7 +10,7 @@ const LayoutOutlet = () => {
   return (
     <>
       <Meta />
-      <Header />
+      {/*<Header />*/}
       <Container>
         <ContentWrapper style={{ minHeight: height }}>
           <Outlet />

@@ -4,11 +4,18 @@ import { opacify } from '@/theme/utils';
 import px2rem from '@/utils/px2rem';
 import { MediaQueryBuilder } from '@/theme';
 
-const ContainerXL = css`
+const Container = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const GridContainerXL = css`
   max-width: 100%;
 `;
 
-const Container = styled.div`
+const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(${NUMBER_COLUMN}, 1fr);
   height: fit-content;
@@ -21,7 +28,7 @@ const Container = styled.div`
   flex: 1;
   max-width: 45vw;
   min-width: 800px;
-  ${MediaQueryBuilder('xl', ContainerXL)}
+  ${MediaQueryBuilder('xl', GridContainerXL)}
 `;
 
 const AuthButton = styled.div`
@@ -36,4 +43,4 @@ const AuthButton = styled.div`
   align-items: center;
 `;
 
-export { Container, AuthButton };
+export { Container, AuthButton, GridContainer };
