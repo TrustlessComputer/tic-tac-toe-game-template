@@ -4,7 +4,7 @@
   "private": true,
   "author": "bolt",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "dev-clean": "rm -rf ./node_modules/.vite && yarn dev",
     "build": "vite build",
     "serve": "vite preview",
