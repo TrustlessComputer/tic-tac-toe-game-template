@@ -20,10 +20,12 @@ const ActionsMD = css`
 
 const Actions = styled.div`
   display: flex;
-  gap: 32px;
-  width: 100%;
+  flex-direction: column;
+  width: fit-content;
   margin-top: 120px;
-  justify-content: center;
+  gap: 32px;
+  margin-left: auto;
+  margin-right: auto;
   ${MediaQueryBuilder('xl', ActionsXL)}
   ${MediaQueryBuilder('md', ActionsMD)}
 `;

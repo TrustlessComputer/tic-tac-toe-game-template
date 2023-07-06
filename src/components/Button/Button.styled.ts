@@ -3,15 +3,17 @@ import px2rem from '@/utils/px2rem';
 
 export const StyledButton = styled.button`
   border-width: 1px;
-  border-radius: 200px;
+  border-radius: 10px;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 12px;
+  text-transform: uppercase;
+
   :hover {
-    transform: scaleX(1.03);
-    transition: all 0.3s linear;
+    transform: scaleX(1.02);
+    transition: all 0.2s linear;
   }
 
   &.underline {

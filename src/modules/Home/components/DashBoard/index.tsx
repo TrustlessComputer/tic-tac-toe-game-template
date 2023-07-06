@@ -1,14 +1,13 @@
 import React from 'react';
 import * as S from './styled';
-import Button from '@/components/Button';
+import { ButtonCreateRoom, ButtonJoinRoom } from '@/components/Button/Button.games';
 
 const DashBoard = React.memo(() => {
   return (
     <S.Container>
       <S.Actions>
-        <Button>New Game</Button>
-        <Button variants="outline">Join Game</Button>
-        <Button variants="underline">Auto Match</Button>
+        <ButtonCreateRoom />
+        <ButtonJoinRoom />
       </S.Actions>
     </S.Container>
   );
