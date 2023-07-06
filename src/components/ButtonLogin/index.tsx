@@ -16,7 +16,7 @@ import CopyIcon from '@/components/Icons/Copy';
 import { IconWrapper } from '@/components/IconSVG/IconSVG.styled';
 
 const ButtonLogin = React.memo(() => {
-  const { keySet } = useContext(WalletContext);
+  const { keySet, walletState } = useContext(WalletContext);
   const { balance } = useContext(AssetsContext);
 
   const [showCreate, setShowCreate] = React.useState(false);
@@ -28,26 +28,15 @@ const ButtonLogin = React.memo(() => {
   const onShowLogin = () => setShowLogin(true);
   const onCloseLogin = () => setShowLogin(false);
 
-  const state = React.useMemo(() => {
-    const isLogged = keySet.prvKey && keySet.address;
-    const isNeedCreate = !isLogged && keySet.isNeedCreate;
-    const isNeedLogin = !isLogged && !isNeedCreate;
-    return {
-      isLogged,
-      isNeedCreate,
-      isNeedLogin,
-    };
-  }, [keySet]);
-
   return (
     <>
-      {state.isNeedCreate && <Button onClick={onShowCreate}>Create wallet</Button>}
-      {state.isNeedLogin && (
+      {walletState.isNeedCreate && <Button onClick={onShowCreate}>Create wallet</Button>}
+      {walletState.isNeedLogin && (
         <Button onClick={onShowLogin} sizes="large">
           Login
         </Button>
       )}
-      {state.isLogged && (
+      {walletState.isLogged && (
         <Dropdown
           element={
             <Text color="txt-primary" fontWeight="medium" size="18" onClick={() => onCopy(keySet.address)}>

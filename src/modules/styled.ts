@@ -30,7 +30,7 @@ const GamePopup = styled(motion.div)`
   }
   .text h2 {
     font-size: 2.5em;
-    margin: 15px 0;
+    margin: 8px 0;
     color: ${({ theme }) => theme['txt-primary']};
   }
   .win {
@@ -42,9 +42,9 @@ const GamePopup = styled(motion.div)`
     gap: 15px;
   }
   .input-room {
-    width: 250px;
+    width: 300px;
     height: 55px;
-    font-size: 32px;
+    font-size: 22px;
     text-align: center;
     border: 1px solid ${({ theme }) => theme['border-secondary']};
     border-radius: 12px;
@@ -53,7 +53,7 @@ const GamePopup = styled(motion.div)`
 
   .actions {
     display: flex;
-    gap: 32px;
+    gap: 24px;
     margin-top: 32px;
     button {
       width: 150px;

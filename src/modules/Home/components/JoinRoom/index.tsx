@@ -77,7 +77,7 @@ const JoinRoom = React.memo(() => {
               },
             }}
           >
-            Join The Game
+            Room ID
           </motion.h2>
           <motion.input
             initial={{ scale: 0 }}
@@ -89,7 +89,7 @@ const JoinRoom = React.memo(() => {
                 duration: 0.2,
               },
             }}
-            placeholder="Enter game ID"
+            placeholder="Input your friend's room id"
             autoFocus={true}
             onChange={event => {
               if (event?.target?.value) {
@@ -110,7 +110,7 @@ const JoinRoom = React.memo(() => {
               Cancel
             </Button>
             <Button className="button" onClick={throttleJoinRoom} disabled={loading}>
-              Join
+              Search
             </Button>
           </motion.div>
         </motion.div>

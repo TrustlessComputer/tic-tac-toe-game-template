@@ -3,7 +3,7 @@ import { WalletContext } from './wallet.context';
 import useProvider from '../hooks/useProvider';
 import debounce from 'lodash/debounce';
 import BigNumber from 'bignumber.js';
-import { MIN_AMOUNT } from '@/configs';
+import { TOPUP_AMOUNT } from '@/configs';
 import * as formatter from 'tc-formatter';
 
 const INITIAL_BALANCE = {
@@ -50,7 +50,7 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
   const debounceLoadBalance = React.useCallback(debounce(onLoadBalance, 1000), [keySet.address]);
 
   const isNeedTopupTC = React.useMemo(() => {
-    return balance.isLoaded && new BigNumber(balance.amount).lt(MIN_AMOUNT);
+    return balance.isLoaded && new BigNumber(balance.amount).lt(TOPUP_AMOUNT);
   }, [balance]);
 
   const contextValues = React.useMemo(() => {

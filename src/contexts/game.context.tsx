@@ -67,11 +67,15 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     if (!keySet.address) return resetGame();
     resetGame();
     const isPlayer1 = keySet.address.toLowerCase() === games.player1.toLowerCase();
+    const myRolePlayer = isPlayer1 ? Player.Player1 : Player.Player2;
+    const myTurn = isPlayer1 ? IRole.X : IRole.O;
+    const competitorAddress = isPlayer1 ? games.player2 : games.player1;
     setGameInfo({
       gameID,
-      myRolePlayer: isPlayer1 ? Player.Player1 : Player.Player2,
+      myRolePlayer,
       winner: games.winner,
-      myTurn: isPlayer1 ? IRole.X : IRole.O,
+      myTurn,
+      competitorAddress,
     });
   };
 

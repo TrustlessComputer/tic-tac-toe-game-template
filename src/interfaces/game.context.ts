@@ -11,6 +11,7 @@ export interface IGameState {
   myTurn: IRole;
   winner: WinnerState;
   myRolePlayer: Player;
+  competitorAddress: string;
 }
 
 export interface ILocalState {

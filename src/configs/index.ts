@@ -22,7 +22,8 @@ const CONTRACT_ADDRESS = isProduction
 const SLEEP_TIME = 500;
 const COUNTER_TIME = 500;
 
-const MIN_AMOUNT = 0.005 * 1e18;
+const TOPUP_AMOUNT = 0.05 * 1e18;
+const MIN_AMOUNT = 0.01 * 1e18;
 
 const NUMBER_COLUMN = 15;
 
@@ -36,6 +37,7 @@ export {
   CONTRACT_ADDRESS,
   SLEEP_TIME,
   COUNTER_TIME,
-  MIN_AMOUNT,
+  TOPUP_AMOUNT,
   NUMBER_COLUMN,
+  MIN_AMOUNT,
 };

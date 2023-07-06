@@ -19,7 +19,7 @@ const Container = styled.div`
   gap: ${px2rem(6)};
   position: relative;
   flex: 1;
-  max-width: 40vw;
+  max-width: 45vw;
   min-width: 800px;
   ${MediaQueryBuilder('xl', ContainerXL)}
 `;

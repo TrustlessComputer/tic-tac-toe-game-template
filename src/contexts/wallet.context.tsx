@@ -18,12 +18,28 @@ const walletValue: IWalletContext = {
   keySet: { ...INIT_KEY_SET },
   onLogin: () => undefined,
   onRandomAccount: () => undefined,
+  walletState: {
+    isLogged: false,
+    isNeedCreate: false,
+    isNeedLogin: false,
+  },
 };
 
 export const WalletContext = React.createContext<IWalletContext>(walletValue);
 
 export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const [keySet, setKeySet] = React.useState<IKeySet>({ ...INIT_KEY_SET });
+
+  const walletState = React.useMemo(() => {
+    const isLogged = keySet.prvKey && keySet.address;
+    const isNeedCreate = !isLogged && keySet.isNeedCreate;
+    const isNeedLogin = !isLogged && !isNeedCreate;
+    return {
+      isLogged: !!isLogged,
+      isNeedCreate,
+      isNeedLogin,
+    };
+  }, [keySet]);
 
   const onLogin = (password: string) => {
     try {
@@ -76,8 +92,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       keySet,
       onLogin,
       onRandomAccount,
+      walletState,
     };
-  }, [keySet]);
+  }, [keySet, walletState, onLogin, onRandomAccount]);
 
   return <WalletContext.Provider value={contextValues}>{children}</WalletContext.Provider>;
 };
