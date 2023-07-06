@@ -3,6 +3,7 @@ import sleep from '@/utils/sleep';
 import { ZeroAddress } from 'ethers';
 import { COUNTER_TIME, SLEEP_TIME } from '@/configs';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
+import SDKError, { ERROR_CODE } from '@/utils/error';
 
 const useGetGames = () => {
   const contractSigner = useContractSigner();
@@ -30,6 +31,9 @@ const useGetGames = () => {
         }
 
         counter++;
+        if (mapper.player1 !== ZeroAddress && mapper.player2 !== ZeroAddress && mapper.player1 === mapper.player2) {
+          throw new SDKError(ERROR_CODE.JOIN_GAME_ERROR);
+        }
         if (mapper.player1 === ZeroAddress || mapper.player2 === ZeroAddress) {
           await sleep(SLEEP_TIME);
           continue;
@@ -45,10 +49,10 @@ const useGetGames = () => {
 
   const onWaitingUpdateNextMove = async ({
     gameID,
-    roleNumber,
+    myRolePlayer,
   }: {
     gameID: string;
-    roleNumber: Player;
+    myRolePlayer: Player;
   }): Promise<IGameMapper | undefined> => {
     let counter = 0;
     let games = undefined;
@@ -63,7 +67,7 @@ const useGetGames = () => {
         }
 
         counter++;
-        if (mapper.turn === roleNumber && mapper.winner === WinnerState.Playing) {
+        if (mapper.turn === myRolePlayer && mapper.winner === WinnerState.Playing) {
           await sleep(SLEEP_TIME);
           continue;
         }

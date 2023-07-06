@@ -18,23 +18,23 @@ const useGetGameState = () => {
           data = IRole.Empty;
           break;
         case Player.Player1:
-          data = IRole.Player1;
+          data = IRole.X;
           break;
         case Player.Player2:
-          data = IRole.Player2;
+          data = IRole.O;
           break;
       }
       return data;
     });
 
-    const player1Moved = squares.filter((item: any) => item === IRole.Player1).length;
-    const player2Moved = squares.filter((item: any) => item === IRole.Player2).length;
+    const player1Moved = squares.filter((item: any) => item === IRole.X).length;
+    const player2Moved = squares.filter((item: any) => item === IRole.O).length;
 
     console.log('LOGGER--- GAME STATE: ', squares);
 
     return {
       squares,
-      newTurn: player1Moved > player2Moved ? IRole.Player2 : IRole.Player1,
+      newTurn: player1Moved > player2Moved ? IRole.O : IRole.X,
     };
   };
 

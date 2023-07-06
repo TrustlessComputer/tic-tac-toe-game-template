@@ -1,6 +1,8 @@
 export const ERROR_CODE = {
   DECRYPT: '0',
   CREATE_WALLET: '1',
+  JOIN_GAME_ERROR: '2',
+  TIME_OUT: '3',
 };
 
 export const ERROR_MESSAGE = {
@@ -11,6 +13,14 @@ export const ERROR_MESSAGE = {
   [ERROR_CODE.CREATE_WALLET]: {
     message: 'Create wallet error.',
     desc: 'Create wallet error.',
+  },
+  [ERROR_CODE.JOIN_GAME_ERROR]: {
+    message: 'Join game error.',
+    desc: 'Join game error.',
+  },
+  [ERROR_CODE.TIME_OUT]: {
+    message: 'Time out.',
+    desc: 'Time out.',
   },
 };
 

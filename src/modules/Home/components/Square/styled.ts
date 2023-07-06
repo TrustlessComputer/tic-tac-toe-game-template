@@ -24,7 +24,7 @@ const Container = styled(motion.div)`
     &.x::before {
       position: absolute;
       content: '';
-      width: 150%;
+      width: 250%;
       height: 8px;
       top: 50%;
       left: 50%;

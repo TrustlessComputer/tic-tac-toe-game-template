@@ -52,7 +52,7 @@ const ButtonLogin = React.memo(() => {
           element={
             <Text color="txt-primary" fontWeight="medium" size="18" onClick={() => onCopy(keySet.address)}>
               {formatter.ellipsisCenter({ str: keySet.address, limit: 6 })} <S.VerticalLine>|</S.VerticalLine>{' '}
-              {balance.amount} TC
+              {formatter.shorterAmount({ originalAmount: balance.amount, decimals: 18 })} TC
             </Text>
           }
           width={384}

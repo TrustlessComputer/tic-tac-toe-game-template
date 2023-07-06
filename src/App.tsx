@@ -13,6 +13,7 @@ import { persistStore } from 'redux-persist';
 import { LoaderProvider } from '@/contexts/loader.context';
 import { WalletProvider } from '@/contexts/wallet.context';
 import { AssetsProvider } from '@/contexts/assets.context';
+import { GameProvider } from '@/contexts/game.context';
 
 let persistor = persistStore(store);
 const App: React.FC = (): React.ReactElement => {
@@ -24,7 +25,9 @@ const App: React.FC = (): React.ReactElement => {
           <ThemedGlobalStyle />
           <LoaderProvider>
             <WalletProvider>
-              <AssetsProvider>{element}</AssetsProvider>
+              <AssetsProvider>
+                <GameProvider> {element}</GameProvider>
+              </AssetsProvider>
             </WalletProvider>
           </LoaderProvider>
           <Toaster

@@ -7,7 +7,7 @@ export const colors = {
 
 export type ColorsTheme = DefaultTheme;
 
-const commonTheme = {
+export const commonTheme = {
   ...colors,
   white: colors.white,
   black: colors.black,
