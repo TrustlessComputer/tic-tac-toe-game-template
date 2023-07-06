@@ -5,7 +5,7 @@ import { NUMBER_COLUMN } from '@/configs';
 import { GameContext } from '@/contexts/game.context';
 
 const Game = React.memo(() => {
-  const { squares, updateSquares } = useContext(GameContext);
+  const { squares, updateSquares, localState } = useContext(GameContext);
 
   const LIST_MATRIX = React.useMemo(() => {
     return Array(NUMBER_COLUMN * NUMBER_COLUMN)
@@ -16,7 +16,12 @@ const Game = React.memo(() => {
   return (
     <S.Container>
       {LIST_MATRIX.map(ind => (
-        <Square key={ind} ind={ind} updateSquares={updateSquares} clsName={squares[Number(ind)]} />
+        <Square
+          key={ind}
+          ind={ind}
+          updateSquares={updateSquares}
+          clsName={squares[Number(ind)] || localState[Number(ind)]}
+        />
       ))}
     </S.Container>
   );

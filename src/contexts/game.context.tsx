@@ -18,6 +18,7 @@ const initialValue: IGameContext = {
   loading: false,
   turn: IRole.X,
   gameInfo: undefined,
+  localState: {},
 
   showJoinRoom: false,
   showCreateRoom: false,
@@ -41,6 +42,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = React.useState(false);
   const [squares, setSquares] = React.useState(INIT_ARRAY);
   const [turn, setTurn] = React.useState(IRole.X);
+  const [localState, setLocalState] = React.useState<{ [key: number]: IRole }>({});
 
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
@@ -58,6 +60,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLoading(false);
     setShowJoinRoom(false);
     setShowCreateRoom(false);
+    setLocalState({});
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
@@ -100,6 +103,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     if (squares[Number(ind)] || !gameInfo?.gameID || loading || turn !== gameInfo.myTurn) return;
     try {
       setLoading(true);
+      setLocalState(value => ({ ...value, [ind]: gameInfo.myTurn }));
       const { games } =
         (await onMakeMoves({
           gameID: gameInfo.gameID,
@@ -124,7 +128,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const throttleUpdateSquares = throttle(updateSquares, 1000);
+  const throttleUpdateSquares = throttle(updateSquares, 500);
 
   React.useEffect(() => {
     if (!gameInfo?.gameID) {
@@ -135,7 +139,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       return;
     }
     _onGetGameState(gameInfo.gameID);
-    interval = setInterval(() => _onGetGameState(gameInfo.gameID), 1000);
+    interval = setInterval(() => _onGetGameState(gameInfo.gameID), 1500);
     return () => {
       clearInterval(interval);
       interval = undefined;
@@ -157,6 +161,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       gameInfo,
       onJoinRoom,
       updateSquares: throttleUpdateSquares,
+      localState,
     };
   }, [
     squares,
@@ -170,6 +175,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     gameInfo,
     onJoinRoom,
     throttleUpdateSquares,
+    localState,
   ]);
 
   return (

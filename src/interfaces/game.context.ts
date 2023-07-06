@@ -13,11 +13,16 @@ export interface IGameState {
   myRolePlayer: Player;
 }
 
+export interface ILocalState {
+  [key: number]: IRole;
+}
+
 export interface IGameContext {
   squares: IRole[];
   loading: boolean;
   turn: IRole;
   gameInfo: IGameState | undefined;
+  localState: ILocalState;
 
   showJoinRoom: boolean;
   showCreateRoom: boolean;

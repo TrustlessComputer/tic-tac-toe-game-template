@@ -4,10 +4,12 @@ import useProvider from '../hooks/useProvider';
 import debounce from 'lodash/debounce';
 import BigNumber from 'bignumber.js';
 import { MIN_AMOUNT } from '@/configs';
+import * as formatter from 'tc-formatter';
 
 const INITIAL_BALANCE = {
   isLoaded: false,
   amount: '0',
+  amountFormated: '0',
 };
 
 const initialValue = {
@@ -34,11 +36,13 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
       setBalance({
         amount: balance.toString(),
         isLoaded: true,
+        amountFormated: formatter.shorterAmount({ originalAmount: balance.toString(), decimals: 18 }),
       });
     } catch (e) {
       setBalance({
         amount: '0',
         isLoaded: true,
+        amountFormated: '0',
       });
     }
   };

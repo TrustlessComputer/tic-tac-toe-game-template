@@ -11,10 +11,10 @@ const Container = styled.div`
 
 const ActionsXL = css`
   margin-top: 24px;
+  flex-direction: row;
 `;
 
 const ActionsMD = css`
-  flex-direction: column;
   gap: 16px;
 `;
 
