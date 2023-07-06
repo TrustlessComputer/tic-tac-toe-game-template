@@ -12,6 +12,7 @@ import useGetGames from '@/hooks/useGetGames';
 import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import { throttle } from 'lodash';
+import GameEnd from '@/modules/Home/components/GameEnd';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -187,6 +188,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       {children}
       {showCreateRoom && <CreateRoom />}
       {showJoinRoom && <JoinRoom />}
+      {gameInfo?.winner && gameInfo.winner !== WinnerState.Playing && <GameEnd />}
     </GameContext.Provider>
   );
 };
