@@ -36,7 +36,7 @@ export class StorageService {
   };
 
   removeAll = () => {
-    this.removeAll();
+    localStorage.clear();
   };
 }
 
