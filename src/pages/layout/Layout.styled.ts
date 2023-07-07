@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import px2rem from '@/utils/px2rem';
-import { BREAKPOINTS } from '@/theme';
+import { BREAKPOINTS, MediaQueryBuilder } from '@/theme';
 
 const PADDING = {
   SMALL: '16px',
@@ -29,11 +29,16 @@ const Container = styled.div`
   padding-top: ${px2rem(12)};
 `;
 
+const ContentWrapperLG = css`
+  max-width: 100vw;
+`;
+
 const ContentWrapper = styled(LayoutPadding)`
   display: flex;
   align-self: center;
   width: 100%;
   max-width: ${px2rem(2268)};
+  ${MediaQueryBuilder('lg', ContentWrapperLG)}
 `;
 
 export { Container, ContentWrapper, LayoutPadding };

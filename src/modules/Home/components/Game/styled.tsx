@@ -4,15 +4,28 @@ import { opacify } from '@/theme/utils';
 import px2rem from '@/utils/px2rem';
 import { MediaQueryBuilder } from '@/theme';
 
+const ContainerMD = css`
+  justify-content: flex-start;
+  align-items: flex-start;
+`;
+
 const Container = styled.div`
   flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  ${MediaQueryBuilder('md', ContainerMD)}
 `;
 
 const GridContainerXL = css`
   max-width: 100%;
+`;
+
+const GridContainerMD = css`
+  min-width: calc(100vw - 32px);
+  padding: 12px;
+  border-width: 2px;
+  border-radius: 24px;
 `;
 
 const GridContainer = styled.div`
@@ -29,6 +42,7 @@ const GridContainer = styled.div`
   max-width: 38vw;
   min-width: 800px;
   ${MediaQueryBuilder('xl', GridContainerXL)}
+  ${MediaQueryBuilder('md', GridContainerMD)}
 `;
 
 const AuthButton = styled.div`

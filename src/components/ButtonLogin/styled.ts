@@ -7,7 +7,7 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   .button-action {
-    max-width: 200px;
+    max-width: 250px;
   }
 `;
 
