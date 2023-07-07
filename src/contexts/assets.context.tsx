@@ -35,8 +35,7 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
     try {
       const balance = await provider.getBalance(keySet.address);
       setBalance({
-        // amount: balance.toString(),
-        amount: '0',
+        amount: balance.toString(),
         isLoaded: true,
         amountFormated: formatter.shorterAmount({ originalAmount: balance.toString(), decimals: 18 }),
       });
