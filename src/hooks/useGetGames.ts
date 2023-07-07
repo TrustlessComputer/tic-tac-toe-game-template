@@ -17,6 +17,13 @@ const useGetGames = () => {
     };
   };
 
+  const onGetGameMapper = async (gameID: string): Promise<IGameMapper | undefined> => {
+    if (!contractSigner) return undefined;
+    const _games = await contractSigner.games(gameID);
+    const mapper = gamesBuilder(_games);
+    return mapper;
+  };
+
   const onWaitingGames = async (gameID: string): Promise<IGameMapper | undefined> => {
     let games = undefined;
     let counter = 0;
@@ -96,6 +103,7 @@ const useGetGames = () => {
     onWaitingGames,
     onWaitingUpdateNextMove,
     onGetWinner,
+    onGetGameMapper,
   };
 };
 

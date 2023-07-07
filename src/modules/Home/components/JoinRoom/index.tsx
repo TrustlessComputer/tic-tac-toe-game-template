@@ -11,13 +11,14 @@ import throttle from 'lodash/throttle';
 import Button from '@/components/Button';
 import toast from 'react-hot-toast';
 import { GAS_PRICE } from '@/configs';
+import { ZeroAddress } from 'ethers';
 
 const JoinRoom = React.memo(() => {
   const [gameID, setGameID] = React.useState<string | undefined>(undefined);
   const [loading, setLoading] = React.useState(false);
 
   const contractSigner = useContractSigner();
-  const { onWaitingGames } = useGetGames();
+  const { onWaitingGames, onGetGameMapper } = useGetGames();
   const { keySet } = useContext(WalletContext);
   const { onJoinRoom, resetGame } = useContext(GameContext);
 
@@ -25,6 +26,10 @@ const JoinRoom = React.memo(() => {
     if (!keySet.address || !contractSigner || !gameID) return;
     try {
       setLoading(true);
+      const gameMapper = await onGetGameMapper(gameID);
+      if (gameMapper?.player2 !== ZeroAddress || gameMapper?.player1 === ZeroAddress) {
+        throw new SDKError(ERROR_CODE.JOIN_GAME_ERROR);
+      }
       const tx = await contractSigner.joinGame(gameID, { gasPrice: GAS_PRICE });
       await tx.wait();
       const games = await onWaitingGames(gameID);

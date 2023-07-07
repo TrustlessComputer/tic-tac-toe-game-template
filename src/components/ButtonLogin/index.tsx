@@ -46,9 +46,9 @@ const ButtonLogin = React.memo(() => {
           <Button onClick={onShowLogin} className="button-action">
             Login
           </Button>
-          <Button onClick={onShowCreate} variants="outline" className="button-action">
-            Create a new wallet
-          </Button>
+          {/*<Button onClick={onShowCreate} variants="outline" className="button-action">*/}
+          {/*  Create a new wallet*/}
+          {/*</Button>*/}
         </Row>
       )}
       {walletState.isLogged && keySet.address && (
