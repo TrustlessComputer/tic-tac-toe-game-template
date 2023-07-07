@@ -57,7 +57,7 @@ const DashBoard = React.memo(() => {
         {isFinding && renderCancelFinding()}
         <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
           <ButtonCreateRoom
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
+            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="22" />}
             disabled={isDisabled}
             onClick={() => {
               setShowCreateRoom(true);
@@ -66,7 +66,7 @@ const DashBoard = React.memo(() => {
             Create Room
           </ButtonCreateRoom>
           <ButtonJoinMatch
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} />}
+            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}
             disabled={isDisabled}
             onClick={() => {
               setShowJoinRoom(true);
