@@ -132,6 +132,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         );
       }
     } catch (error) {
+      setLocalState(value => ({ ...value, [ind]: IRole.Empty }));
       const { desc } = getErrorMessage(error);
       toast.error(desc);
     } finally {
