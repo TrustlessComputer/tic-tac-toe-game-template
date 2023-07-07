@@ -15,6 +15,8 @@ import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
+import ButtonEndMatch from '@/components/ButtonEndMatch';
+import ButtonCancelFind from '@/components/ButtonCancelFind';
 
 const DashBoard = React.memo(() => {
   const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading, playerState } = useContext(GameContext);
@@ -51,24 +53,27 @@ const DashBoard = React.memo(() => {
 
   const renderActions = () => {
     const isFinding = !gameInfo?.gameID && playerState.isFinding;
-    const isDisabled =
-      (!gameInfo?.gameID && (playerState.isFinding || playerState.isPlaying)) ||
-      isNeedTopupTC ||
-      walletState.isNeedCreate ||
-      walletState.isNeedLogin;
+    const isPlaying = !gameInfo?.gameID && playerState.isPlaying;
+
+    const isDisabled = isFinding || isPlaying || isNeedTopupTC || walletState.isNeedCreate || walletState.isNeedLogin;
     return (
       <div>
         {isFinding && renderCancelFinding()}
+        {isPlaying && renderCancelPlaying()}
         <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-          <ButtonCreateRoom
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
-            disabled={isDisabled}
-            onClick={() => {
-              setShowCreateRoom(true);
-            }}
-          >
-            Create Room
-          </ButtonCreateRoom>
+          {isPlaying && <ButtonEndMatch />}
+          {isFinding && <ButtonCancelFind />}
+          {!isPlaying && !isFinding && (
+            <ButtonCreateRoom
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
+              disabled={isDisabled}
+              onClick={() => {
+                setShowCreateRoom(true);
+              }}
+            >
+              Create Room
+            </ButtonCreateRoom>
+          )}
           <ButtonJoinMatch
             leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} />}
             disabled={isDisabled}
@@ -121,10 +126,19 @@ const DashBoard = React.memo(() => {
       </S.MatchContent>
     );
   };
+
   const renderCancelFinding = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
         <p>Waiting for user...</p>
+      </motion.div>
+    );
+  };
+
+  const renderCancelPlaying = () => {
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
+        <p>You are in a match, please cancel to continue...</p>
       </motion.div>
     );
   };

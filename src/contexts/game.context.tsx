@@ -13,8 +13,8 @@ import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import { throttle } from 'lodash';
 import GameEnd from '@/modules/Home/components/GameEnd';
-import { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks/useCheckPlayerState';
-// import useAsyncEffect from 'use-async-effect';
+import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks/useCheckPlayerState';
+import useAsyncEffect from 'use-async-effect';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -52,7 +52,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
   const { onGetWinner } = useGetGames();
-  // const { onCheckPlayer } = useCheckPlayer();
+  const { onCheckPlayer } = useCheckPlayerState();
 
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
   const [showCreateRoom, setShowCreateRoom] = React.useState(false);
@@ -139,13 +139,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // const onCheckPlayerState = async () => {
-  //   const state = await onCheckPlayer();
-  //   setPlayerState(state);
-  // };
+  const onCheckPlayerState = async () => {
+    const state = await onCheckPlayer();
+    setPlayerState(state);
+  };
 
   const throttleUpdateSquares = throttle(updateSquares, 500);
-  // const throttleOnCheckPlayerState = throttle(onCheckPlayerState, 500);
+  const throttleOnCheckPlayerState = throttle(onCheckPlayerState, 500);
 
   React.useEffect(() => {
     if (!gameInfo?.gameID) {
@@ -163,14 +163,14 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     };
   }, [gameInfo?.gameID]);
 
-  // useAsyncEffect(async () => {
-  //   if (!keySet.address) return;
-  //   await throttleOnCheckPlayerState();
-  //   const interval = setInterval(throttleOnCheckPlayerState, 4000);
-  //   return () => {
-  //     clearInterval(interval);
-  //   };
-  // }, [keySet.address]);
+  useAsyncEffect(async () => {
+    if (!keySet.address) return;
+    await throttleOnCheckPlayerState();
+    const interval = setInterval(throttleOnCheckPlayerState, 4000);
+    return () => {
+      clearInterval(interval);
+    };
+  }, [keySet.address]);
 
   React.useEffect(resetGame, []);
 

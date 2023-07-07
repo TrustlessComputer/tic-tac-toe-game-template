@@ -28,12 +28,10 @@ const CreateRoom = React.memo(() => {
     if (!contractSigner || !provider) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
-      const tx = await contractSigner.newGame();
+      const tx = await contractSigner.findMatch();
       await tx.wait();
       const hash = Object(tx).hash;
       const receipt = await provider.getTransactionReceipt(hash);
-
-      // const receipt = await provider.getTransactionReceipt('0xe3abe905a773fc0f695fdc41e06dee36b07fcb37ff517f9ac88ba8efab2f9a4e')
       const logs = receipt?.logs;
       if (logs && logs.length > 1) {
         const logData = logs[0];

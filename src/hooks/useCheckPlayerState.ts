@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 export const INIT_PLAYER_STATE = {
   isFinding: false,
   isPlaying: false,
-  isAvailable: true,
+  isAvailable: false,
 };
 
 export interface IGetPlayerState {

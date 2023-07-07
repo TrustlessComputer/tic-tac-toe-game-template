@@ -9,11 +9,24 @@ const useGetGames = () => {
   const contractSigner = useContractSigner();
 
   const gamesBuilder = (games: any): IGameMapper => {
+    // address player1; 1
+    // address player2; 2
+    // uint256 turnTimePivot; 3
+    // uint256 player1TimePool; 4
+    // uint256 player2TimePool; 5
+    // bool turn; 6
+    // /*
+    //     1 - Player 1
+    //     0 - Player 2
+    // */
+    // DrawOfferState drawOffer; 7
+    // MatchResult result; 8
+    const turn = games[6].toString() === '1' ? '1' : '0';
     return {
       player1: games[0],
       player2: games[1],
-      winner: games[2].toString(),
-      turn: games[3].toString(),
+      winner: games[7].toString(),
+      turn: turn as any,
     };
   };
 
@@ -24,7 +37,7 @@ const useGetGames = () => {
     try {
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const _games = await contractSigner.games(gameID);
+        const _games = await contractSigner.matches(gameID);
         const mapper = gamesBuilder(_games);
         if (counter === COUNTER_TIME) {
           throw new Error(`Timeout.`);
@@ -60,7 +73,7 @@ const useGetGames = () => {
     try {
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const _games = await contractSigner.games(gameID);
+        const _games = await contractSigner.matches(gameID);
         const mapper = gamesBuilder(_games);
         if (counter === COUNTER_TIME) {
           throw new Error('Timeout.');
@@ -84,7 +97,7 @@ const useGetGames = () => {
   const onGetWinner = async ({ gameID }: { gameID: string }) => {
     try {
       if (!contractSigner) return undefined;
-      const _games = await contractSigner.games(gameID);
+      const _games = await contractSigner.matches(gameID);
       const mapper = gamesBuilder(_games);
       return mapper.winner;
     } catch (error) {
