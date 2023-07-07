@@ -49,6 +49,7 @@ const Container = styled.div`
 
 const BoxMD = css`
   min-width: unset;
+  max-width: calc(100vw - 32px);
 `;
 
 const Box = styled.div`
