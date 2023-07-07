@@ -9,6 +9,10 @@ const Container = styled.div`
   .button-action {
     max-width: 250px;
   }
+  .login-actions {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 const Account = styled.div`

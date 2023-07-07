@@ -43,6 +43,8 @@ export const StyledButton = styled.button`
 
   &.outline-negative {
     background-color: transparent;
+    border: 1px solid red;
+    color: red;
   }
 
   &.small {

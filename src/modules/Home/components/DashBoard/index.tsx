@@ -8,18 +8,19 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet.context';
 import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
-import * as formatter from 'tc-formatter';
 import { AssetsContext } from '@/contexts/assets.context';
-import { CDN_URL_ICONS, MIN_AMOUNT } from '@/configs';
+import { CDN_URL_ICONS } from '@/configs';
 import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
+import { FaucetContext } from '@/contexts/faucet.context';
 
 const DashBoard = React.memo(() => {
   const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading, playerState } = useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
+  const { setShow: setShowFaucet } = useContext(FaucetContext);
 
   const isMyTurn = React.useMemo(() => {
     return turn === gameInfo?.myTurn;
@@ -36,13 +37,8 @@ const DashBoard = React.memo(() => {
     return (
       isNeedTopupTC && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-          <p>
-            Please deposit at least{' '}
-            {formatter.formatAmount({
-              originalAmount: MIN_AMOUNT,
-              decimals: 18,
-            })}{' '}
-            TC to play the game.
+          <p style={{ textAlign: 'center' }}>
+            <span onClick={() => setShowFaucet(true)}>Get TC from Faucet</span>
           </p>
         </motion.div>
       )

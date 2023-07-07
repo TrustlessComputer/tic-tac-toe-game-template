@@ -5,6 +5,7 @@ const ENVS = import.meta.env;
 const APP_ENV: string = ENVS.VITE_MODE;
 const isProduction = APP_ENV === AppENV.PRODUCTION;
 const TEST_PASS_WORD = ENVS.VITE_TEST_PASS;
+const GG_RECAPTCHA_SITE = ENVS.VITE_GG_RECAPTCHA_SITE;
 
 const CDN_URL = 'https://cdn.trustlesswallet.io';
 const CDN_URL_ICONS = CDN_URL + '/wallet-icons';
@@ -22,8 +23,8 @@ const CONTRACT_ADDRESS = isProduction
 const SLEEP_TIME = 500;
 const COUNTER_TIME = 500;
 
-const TOPUP_AMOUNT = 0.05 * 1e18;
-const MIN_AMOUNT = 0.01 * 1e18;
+const TOPUP_AMOUNT = 0.008 * 1e18;
+const MIN_AMOUNT = 0.003 * 1e18;
 
 const NUMBER_COLUMN = 15;
 
@@ -40,4 +41,5 @@ export {
   TOPUP_AMOUNT,
   NUMBER_COLUMN,
   MIN_AMOUNT,
+  GG_RECAPTCHA_SITE,
 };

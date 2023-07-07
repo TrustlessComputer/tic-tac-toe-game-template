@@ -4,6 +4,7 @@ import { Input } from '@/components/Input';
 import React, { useContext } from 'react';
 import Button from '@/components/Button';
 import { WalletContext } from '@/contexts/wallet.context';
+import storageLocal from '@/lib/storage.local';
 
 interface IProps {
   show: boolean;
@@ -47,6 +48,7 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
           className="mt-24"
           disabled={!isCreatable}
           onClick={() => {
+            storageLocal.removeAll();
             onRandomAccount(value.pass);
             handleClose();
           }}

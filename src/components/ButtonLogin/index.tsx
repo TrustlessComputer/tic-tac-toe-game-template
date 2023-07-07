@@ -37,9 +37,14 @@ const ButtonLogin = React.memo(() => {
         </Button>
       )}
       {walletState.isNeedLogin && (
-        <Button onClick={onShowLogin} className="button-action">
-          Login
-        </Button>
+        <Row className="login-actions" gap="32px">
+          <Button onClick={onShowLogin} className="button-action">
+            Login
+          </Button>
+          <Button onClick={onShowCreate} variants="outline" className="button-action">
+            Create wallet
+          </Button>
+        </Row>
       )}
       {walletState.isLogged && keySet.address && (
         <S.Account>

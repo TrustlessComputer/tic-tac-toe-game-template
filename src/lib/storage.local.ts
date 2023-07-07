@@ -34,6 +34,10 @@ export class StorageService {
       }
     });
   };
+
+  removeAll = () => {
+    this.removeAll();
+  };
 }
 
 const storageLocal = new StorageService();

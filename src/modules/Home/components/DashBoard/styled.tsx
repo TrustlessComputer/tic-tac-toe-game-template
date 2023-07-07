@@ -32,6 +32,15 @@ const Container = styled.div`
       color: #856404;
       font-size: 18px;
     }
+
+    span {
+      text-decoration: underline;
+      margin-left: 6px;
+      cursor: pointer;
+      :hover {
+        opacity: 0.9;
+      }
+    }
   }
 
   ${MediaQueryBuilder('lg', ContainerLG)}
