@@ -11,6 +11,7 @@ import Spinner from '@/components/Spinner';
 import Button from '@/components/Button';
 import { GamePopup } from '@/modules/styled';
 import { GameContext } from '@/contexts/game.context';
+import { GAS_PRICE } from '@/configs';
 
 const CreateRoom = React.memo(() => {
   const { onJoinRoom, resetGame } = useContext(GameContext);
@@ -28,7 +29,7 @@ const CreateRoom = React.memo(() => {
     if (!contractSigner || !provider) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
-      const tx = await contractSigner.newGame();
+      const tx = await contractSigner.newGame({ gasPrice: GAS_PRICE });
       await tx.wait();
       const hash = Object(tx).hash;
       const receipt = await provider.getTransactionReceipt(hash);

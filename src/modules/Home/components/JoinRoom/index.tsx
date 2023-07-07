@@ -10,6 +10,7 @@ import { WalletContext } from '@/contexts/wallet.context';
 import throttle from 'lodash/throttle';
 import Button from '@/components/Button';
 import toast from 'react-hot-toast';
+import { GAS_PRICE } from '@/configs';
 
 const JoinRoom = React.memo(() => {
   const [gameID, setGameID] = React.useState<string | undefined>(undefined);
@@ -24,7 +25,7 @@ const JoinRoom = React.memo(() => {
     if (!keySet.address || !contractSigner || !gameID) return;
     try {
       setLoading(true);
-      const tx = await contractSigner.joinGame(gameID);
+      const tx = await contractSigner.joinGame(gameID, { gasPrice: GAS_PRICE });
       await tx.wait();
       const games = await onWaitingGames(gameID);
       if (

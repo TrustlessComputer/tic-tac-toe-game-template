@@ -28,6 +28,8 @@ const MIN_AMOUNT = 0.003 * 1e18;
 
 const NUMBER_COLUMN = 15;
 
+const GAS_PRICE = 21 * 1e9;
+
 export {
   APP_ENV,
   isProduction,
@@ -42,4 +44,5 @@ export {
   NUMBER_COLUMN,
   MIN_AMOUNT,
   GG_RECAPTCHA_SITE,
+  GAS_PRICE,
 };
