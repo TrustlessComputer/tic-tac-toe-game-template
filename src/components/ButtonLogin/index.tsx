@@ -47,7 +47,7 @@ const ButtonLogin = React.memo(() => {
             Login
           </Button>
           <Button onClick={onShowCreate} variants="outline" className="button-action">
-            Create wallet
+            Create a new wallet
           </Button>
         </Row>
       )}

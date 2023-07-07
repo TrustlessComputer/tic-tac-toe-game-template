@@ -45,6 +45,23 @@ class SDKError extends Error {
   }
 }
 
+const parseEtherError = (error: unknown) => {
+  let message = '';
+  const reason = Object(error)?.reason;
+  if (reason && typeof reason === 'string') {
+    message = reason;
+  }
+  // @ts-ignore
+  const body = error?.body;
+  if (body && typeof body === 'string') {
+    const bodyObject = JSON.parse(body);
+    if (bodyObject?.error?.message) {
+      message = bodyObject?.error?.message;
+    }
+  }
+  return message;
+};
+
 export const getErrorMessage = (error: unknown) => {
   let message = 'Something went wrong. Please try again later.';
   let desc = '';
@@ -54,6 +71,11 @@ export const getErrorMessage = (error: unknown) => {
   } else if (error instanceof Error && error.message) {
     message = error.message;
     desc = error.message;
+    const etherError = parseEtherError(error);
+    if (etherError) {
+      message = etherError;
+      desc = JSON.stringify(error);
+    }
   }
 
   return {
