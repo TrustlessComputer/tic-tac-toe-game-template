@@ -7,6 +7,9 @@ import { MediaQueryBuilder } from '@/theme';
 const ContainerMD = css`
   justify-content: flex-start;
   align-items: flex-start;
+  overflow-y: scroll;
+  max-width: calc(100vw - 32px);
+  padding-bottom: 32px;
 `;
 
 const Container = styled.div`
@@ -22,10 +25,11 @@ const GridContainerXL = css`
 `;
 
 const GridContainerMD = css`
-  min-width: calc(100vw - 32px);
+  min-width: 170vw;
   padding: 12px;
   border-width: 2px;
   border-radius: 24px;
+  max-width: 100vw;
 `;
 
 const GridContainer = styled.div`
