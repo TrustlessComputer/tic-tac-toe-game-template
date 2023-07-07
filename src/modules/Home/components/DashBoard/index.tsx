@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as S from './styled';
-import { ButtonCreateRoom, ButtonJoinRoom } from '@/components/Button/Button.games';
+import { ButtonCreateRoom, ButtonJoinMatch } from '@/components/Button/Button.games';
 import { GameContext } from '@/contexts/game.context';
 import Square from '@/modules/Home/components/Square';
 import { IRole } from '@/interfaces/useGetGameSttate';
@@ -8,16 +8,16 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet.context';
 import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
-import toast from 'react-hot-toast';
 import * as formatter from 'tc-formatter';
 import { AssetsContext } from '@/contexts/assets.context';
-import { MIN_AMOUNT } from '@/configs';
+import { CDN_URL_ICONS, MIN_AMOUNT } from '@/configs';
 import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
+import IconSVG from '@/components/IconSVG';
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading } = useContext(GameContext);
+  const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading, playerState } = useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
 
@@ -50,21 +50,36 @@ const DashBoard = React.memo(() => {
   };
 
   const renderActions = () => {
+    const isFinding = !gameInfo?.gameID && playerState.isFinding;
+    const isDisabled =
+      (!gameInfo?.gameID && (playerState.isFinding || playerState.isPlaying)) ||
+      isNeedTopupTC ||
+      walletState.isNeedCreate ||
+      walletState.isNeedLogin;
     return (
-      <S.Actions initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
-        <ButtonCreateRoom
-          onClick={() => {
-            if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
-            setShowCreateRoom(true);
-          }}
-        />
-        <ButtonJoinRoom
-          onClick={() => {
-            if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
-            setShowJoinRoom(true);
-          }}
-        />
-      </S.Actions>
+      <div>
+        {isFinding && renderCancelFinding()}
+        <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
+          <ButtonCreateRoom
+            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
+            disabled={isDisabled}
+            onClick={() => {
+              setShowCreateRoom(true);
+            }}
+          >
+            Create Room
+          </ButtonCreateRoom>
+          <ButtonJoinMatch
+            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} />}
+            disabled={isDisabled}
+            onClick={() => {
+              setShowJoinRoom(true);
+            }}
+          >
+            Join Room
+          </ButtonJoinMatch>
+        </S.Actions>
+      </div>
     );
   };
   const renderMatch = () => {
@@ -104,6 +119,13 @@ const DashBoard = React.memo(() => {
           </div>
         </S.PlayerBox>
       </S.MatchContent>
+    );
+  };
+  const renderCancelFinding = () => {
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
+        <p>Waiting for user...</p>
+      </motion.div>
     );
   };
 
