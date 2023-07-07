@@ -26,7 +26,7 @@ const FaucetModal = React.memo(() => {
       return toast.error('Verify recaptcha now!');
     }
     try {
-      await fetch('https://api-dev.trustlessbridge.io/api/ttt-tc-faucet', {
+      await fetch('https://api.trustlessbridge.io/api/ttt-tc-faucet', {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
           'Content-Type': 'application/json',
