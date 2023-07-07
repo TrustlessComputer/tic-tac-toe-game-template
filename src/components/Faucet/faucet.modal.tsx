@@ -6,10 +6,10 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { GG_RECAPTCHA_SITE, isProduction } from '@/configs';
 import Button from '@/components/Button';
 import toast from 'react-hot-toast';
-import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet.context';
 import faucetStorage from '@/components/Faucet/faucet.storage';
+import { throttle } from 'lodash';
 
 const FaucetModal = React.memo(() => {
   const { show, setShow } = useContext(FaucetContext);
@@ -17,6 +17,7 @@ const FaucetModal = React.memo(() => {
 
   const recaptchaRef = React.useRef<any>();
   const [token, setToken] = React.useState<string | undefined>(undefined);
+  const [loading, setLoading] = React.useState<boolean>(false);
 
   const onClose = () => setShow(false);
 
@@ -25,6 +26,7 @@ const FaucetModal = React.memo(() => {
     if (!recaptchaValue) {
       return toast.error('Verify recaptcha now!');
     }
+    setLoading(true);
     try {
       await fetch(`https://api${isProduction ? '' : '-dev'}.trustlessbridge.io/api/ttt-tc-faucet`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
@@ -38,6 +40,7 @@ const FaucetModal = React.memo(() => {
       }).then(async response => {
         if (response.ok) {
           faucetStorage.setFaucetStorage();
+          toast.success('Faucet successfully.');
           return response.json();
         }
         const _response = await response.json();
@@ -48,25 +51,26 @@ const FaucetModal = React.memo(() => {
       setShow(false);
     } catch (error) {
       // TODO
+    } finally {
+      setLoading(false);
     }
   };
+
+  const throttleSubmit = throttle(onSubmit, 500);
 
   return (
     <BaseModal show={show} handleClose={onClose} title="Faucet" width="550">
       <S.Content>
         <ReCAPTCHA size="normal" ref={recaptchaRef} sitekey={GG_RECAPTCHA_SITE} onChange={() => setToken('1')} />
-        <S.Share
-          disabled={!token}
-          url={`https://ttt-game.trustless.computer/`}
-          title={`I just got free TC for the TIC-TAC-TOE GAME NIGHT!
-                  \nPowered by NOS - Bitcoin Layer 2 scaling solution with a lightning-fast 2-second block time.\n\n`}
-          onShareWindowClose={onSubmit}
+        <Button
+          disabled={!token || loading}
+          isLoading={loading}
+          onClick={throttleSubmit}
+          sizes="large"
+          className="mt-24"
         >
-          <Button disabled={!token}>
-            <IconSVG src={`https://cdn.generative.xyz/icons/ic-twitter-white-20x20.svg`} maxWidth="32px" />
-            <Text color="white">Share on Twitter</Text>
-          </Button>
-        </S.Share>
+          <Text color="white">Faucet</Text>
+        </Button>
       </S.Content>
     </BaseModal>
   );
