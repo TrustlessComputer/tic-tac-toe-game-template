@@ -63,7 +63,7 @@ const Actions = styled(motion.div)`
   margin-right: auto;
   margin-top: 32px;
   width: 100%;
-  justify-content: space-between;
+  gap: 32px;
 
   ${MediaQueryBuilder('xl', ActionsXL)}
   ${MediaQueryBuilder('md', ActionsMD)}

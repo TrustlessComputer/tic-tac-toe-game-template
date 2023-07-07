@@ -1,5 +1,6 @@
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
+import { IGetPlayerState } from '@/hooks/useCheckPlayerState';
 
 export interface IJoinGamePayload {
   games: IGameMapper;
@@ -24,6 +25,7 @@ export interface IGameContext {
   turn: IRole;
   gameInfo: IGameState | undefined;
   localState: ILocalState;
+  playerState: IGetPlayerState;
 
   showJoinRoom: boolean;
   showCreateRoom: boolean;

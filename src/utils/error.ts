@@ -3,6 +3,7 @@ export const ERROR_CODE = {
   CREATE_WALLET: '1',
   JOIN_GAME_ERROR: '2',
   TIME_OUT: '3',
+  CANCEL_MATCH_ERROR: '4',
 };
 
 export const ERROR_MESSAGE = {
@@ -21,6 +22,10 @@ export const ERROR_MESSAGE = {
   [ERROR_CODE.TIME_OUT]: {
     message: 'Time out.',
     desc: 'Time out.',
+  },
+  [ERROR_CODE.CANCEL_MATCH_ERROR]: {
+    message: 'Cancel match error.',
+    desc: 'Cancel match error.',
   },
 };
 

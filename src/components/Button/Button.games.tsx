@@ -1,29 +1,14 @@
 import styled from 'styled-components';
-import React from 'react';
-import CreateRoomIcon from '@/images/create-room.svg';
-import JoinRoomIcon from '@/images/join-room.svg';
+import Button from '@/components/Button/index';
 
-const ButtonGame = styled.img`
-  max-width: 250px;
-  cursor: pointer;
-  -webkit-user-drag: none;
-  -khtml-user-drag: none;
-  -moz-user-drag: none;
-  -o-user-drag: none;
-  user-drag: none;
-  :hover {
-    opacity: 0.9;
-    transform: rotateY(8deg);
-    transition: all 0.2s linear;
-  }
+const ButtonCreateRoom = styled(Button)`
+  flex: 1;
+  background: linear-gradient(0deg, #ffc702, #ffc702) !important;
 `;
 
-const ButtonCreateRoom = React.memo((props: React.ImgHTMLAttributes<HTMLImageElement>) => {
-  return <ButtonGame src={CreateRoomIcon} {...props} />;
-});
+const ButtonJoinMatch = styled(Button)`
+  flex: 1;
+  background: linear-gradient(180deg, #76ebff 0%, #00a3ff 100%) !important;
+`;
 
-const ButtonJoinRoom = React.memo((props: React.ImgHTMLAttributes<HTMLImageElement>) => {
-  return <ButtonGame src={JoinRoomIcon} {...props} />;
-});
-
-export { ButtonCreateRoom, ButtonJoinRoom };
+export { ButtonCreateRoom, ButtonJoinMatch };

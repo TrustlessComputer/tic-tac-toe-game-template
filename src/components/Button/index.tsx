@@ -14,6 +14,7 @@ export type ButtonProps = {
   sizes?: ButtonSizes;
   isLoading?: boolean;
   rightIcon?: React.ReactNode;
+  leftIcon?: React.ReactNode;
 };
 
 const Button = ({
@@ -25,10 +26,12 @@ const Button = ({
   sizes = 'normal',
   isLoading = false,
   rightIcon,
+  leftIcon,
   ...props
 }: PropsWithChildren<ButtonProps>) => {
   return (
     <StyledButton type={type} className={cs(className, variants, sizes)} onClick={onClick} {...props}>
+      {!!leftIcon && leftIcon}
       {children}
       {!!rightIcon && rightIcon}
       {isLoading && <Spinner size={24} className="spinner" />}
