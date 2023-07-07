@@ -78,7 +78,14 @@ const ButtonLogin = React.memo(() => {
               <Text size="14">Export TC private key</Text>
             </ToolTip>
           </Row>
-          <Text style={{ minWidth: 150 }} align="right" color="txt-highlight" size="18" fontWeight="semibold">
+          <Text
+            style={{ minWidth: 150 }}
+            align="right"
+            color="txt-highlight"
+            size="18"
+            fontWeight="semibold"
+            className="balance"
+          >
             {balance.amountFormated} TC
           </Text>
         </S.Account>
