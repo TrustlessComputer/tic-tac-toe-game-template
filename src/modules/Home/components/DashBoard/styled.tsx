@@ -73,8 +73,9 @@ const MatchContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 42px;
+  gap: 24px;
   align-items: center;
+  margin-top: 32px;
 `;
 
 const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
@@ -83,11 +84,11 @@ const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
   align-items: center;
   gap: 32px;
   background-color: ${({ theme, isMyTurn, turnColor }) =>
-    isMyTurn ? opacify(20, turnColor) : opacify(20, theme['bg-secondary'])};
+    isMyTurn ? opacify(40, turnColor) : opacify(20, theme['bg-secondary'])};
   border-radius: 4px;
   padding: 12px;
-  width: 400px;
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
+  width: 100%;
 
   .square-box {
     width: 65px;
