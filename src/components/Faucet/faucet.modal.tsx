@@ -3,7 +3,7 @@ import * as S from '@/components/Faucet/styled';
 import BaseModal from '@/components/BaseModal';
 import { FaucetContext } from '@/contexts/faucet.context';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { GG_RECAPTCHA_SITE } from '@/configs';
+import { GG_RECAPTCHA_SITE, isProduction } from '@/configs';
 import Button from '@/components/Button';
 import toast from 'react-hot-toast';
 import IconSVG from '@/components/IconSVG';
@@ -26,7 +26,7 @@ const FaucetModal = React.memo(() => {
       return toast.error('Verify recaptcha now!');
     }
     try {
-      await fetch('https://api.trustlessbridge.io/api/ttt-tc-faucet', {
+      await fetch(`https://api${isProduction ? '' : '-dev'}.trustlessbridge.io/api/ttt-tc-faucet`, {
         method: 'POST', // *GET, POST, PUT, DELETE, etc.
         headers: {
           'Content-Type': 'application/json',
