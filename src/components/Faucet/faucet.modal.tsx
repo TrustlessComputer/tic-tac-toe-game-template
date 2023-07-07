@@ -57,7 +57,7 @@ const FaucetModal = React.memo(() => {
         <ReCAPTCHA size="normal" ref={recaptchaRef} sitekey={GG_RECAPTCHA_SITE} onChange={() => setToken('1')} />
         <S.Share
           disabled={!token}
-          url={`https://ttt-game.regtest.trustless.computer/`}
+          url={`https://ttt-game.trustless.computer/`}
           title={`I just got free TC for the TIC-TAC-TOE GAME NIGHT!
                   \nPowered by NOS - Bitcoin Layer 2 scaling solution with a lightning-fast 2-second block time.\n\n`}
           onShareWindowClose={onSubmit}
