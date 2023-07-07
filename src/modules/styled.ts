@@ -15,6 +15,13 @@ const Container = styled.div`
   ${MediaQueryBuilder('xl', ContainerLG)}
 `;
 
+const GamePopupMD = css`
+  .text {
+    max-width: 90vw;
+    width: 100%;
+  }
+`;
+
 const GamePopup = styled(motion.div)`
   .text {
     background: ${({ theme }) => theme['bg-secondary']};
@@ -29,6 +36,7 @@ const GamePopup = styled(motion.div)`
     align-items: center;
     gap: 20px;
   }
+  ${MediaQueryBuilder('md', GamePopupMD)}
   .text h2 {
     font-size: 2.5em;
     margin: 8px 0;
