@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import { MediaQueryBuilder } from '@/theme';
 import { opacify } from '@/theme/utils';
 import px2rem from '@/utils/px2rem';
+import { motion } from 'framer-motion';
 
 const ContainerLG = css`
   flex: unset;
@@ -55,7 +56,7 @@ const ActionsMD = css`
   flex-direction: column;
 `;
 
-const Actions = styled.div`
+const Actions = styled(motion.div)`
   display: flex;
   flex-direction: row;
   margin-left: auto;
@@ -68,7 +69,7 @@ const Actions = styled.div`
   ${MediaQueryBuilder('md', ActionsMD)}
 `;
 
-const MatchContent = styled.div`
+const MatchContent = styled(motion.div)`
   display: flex;
   flex-direction: column;
   width: 100%;

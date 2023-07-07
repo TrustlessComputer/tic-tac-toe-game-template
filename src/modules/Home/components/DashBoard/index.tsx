@@ -14,6 +14,7 @@ import { AssetsContext } from '@/contexts/assets.context';
 import { MIN_AMOUNT } from '@/configs';
 import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
+import { motion } from 'framer-motion';
 
 const DashBoard = React.memo(() => {
   const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading } = useContext(GameContext);
@@ -31,43 +32,45 @@ const DashBoard = React.memo(() => {
     };
   }, [gameInfo]);
 
-  const renderContent = () => {
-    if (!walletState.isLogged) return undefined;
-    if (!gameInfo?.gameID) {
-      return (
-        <div>
-          {isNeedTopupTC && (
-            <div className="warning-wrapper">
-              <p>
-                Please deposit at least{' '}
-                {formatter.formatAmount({
-                  originalAmount: MIN_AMOUNT,
-                  decimals: 18,
-                })}{' '}
-                TC to play the game.
-              </p>
-            </div>
-          )}
-          <S.Actions>
-            <ButtonCreateRoom
-              onClick={() => {
-                if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
-                setShowCreateRoom(true);
-              }}
-            />
-            <ButtonJoinRoom
-              onClick={() => {
-                if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
-                setShowJoinRoom(true);
-              }}
-            />
-          </S.Actions>
-        </div>
-      );
-    }
-
+  const renderWarning = () => {
     return (
-      <S.MatchContent>
+      isNeedTopupTC && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
+          <p>
+            Please deposit at least{' '}
+            {formatter.formatAmount({
+              originalAmount: MIN_AMOUNT,
+              decimals: 18,
+            })}{' '}
+            TC to play the game.
+          </p>
+        </motion.div>
+      )
+    );
+  };
+
+  const renderActions = () => {
+    return (
+      <S.Actions initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
+        <ButtonCreateRoom
+          onClick={() => {
+            if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
+            setShowCreateRoom(true);
+          }}
+        />
+        <ButtonJoinRoom
+          onClick={() => {
+            if (walletState.isNeedCreate || walletState.isNeedLogin) return toast.error('Please login');
+            setShowJoinRoom(true);
+          }}
+        />
+      </S.Actions>
+    );
+  };
+  const renderMatch = () => {
+    if (!gameInfo) return;
+    return (
+      <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
         <S.PlayerBox isMyTurn={isMyTurn} turnColor={turnColor.myTurn}>
           <div className="square-box">
             <Square ind="1" updateSquares={() => undefined} clsName={gameInfo.myTurn} />
@@ -104,12 +107,18 @@ const DashBoard = React.memo(() => {
     );
   };
 
+  const renderContent = () => {
+    if (!walletState.isLogged) return undefined;
+    if (!gameInfo?.gameID) return renderActions();
+    return renderMatch();
+  };
+
   return (
     <S.Container>
-      {/*<Header />*/}
       <S.Banner src={BannerImage} />
       <S.Box>
         <ButtonLogin />
+        {renderWarning()}
         {renderContent()}
       </S.Box>
     </S.Container>

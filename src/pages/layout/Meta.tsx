@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 const Meta = () => {
   return (
     <Helmet>
-      <title>Trustless Wallet</title>
+      <title>Tic Tac Toe</title>
       <meta property="og:title" content="Trustless Wallet" />
       <meta property="og:description" content="A crypto wallet & gateway to decentralized applications on Bitcoin." />
       <meta property="og:image" content="https://cdn.trustlesswallet.io/wallet-images/trustless-wallet-seo.jpg" />
