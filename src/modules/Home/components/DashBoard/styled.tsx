@@ -1,27 +1,48 @@
 import styled, { css } from 'styled-components';
 import { MediaQueryBuilder } from '@/theme';
 import { opacify } from '@/theme/utils';
+import px2rem from '@/utils/px2rem';
 
 const ContainerLG = css`
   flex: unset;
 `;
 const Container = styled.div`
+  margin-top: 120px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   ${MediaQueryBuilder('lg', ContainerLG)}
   .warning-wrapper {
     background: #fef3cd;
     border: 1px solid #ffeeba;
     padding: 12px 32px;
     border-radius: 4px;
-    margin-bottom: 32px;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
+    margin-top: 24px;
+
+    width: 100%;
+
     p {
       color: #856404;
       font-size: 18px;
     }
   }
+`;
+
+const Box = styled.div`
+  background-color: rgba(22, 26, 41, 0.5);
+  min-width: ${px2rem(600)};
+  margin-top: ${px2rem(24)};
+  border-radius: ${px2rem(24)};
+  padding: ${px2rem(24)};
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+const Banner = styled.img`
+  border-radius: 12px;
 `;
 
 const ActionsXL = css`
@@ -31,16 +52,18 @@ const ActionsXL = css`
 
 const ActionsMD = css`
   gap: 16px;
+  flex-direction: column;
 `;
 
 const Actions = styled.div`
   display: flex;
-  flex-direction: column;
-  width: fit-content;
-  margin-top: 120px;
-  gap: 32px;
+  flex-direction: row;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 32px;
+  width: 100%;
+  justify-content: space-between;
+
   ${MediaQueryBuilder('xl', ActionsXL)}
   ${MediaQueryBuilder('md', ActionsMD)}
 `;
@@ -50,7 +73,6 @@ const MatchContent = styled.div`
   flex-direction: column;
   width: 100%;
   gap: 42px;
-  margin-top: 120px;
   align-items: center;
 `;
 
@@ -81,4 +103,4 @@ const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
   }
 `;
 
-export { Container, Actions, MatchContent, PlayerBox };
+export { Container, Actions, MatchContent, PlayerBox, Box, Banner };

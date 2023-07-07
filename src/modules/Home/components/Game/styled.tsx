@@ -26,7 +26,7 @@ const GridContainer = styled.div`
   gap: ${px2rem(6)};
   position: relative;
   flex: 1;
-  max-width: 45vw;
+  max-width: 38vw;
   min-width: 800px;
   ${MediaQueryBuilder('xl', GridContainerXL)}
 `;

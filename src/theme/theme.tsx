@@ -7,6 +7,7 @@ import { ScreenMarginLeft } from '@/theme/css/margin.left';
 import { ScreenMarginRight } from '@/theme/css/margin.right';
 import { useAppSelector } from '@/state/hooks';
 import { isDarkSelector } from '@/state/application/selector';
+import BGImage from '@/images/background.jpg';
 
 export default function ThemeProvider({ children }: { children: React.ReactNode }) {
   const darkMode = useAppSelector(isDarkSelector);
@@ -19,9 +20,12 @@ export const ThemedGlobalStyle = createGlobalStyle`
     font-size: 16px;
     letter-spacing: 0.01em;
     color: ${({ theme }) => theme['txt-primary']};
-    background-color: rgb(19, 26, 42) !important;
-    background: linear-gradient(180deg,#202738 0,#070816 100%);
-    
+    background-image: url(${BGImage});
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center center;
+
+
     @media screen and (min-width: 1920px) {
       font-size: 18px;
     }

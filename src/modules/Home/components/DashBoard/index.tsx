@@ -12,7 +12,8 @@ import toast from 'react-hot-toast';
 import * as formatter from 'tc-formatter';
 import { AssetsContext } from '@/contexts/assets.context';
 import { MIN_AMOUNT } from '@/configs';
-import Header from '@/pages/layout/Header';
+import BannerImage from '@/images/banner.png';
+import ButtonLogin from '@/components/ButtonLogin';
 
 const DashBoard = React.memo(() => {
   const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading } = useContext(GameContext);
@@ -31,6 +32,7 @@ const DashBoard = React.memo(() => {
   }, [gameInfo]);
 
   const renderContent = () => {
+    if (!walletState.isLogged) return undefined;
     if (!gameInfo?.gameID) {
       return (
         <div>
@@ -104,8 +106,12 @@ const DashBoard = React.memo(() => {
 
   return (
     <S.Container>
-      <Header />
-      {renderContent()}
+      {/*<Header />*/}
+      <S.Banner src={BannerImage} />
+      <S.Box>
+        <ButtonLogin />
+        {renderContent()}
+      </S.Box>
     </S.Container>
   );
 });

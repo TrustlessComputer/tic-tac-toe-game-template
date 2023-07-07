@@ -4,16 +4,12 @@ import Button from '@/components/Button';
 import CreateWalletModal from '@/components/ButtonLogin/create.modal';
 import LoginModal from '@/components/ButtonLogin/create.login';
 import * as formatter from 'tc-formatter';
-import { CDN_URL_ICONS } from '@/configs';
-import IconSVG from '@/components/IconSVG';
 import Text from '@/components/Text';
-import Dropdown from '@/components/Popover';
 import * as S from './styled';
 import { AssetsContext } from '@/contexts/assets.context';
-import onCopy from '@/utils/copy';
-import QRCode from 'react-qr-code';
 import CopyIcon from '@/components/Icons/Copy';
-import { IconWrapper } from '@/components/IconSVG/IconSVG.styled';
+import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
+import { Row } from '@/components/Row';
 
 const ButtonLogin = React.memo(() => {
   const { keySet, walletState } = useContext(WalletContext);
@@ -29,49 +25,39 @@ const ButtonLogin = React.memo(() => {
   const onCloseLogin = () => setShowLogin(false);
 
   return (
-    <>
-      {walletState.isNeedCreate && <Button onClick={onShowCreate}>Create wallet</Button>}
+    <S.Container>
+      {(walletState.isNeedCreate || walletState.isNeedLogin) && (
+        <Text align="center" size="20" className="mb-24">
+          Please {walletState.isNeedCreate ? 'create wallet' : 'login'} to continue
+        </Text>
+      )}
+      {walletState.isNeedCreate && (
+        <Button onClick={onShowCreate} className="button-action">
+          Create wallet
+        </Button>
+      )}
       {walletState.isNeedLogin && (
-        <Button onClick={onShowLogin} sizes="large">
+        <Button onClick={onShowLogin} className="button-action">
           Login
         </Button>
       )}
-      {walletState.isLogged && (
-        <Dropdown
-          element={
-            <Text color="txt-primary" fontWeight="medium" size="18" onClick={() => onCopy(keySet.address)}>
-              {formatter.ellipsisCenter({ str: keySet.address, limit: 6 })} <S.VerticalLine>|</S.VerticalLine>{' '}
-              {balance.amountFormated} TC
+      {walletState.isLogged && keySet.address && (
+        <S.Account>
+          <Row gap="12px">
+            <Jazzicon diameter={24} seed={jsNumberForAddress(keySet.address)} />
+            <Text color="txt-primary" size="18" fontWeight="semibold">
+              {formatter.ellipsisCenter({ str: keySet.address, limit: 7 })}
             </Text>
-          }
-          width={384}
-          type="hover"
-          icon={<IconSVG src={`${CDN_URL_ICONS}/`} maxWidth="32" />}
-        >
-          <S.DropdownList>
-            <S.QRCodeWrapper>
-              <QRCode
-                size={165}
-                style={{ height: 'auto', maxWidth: '100%', width: '100%', padding: '12px' }}
-                value={keySet.address || ''}
-                bgColor="white"
-                viewBox={`0 0 165 165`}
-              />
-            </S.QRCodeWrapper>
-            <S.AddressBar justify="space-between" gap="12px">
-              <Text color="txt-primary" size="18">
-                {formatter.ellipsisCenter({ str: keySet.address, limit: 7 })}
-              </Text>
-              <IconWrapper>
-                <CopyIcon maxWidth="18" content={keySet.address} />
-              </IconWrapper>
-            </S.AddressBar>
-          </S.DropdownList>
-        </Dropdown>
+            <CopyIcon maxWidth="18" className="ic-copy" content={keySet.address} />
+          </Row>
+          <Text style={{ minWidth: 150 }} align="right" color="txt-highlight" size="18" fontWeight="semibold">
+            {balance.amountFormated} TC
+          </Text>
+        </S.Account>
       )}
       <CreateWalletModal show={showCreate} handleClose={onCloseCreate} />
       <LoginModal show={showLogin} handleClose={onCloseLogin} />
-    </>
+    </S.Container>
   );
 });
 

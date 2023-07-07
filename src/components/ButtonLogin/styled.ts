@@ -1,38 +1,29 @@
 import styled from 'styled-components';
 import px2rem from '@/utils/px2rem';
-import { Row } from '@/components/Row';
-import { opacify } from '@/theme/utils';
 
-const Container = styled.div``;
-
-const DropdownList = styled.div`
-  display: grid;
-  gap: ${px2rem(24)} !important;
-  min-width: 240px;
-`;
-
-const QRCodeWrapper = styled.div`
-  padding: 8px;
-  background-color: white;
-  border-radius: 12px;
-
-  .qrCode {
-    height: auto;
-    max-width: 100%;
-    width: 100%;
-    padding: ${px2rem(12)};
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .button-action {
+    max-width: 200px;
   }
 `;
 
-const VerticalLine = styled.span`
-  margin-left: 24px;
-  margin-right: 24px;
+const Account = styled.div`
+  display: flex;
+  padding: 12px 24px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  border: 1px solid ${({ theme }) => theme['border-secondary']};
+  border-radius: ${px2rem(12)};
+  .ic-copy {
+    :hover {
+      opacity: 0.8;
+    }
+  }
 `;
 
-const AddressBar = styled(Row)`
-  background-color: ${({ theme }) => opacify(50, theme['bg-primary'])};
-  padding: ${px2rem(12)};
-  border-radius: 8px;
-`;
-
-export { Container, DropdownList, VerticalLine, QRCodeWrapper, AddressBar };
+export { Container, Account };
