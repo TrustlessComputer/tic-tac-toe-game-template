@@ -38,7 +38,7 @@ const DashBoard = React.memo(() => {
       isNeedTopupTC && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
           <p style={{ textAlign: 'center' }}>
-            <span onClick={() => setShowFaucet(true)}>Get TC from Faucet</span>
+            <span onClick={() => setShowFaucet(true)}>Get TC from faucet to play game</span>
           </p>
         </motion.div>
       )
