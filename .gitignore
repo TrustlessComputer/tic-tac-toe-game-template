@@ -1,4 +1,6 @@
 node_modules
+contracts/node_modules
+contracts/package-lock.json
 .idea
 .env
 
@@ -183,3 +185,9 @@ analice.html
 .env.Local
 
 server-dist
+
+# Hardhat files
+contracts/cache
+contracts/artifacts
+contracts/deployment
+contracts/typechain-types
