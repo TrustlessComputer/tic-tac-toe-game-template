@@ -4,6 +4,7 @@ import { WalletContext } from '@/contexts/wallet.context';
 import { isArray } from 'lodash';
 import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
+import useGetPlayingMatchID from '@/hooks/useGetPlayingMatchID';
 
 export const INIT_PLAYER_STATE = {
   isFinding: false,
@@ -24,6 +25,7 @@ export interface IGetPlayerState {
 const useCheckPlayerState = () => {
   const { keySet } = useContext(WalletContext);
   const contractSigner = useContractSigner();
+  const { onGetMatchID } = useGetPlayingMatchID();
 
   const onCheckPlayer = async (): Promise<IGetPlayerState> => {
     if (!contractSigner || !keySet.address) {
@@ -44,9 +46,8 @@ const useCheckPlayerState = () => {
         console.log('LOGGER---- playerState', playerState);
 
         if (playerState.isPlaying && keySet.address) {
-          const match = await contractSigner.getMatchesOfPlayer(keySet.address);
-          if (isArray(players) && players.length >= 1) {
-            let matchID = match[0].toString();
+          const matchID = await onGetMatchID();
+          if (matchID) {
             playerState = { ...playerState, playingMatchID: matchID };
           }
         }
