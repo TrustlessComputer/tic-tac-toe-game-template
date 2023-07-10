@@ -4,9 +4,21 @@ import Button from '@/components/Button';
 import { GamePopup } from '@/modules/styled';
 import { GameContext } from '@/contexts/game.context';
 import { WinnerState } from '@/interfaces/useGetGames';
+import useRequestEndMatch from '@/hooks/useRequestEndMatch';
+import useAsyncEffect from 'use-async-effect';
 
 const GameEnd = React.memo(() => {
   const { resetGame, gameInfo } = useContext(GameContext);
+
+  const { onRequestEndMatch } = useRequestEndMatch();
+
+  const requestEndGame = async () => {
+    if (gameInfo?.winner === (gameInfo?.myRolePlayer as any)) {
+      await onRequestEndMatch(false);
+    }
+  };
+
+  useAsyncEffect(requestEndGame, []);
 
   return (
     <AnimatePresence>

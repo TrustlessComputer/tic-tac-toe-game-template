@@ -115,6 +115,7 @@ const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
   gap: 32px;
   background-color: ${({ theme, isMyTurn, turnColor }) =>
     isMyTurn ? opacify(40, turnColor) : opacify(20, theme['bg-secondary'])};

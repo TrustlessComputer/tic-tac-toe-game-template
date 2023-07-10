@@ -27,6 +27,7 @@ export interface IGameContext {
   localState: ILocalState;
   playerState: IGetPlayerState;
   loadedPlayerState: boolean;
+  counter: number;
 
   showJoinRoom: boolean;
   showCreateRoom: boolean;

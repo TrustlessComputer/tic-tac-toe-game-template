@@ -1,5 +1,5 @@
 import useContractSigner from './useContractSigner';
-import { IGameMapper, Player } from '@/interfaces/useGetGames';
+import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import flatten from 'lodash/flatten';
 import { turnMapper } from '@/utils/turn';
@@ -46,9 +46,15 @@ const useGetGameState = () => {
     const turn = turnMapper(gameState[1]);
     const timeLeftCurrTurn = gameState[2].toString(); // seconds
 
-    const matchData = gamesBuilder(gameState[4]);
+    let matchData = gamesBuilder(gameState[4]);
 
     const isMatchEnd = new BigNumber(timeLeftCurrTurn).lt(0);
+    if (isMatchEnd && matchData.winner === WinnerState.Playing) {
+      matchData = {
+        ...matchData,
+        winner: turn === Player.Player1 ? WinnerState.Player2 : WinnerState.Player1,
+      };
+    }
 
     console.log('LOGGER--- GAME STATE: ', {
       squares,

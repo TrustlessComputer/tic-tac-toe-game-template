@@ -16,9 +16,11 @@ const useRequestEndMatch = () => {
 
   const { onGetGameState } = useGetGameState();
 
-  const onRequestEndMatch = async () => {
+  const onRequestEndMatch = async (isUpdateLoading = true) => {
     try {
-      setLoading({ isLoading: true });
+      if (isUpdateLoading) {
+        setLoading({ isLoading: true });
+      }
       if (!contractSigner || !keySet.address) return;
       const matchID = await onGetMatchID();
       if (matchID) {

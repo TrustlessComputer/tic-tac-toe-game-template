@@ -17,9 +17,10 @@ import IconSVG from '@/components/IconSVG';
 import ButtonEndMatch from '@/components/ButtonEndMatch';
 import ButtonCancelFind from '@/components/ButtonCancelFind';
 import { FaucetContext } from '@/contexts/faucet.context';
+import { Row } from '@/components/Row';
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, gameInfo, turn, loading, playerState, loadedPlayerState } =
+  const { setShowCreateRoom, gameInfo, turn, loading, playerState, loadedPlayerState, counter } =
     useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
@@ -35,6 +36,14 @@ const DashBoard = React.memo(() => {
       yourTurn: gameInfo?.myTurn === IRole.X ? '#ffa02e' : '#62fffc',
     };
   }, [gameInfo]);
+
+  const renderCounter = () => {
+    return (
+      <Text color={counter >= 10 ? 'txt-highlight' : 'txt-error'} fontWeight="semibold" size="24">
+        {counter}s
+      </Text>
+    );
+  };
 
   const renderWarning = () => {
     return (
@@ -74,17 +83,6 @@ const DashBoard = React.memo(() => {
               Play game
             </ButtonCreateRoom>
           )}
-          {/*{isShowAction && (*/}
-          {/*  <ButtonAutoMatch*/}
-          {/*    leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}*/}
-          {/*    disabled={isDisabled}*/}
-          {/*    onClick={() => {*/}
-          {/*      setShowAutoMatchRoom(true);*/}
-          {/*    }}*/}
-          {/*  >*/}
-          {/*    Auto matching*/}
-          {/*  </ButtonAutoMatch>*/}
-          {/*)}*/}
         </S.Actions>
       </div>
     );
@@ -94,36 +92,46 @@ const DashBoard = React.memo(() => {
     return (
       <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
         <S.PlayerBox isMyTurn={isMyTurn} turnColor={turnColor.myTurn}>
-          <div className="square-box">
-            <Square ind="1" updateSquares={() => undefined} clsName={gameInfo.myTurn} />
-          </div>
-          <div>
-            <Text fontWeight="semibold" size="24">
-              <span className="address-highlight">(YOU)</span>
-              {ellipsisCenter({ str: keySet.address, limit: 5 })}
-            </Text>
-            {isMyTurn && (
-              <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
-                Moving now...
+          <Row align="center" gap="24px">
+            <div className="square-box">
+              <Square ind="1" updateSquares={() => undefined} clsName={gameInfo.myTurn} />
+            </div>
+            <div>
+              <Text fontWeight="semibold" size="24">
+                <span className="address-highlight">(YOU)</span>
+                {ellipsisCenter({ str: keySet.address, limit: 5 })}
               </Text>
-            )}
-          </div>
+              {isMyTurn && (
+                <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
+                  Moving now...
+                </Text>
+              )}
+            </div>
+          </Row>
           {loading && <Spinner size={24} />}
+          {isMyTurn && !loading && renderCounter()}
         </S.PlayerBox>
         <S.PlayerBox isMyTurn={!isMyTurn} turnColor={turnColor.yourTurn}>
-          <div className="square-box">
-            <Square ind="2" updateSquares={() => undefined} clsName={gameInfo.myTurn === IRole.X ? IRole.O : IRole.X} />
-          </div>
-          <div>
-            <Text fontWeight="semibold" size="24">
-              {ellipsisCenter({ str: gameInfo.competitorAddress, limit: 5 })}
-            </Text>
-            {!isMyTurn && (
-              <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
-                Moving now...
+          <Row align="center" gap="24px">
+            <div className="square-box">
+              <Square
+                ind="2"
+                updateSquares={() => undefined}
+                clsName={gameInfo.myTurn === IRole.X ? IRole.O : IRole.X}
+              />
+            </div>
+            <div>
+              <Text fontWeight="semibold" size="24">
+                {ellipsisCenter({ str: gameInfo.competitorAddress, limit: 5 })}
               </Text>
-            )}
-          </div>
+              {!isMyTurn && (
+                <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
+                  Moving now...
+                </Text>
+              )}
+            </div>
+          </Row>
+          {!isMyTurn && renderCounter()}
         </S.PlayerBox>
       </S.MatchContent>
     );

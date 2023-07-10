@@ -16,6 +16,7 @@ import GameEnd from '@/modules/Home/components/GameEnd';
 import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks/useCheckPlayerState';
 import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
+import useCountDown from '@/hooks/useCountDown';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -25,6 +26,7 @@ const initialValue: IGameContext = {
   localState: {},
   playerState: { ...INIT_PLAYER_STATE },
   loadedPlayerState: false,
+  counter: 0,
 
   showJoinRoom: false,
   showCreateRoom: false,
@@ -50,9 +52,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = React.useState(false);
   const [loadedPlayerState, setLoadedPlayerState] = React.useState(false);
   const [squares, setSquares] = React.useState(INIT_ARRAY);
-  const [turn, setTurn] = React.useState(IRole.X);
+  const [turn, setTurn] = React.useState(IRole.Empty);
   const [localState, setLocalState] = React.useState<{ [key: number]: IRole }>({});
   const [playerState, setPlayerState] = React.useState<IGetPlayerState>({ ...INIT_PLAYER_STATE });
+
+  const { counter, updateTime } = useCountDown();
 
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
@@ -67,7 +71,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const resetGame = () => {
     setSquares(INIT_ARRAY);
-    setTurn(IRole.X);
+    updateTime(undefined);
+    setTurn(IRole.Empty);
     setGameInfo(undefined);
     setLoading(false);
     setShowJoinRoom(false);
@@ -97,9 +102,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
       if (gameState) {
-        const { squares, newTurn } = gameState;
+        const { squares, newTurn, timeLeftCurrTurn } = gameState;
         setSquares(squares);
         setTurn(newTurn);
+        if (newTurn !== turn) {
+          const _timeLeft = Number(timeLeftCurrTurn || '0');
+          updateTime(_timeLeft);
+        }
       }
       if (winner) {
         setGameInfo(value =>
@@ -171,11 +180,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       return;
     }
     _onGetGameState(gameInfo.gameID);
-    intervalGameState = setInterval(() => _onGetGameState(gameInfo.gameID), 1500);
+    intervalGameState = setInterval(() => _onGetGameState(gameInfo.gameID), 500);
     return () => {
       clearGameState();
     };
-  }, [gameInfo?.gameID]);
+  }, [gameInfo?.gameID, turn]);
 
   useAsyncEffect(async () => {
     if (!keySet.address) return;
@@ -185,8 +194,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       clearInterval(interval);
     };
   }, [keySet.address]);
-
-  React.useEffect(resetGame, []);
 
   const contextValues = React.useMemo(() => {
     return {
@@ -206,6 +213,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       localState,
       playerState,
       loadedPlayerState,
+      counter,
     };
   }, [
     squares,
@@ -224,6 +232,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     playerState,
     loadedPlayerState,
     setShowAutoMatchRoom,
+    counter,
   ]);
 
   return (

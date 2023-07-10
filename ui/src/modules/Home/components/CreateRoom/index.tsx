@@ -7,13 +7,33 @@ import Button from '@/components/Button';
 import { GamePopup } from '@/modules/styled';
 import useFindMatch from '@/hooks/useFindMatch';
 import { GameContext } from '@/contexts/game.context';
+import useCancelMatch from '@/hooks/useCancelMatch';
+import { getErrorMessage } from '@/utils/error';
+import toast from 'react-hot-toast';
+import sleep from '@/utils/sleep';
 
 const CreateRoom = React.memo(() => {
+  const [canceling, setCanceling] = React.useState(false);
   const contractSigner = useContractSigner();
   const { onFindMatch, gameState } = useFindMatch();
-  const { resetGame } = useContext(GameContext);
+  const { onCancelMatch } = useCancelMatch();
+  const { resetGame, playerState } = useContext(GameContext);
 
   const debounceCreateGameID = React.useCallback(debounce(onFindMatch, 1000), []);
+
+  const onCancelFinding = async () => {
+    try {
+      setCanceling(true);
+      await onCancelMatch();
+      await sleep(500);
+      resetGame();
+    } catch (error) {
+      const { desc } = getErrorMessage(error);
+      toast.error(desc);
+    } finally {
+      setCanceling(false);
+    }
+  };
 
   React.useEffect(() => {
     if (!contractSigner) return;
@@ -50,7 +70,7 @@ const CreateRoom = React.memo(() => {
             {gameState.gameID && gameState.loading ? 'Waiting for challenger' : 'Creating game'}
           </motion.h2>
           {gameState.loading && <Spinner />}
-          {!gameState.loading && (
+          {gameState.gameID && playerState.isFinding && (
             <motion.div
               initial={{ scale: 0 }}
               animate={{
@@ -58,7 +78,13 @@ const CreateRoom = React.memo(() => {
                 transition: { delay: 1, duration: 0.3 },
               }}
             >
-              <Button className="button" variants="outline" onClick={resetGame}>
+              <Button
+                disabled={canceling}
+                className="button"
+                variants="outline"
+                onClick={onCancelFinding}
+                isLoading={canceling}
+              >
                 Cancel
               </Button>
             </motion.div>
