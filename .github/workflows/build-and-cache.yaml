@@ -33,7 +33,7 @@ jobs:
       - name: Build and cache
         uses: docker/build-push-action@v4
         with:
-          context: .
+          context: ./ui
           file: Dockerfile
           push: false
           tags: |
