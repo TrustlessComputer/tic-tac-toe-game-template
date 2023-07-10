@@ -185,3 +185,9 @@ analice.html
 .env.Local
 
 server-dist
+
+# Hardhat files
+contracts/cache
+contracts/artifacts
+contracts/deployment
+contracts/typechain-types

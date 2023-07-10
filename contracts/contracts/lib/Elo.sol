@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.19;
 
-import { SD59x18, sd } from "@prb-math/src/SD59x18.sol";
+import { SD59x18, sd } from "@prb/math/src/SD59x18.sol";
 
 library Elo {
     uint8 constant public K_FACTOR_LOW_ELO = 30;
@@ -10,7 +10,7 @@ library Elo {
     function getExpectedScore(int256 _currentElo, int256 _opponentElo) private pure returns (SD59x18) {
         int256 difference = _opponentElo - _currentElo;
         SD59x18 exp = sd(difference * 1e18 / 400);
-        SD59x18 result = (sd(1e18).add(sd(10 * 1e18).pow(exp))).inv();
+        SD59x18 result = (sd(1e18) + sd(10 * 1e18).pow(exp)).inv();
         return result;
     }
 
@@ -57,8 +57,8 @@ library Elo {
         uint8 kFactor1 = (_elo1 < 2000 || _matchCount1 < 30) ? K_FACTOR_LOW_ELO : K_FACTOR_HIGH_ELO;
         uint8 kFactor2 = (_elo2 < 2000 || _matchCount2 < 30) ? K_FACTOR_LOW_ELO : K_FACTOR_HIGH_ELO;
 
-        SD59x18 eloChange1 = sd(int256(uint256(kFactor1)) * 1e18).mul(score1.sub(expectedScore1));
-        SD59x18 eloChange2 = sd(int256(uint256(kFactor2)) * 1e18).mul(score2.sub(expectedScore2));
+        SD59x18 eloChange1 = sd(int256(uint256(kFactor1)) * 1e18).mul(score1 - expectedScore1);
+        SD59x18 eloChange2 = sd(int256(uint256(kFactor2)) * 1e18).mul(score2 - expectedScore2);
 
         int256 newElo1 = _elo1 + int256(eloChange1.unwrap() / 1e18);
         int256 newElo2 = _elo2 + int256(eloChange2.unwrap() / 1e18);
