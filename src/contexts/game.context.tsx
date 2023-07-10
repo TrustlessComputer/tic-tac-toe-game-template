@@ -15,6 +15,7 @@ import { throttle } from 'lodash';
 import GameEnd from '@/modules/Home/components/GameEnd';
 import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks/useCheckPlayerState';
 import useAsyncEffect from 'use-async-effect';
+import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -23,13 +24,16 @@ const initialValue: IGameContext = {
   gameInfo: undefined,
   localState: {},
   playerState: { ...INIT_PLAYER_STATE },
+  loadedPlayerState: false,
 
   showJoinRoom: false,
   showCreateRoom: false,
+  showAutoMatchRoom: false,
 
   resetGame: () => undefined,
   setShowCreateRoom: () => undefined,
   setShowJoinRoom: () => undefined,
+  setShowAutoMatchRoom: () => undefined,
 
   onJoinRoom: () => undefined,
   updateSquares: () => undefined,
@@ -39,11 +43,12 @@ const INIT_ARRAY = Array(NUMBER_COLUMN * NUMBER_COLUMN).fill(IRole.Empty);
 
 export const GameContext = React.createContext(initialValue);
 
-let interval: any | undefined = undefined;
+let intervalGameState: any | undefined = undefined;
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
   const { keySet } = useContext(WalletContext);
   const [loading, setLoading] = React.useState(false);
+  const [loadedPlayerState, setLoadedPlayerState] = React.useState(false);
   const [squares, setSquares] = React.useState(INIT_ARRAY);
   const [turn, setTurn] = React.useState(IRole.X);
   const [localState, setLocalState] = React.useState<{ [key: number]: IRole }>({});
@@ -56,6 +61,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
   const [showCreateRoom, setShowCreateRoom] = React.useState(false);
+  const [showAutoMatchRoom, setShowAutoMatchRoom] = React.useState(false);
 
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
 
@@ -66,6 +72,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLoading(false);
     setShowJoinRoom(false);
     setShowCreateRoom(false);
+    setShowAutoMatchRoom(false);
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
   };
@@ -132,6 +139,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         );
       }
     } catch (error) {
+      setLocalState(value => ({ ...value, [ind]: IRole.Empty }));
       const { desc } = getErrorMessage(error);
       toast.error(desc);
     } finally {
@@ -142,24 +150,30 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const onCheckPlayerState = async () => {
     const state = await onCheckPlayer();
     setPlayerState(state);
+    setLoadedPlayerState(true);
   };
 
   const throttleUpdateSquares = throttle(updateSquares, 500);
   const throttleOnCheckPlayerState = throttle(onCheckPlayerState, 500);
 
+  const clearGameState = () => {
+    if (intervalGameState) {
+      clearInterval(intervalGameState);
+      intervalGameState = undefined;
+    }
+  };
+
   React.useEffect(() => {
     if (!gameInfo?.gameID) {
-      if (interval) {
-        clearInterval(interval);
-        interval = undefined;
+      if (intervalGameState) {
+        clearGameState();
       }
       return;
     }
     _onGetGameState(gameInfo.gameID);
-    interval = setInterval(() => _onGetGameState(gameInfo.gameID), 1500);
+    intervalGameState = setInterval(() => _onGetGameState(gameInfo.gameID), 1500);
     return () => {
-      clearInterval(interval);
-      interval = undefined;
+      clearGameState();
     };
   }, [gameInfo?.gameID]);
 
@@ -179,21 +193,25 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       squares,
       showJoinRoom,
       showCreateRoom,
+      showAutoMatchRoom,
       loading,
       resetGame,
       turn,
       setShowJoinRoom,
       setShowCreateRoom,
+      setShowAutoMatchRoom,
       gameInfo,
       onJoinRoom,
       updateSquares: throttleUpdateSquares,
       localState,
       playerState,
+      loadedPlayerState,
     };
   }, [
     squares,
     showJoinRoom,
     showCreateRoom,
+    showAutoMatchRoom,
     loading,
     resetGame,
     turn,
@@ -204,6 +222,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     throttleUpdateSquares,
     localState,
     playerState,
+    loadedPlayerState,
+    setShowAutoMatchRoom,
   ]);
 
   return (
@@ -211,6 +231,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       {children}
       {showCreateRoom && <CreateRoom />}
       {showJoinRoom && <JoinRoom />}
+      {showAutoMatchRoom && <AutoMatchRoom />}
       {gameInfo?.winner && gameInfo.winner !== WinnerState.Playing && <GameEnd />}
     </GameContext.Provider>
   );

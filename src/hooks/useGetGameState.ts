@@ -1,18 +1,31 @@
 import useContractSigner from './useContractSigner';
-import { Player } from '@/interfaces/useGetGames';
+import { IGameMapper, Player } from '@/interfaces/useGetGames';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import flatten from 'lodash/flatten';
+import { turnMapper } from '@/utils/turn';
+import { gamesBuilder } from '@/utils/gameState';
+import BigNumber from 'bignumber.js';
+
+interface IGameState {
+  squares: IRole[];
+  newTurn: IRole;
+  matchData: IGameMapper;
+  turn: Player;
+  timeLeftCurrTurn: string;
+  isMatchEnd: boolean;
+}
 
 const useGetGameState = () => {
   const contractSigner = useContractSigner();
 
-  const onGetGameState = async (gameID: string) => {
-    if (!gameID || !contractSigner) return undefined;
+  const onGetGameState = async (gameID: string): Promise<IGameState> => {
+    if (!gameID || !contractSigner) {
+      throw new Error('Get game state error.');
+    }
     const gameState = await contractSigner.getGameState(gameID);
-
-    const squares = flatten(gameState).map((item: any) => {
+    const squares = flatten(gameState[0]).map((item: any) => {
       const value = item.toString();
-      let data = '';
+      let data = IRole.Empty;
       switch (value) {
         case Player.Empty:
           data = IRole.Empty;
@@ -30,11 +43,28 @@ const useGetGameState = () => {
     const player1Moved = squares.filter((item: any) => item === IRole.X).length;
     const player2Moved = squares.filter((item: any) => item === IRole.O).length;
 
-    console.log('LOGGER--- GAME STATE: ', squares);
+    const turn = turnMapper(gameState[1]);
+    const timeLeftCurrTurn = gameState[2].toString(); // seconds
+
+    const matchData = gamesBuilder(gameState[4]);
+
+    const isMatchEnd = new BigNumber(timeLeftCurrTurn).lt(0);
+
+    console.log('LOGGER--- GAME STATE: ', {
+      squares,
+      turn,
+      isMatchEnd,
+      matchData,
+      timeLeftCurrTurn,
+    });
 
     return {
       squares,
       newTurn: player1Moved > player2Moved ? IRole.O : IRole.X,
+      matchData,
+      turn,
+      timeLeftCurrTurn,
+      isMatchEnd,
     };
   };
 

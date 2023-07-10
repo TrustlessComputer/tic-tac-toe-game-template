@@ -53,7 +53,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       });
     } catch (error) {
       const { desc } = getErrorMessage(error);
-      toast(desc);
+      toast.error(desc);
     }
   };
 
@@ -72,7 +72,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       onLogin(password);
     } catch (error) {
       const { desc } = getErrorMessage(error);
-      toast(desc);
+      toast.error(desc);
     }
   };
 

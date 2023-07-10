@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as S from './styled';
-import { ButtonCreateRoom, ButtonJoinMatch } from '@/components/Button/Button.games';
+import { ButtonCreateRoom, ButtonAutoMatch } from '@/components/Button/Button.games';
 import { GameContext } from '@/contexts/game.context';
 import Square from '@/modules/Home/components/Square';
 import { IRole } from '@/interfaces/useGetGameSttate';
@@ -8,20 +8,22 @@ import Text from '@/components/Text';
 import { WalletContext } from '@/contexts/wallet.context';
 import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
-import * as formatter from 'tc-formatter';
 import { AssetsContext } from '@/contexts/assets.context';
-import { CDN_URL_ICONS, MIN_AMOUNT } from '@/configs';
+import { CDN_URL_ICONS } from '@/configs';
 import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
 import ButtonEndMatch from '@/components/ButtonEndMatch';
 import ButtonCancelFind from '@/components/ButtonCancelFind';
+import { FaucetContext } from '@/contexts/faucet.context';
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading, playerState } = useContext(GameContext);
+  const { setShowCreateRoom, setShowAutoMatchRoom, gameInfo, turn, loading, playerState, loadedPlayerState } =
+    useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
+  const { setShow: setShowFaucet } = useContext(FaucetContext);
 
   const isMyTurn = React.useMemo(() => {
     return turn === gameInfo?.myTurn;
@@ -38,13 +40,8 @@ const DashBoard = React.memo(() => {
     return (
       isNeedTopupTC && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-          <p>
-            Please deposit at least{' '}
-            {formatter.formatAmount({
-              originalAmount: MIN_AMOUNT,
-              decimals: 18,
-            })}{' '}
-            TC to play the game.
+          <p style={{ textAlign: 'center' }}>
+            <span onClick={() => setShowFaucet(true)}>Get TC from faucet to play game</span>
           </p>
         </motion.div>
       )
@@ -56,6 +53,9 @@ const DashBoard = React.memo(() => {
     const isPlaying = !gameInfo?.gameID && playerState.isPlaying;
 
     const isDisabled = isFinding || isPlaying || isNeedTopupTC || walletState.isNeedCreate || walletState.isNeedLogin;
+
+    const isShowAction = !isPlaying && !isFinding;
+
     return (
       <div>
         {isFinding && renderCancelFinding()}
@@ -63,7 +63,7 @@ const DashBoard = React.memo(() => {
         <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
           {isPlaying && <ButtonEndMatch />}
           {isFinding && <ButtonCancelFind />}
-          {!isPlaying && !isFinding && (
+          {isShowAction && (
             <ButtonCreateRoom
               leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
               disabled={isDisabled}
@@ -74,15 +74,17 @@ const DashBoard = React.memo(() => {
               Create Room
             </ButtonCreateRoom>
           )}
-          <ButtonJoinMatch
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} />}
-            disabled={isDisabled}
-            onClick={() => {
-              setShowJoinRoom(true);
-            }}
-          >
-            Join Room
-          </ButtonJoinMatch>
+          {isShowAction && (
+            <ButtonAutoMatch
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}
+              disabled={isDisabled}
+              onClick={() => {
+                setShowAutoMatchRoom(true);
+              }}
+            >
+              Join Room
+            </ButtonAutoMatch>
+          )}
         </S.Actions>
       </div>
     );
@@ -130,7 +132,7 @@ const DashBoard = React.memo(() => {
   const renderCancelFinding = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-        <p>Waiting for user...</p>
+        <p>Waiting for challenger...</p>
       </motion.div>
     );
   };
@@ -138,13 +140,19 @@ const DashBoard = React.memo(() => {
   const renderCancelPlaying = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-        <p>You are in a match, please cancel to continue...</p>
+        <p>You are in a match, please click cancel to play new game...</p>
       </motion.div>
     );
   };
 
   const renderContent = () => {
     if (!walletState.isLogged) return undefined;
+    if (!loadedPlayerState)
+      return (
+        <div className="wrap-spinner">
+          <Spinner />
+        </div>
+      );
     if (!gameInfo?.gameID) return renderActions();
     return renderMatch();
   };

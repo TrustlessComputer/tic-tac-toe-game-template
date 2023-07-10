@@ -501,6 +501,35 @@
     "inputs": [
       {
         "internalType": "uint256",
+        "name": "_gameId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_xCoordinate",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_yCoordinate",
+        "type": "uint256"
+      }
+    ],
+    "name": "calculateWinner",
+    "outputs": [
+      {
+        "internalType": "enum TicTacToe.Winners",
+        "name": "winner",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
         "name": "_matchId",
         "type": "uint256"
       }
@@ -528,25 +557,6 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "games",
-    "outputs": [
-      {
-        "internalType": "uint16",
-        "name": "totalMoved",
-        "type": "uint16"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
         "name": "gameId",
         "type": "uint256"
       }
@@ -557,6 +567,73 @@
         "internalType": "enum TicTacToe.Players[15][15]",
         "name": "",
         "type": "uint8[15][15]"
+      },
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      },
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      },
+      {
+        "internalType": "int256",
+        "name": "",
+        "type": "int256"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData",
+        "name": "",
+        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -676,6 +753,11 @@
         "internalType": "uint256",
         "name": "_yCoordinate",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "_checkWinner",
+        "type": "bool"
       }
     ],
     "name": "makeMove",
@@ -712,24 +794,9 @@
         "type": "address"
       },
       {
-        "internalType": "address",
-        "name": "player2",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
+        "internalType": "uint40",
         "name": "turnTimePivot",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "player1TimePool",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "player2TimePool",
-        "type": "uint256"
+        "type": "uint40"
       },
       {
         "internalType": "bool",
@@ -745,6 +812,26 @@
         "internalType": "enum TurnBasedGame.MatchResult",
         "name": "result",
         "type": "uint8"
+      },
+      {
+        "internalType": "uint16",
+        "name": "totalMoved",
+        "type": "uint16"
+      },
+      {
+        "internalType": "address",
+        "name": "player2",
+        "type": "address"
+      },
+      {
+        "internalType": "uint40",
+        "name": "player1TimePool",
+        "type": "uint40"
+      },
+      {
+        "internalType": "uint40",
+        "name": "player2TimePool",
+        "type": "uint40"
       }
     ],
     "stateMutability": "view",

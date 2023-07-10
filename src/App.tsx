@@ -14,6 +14,7 @@ import { LoaderProvider } from '@/contexts/loader.context';
 import { WalletProvider } from '@/contexts/wallet.context';
 import { AssetsProvider } from '@/contexts/assets.context';
 import { GameProvider } from '@/contexts/game.context';
+import { FaucetProvider } from '@/contexts/faucet.context';
 
 let persistor = persistStore(store);
 const App: React.FC = (): React.ReactElement => {
@@ -26,7 +27,9 @@ const App: React.FC = (): React.ReactElement => {
           <LoaderProvider>
             <WalletProvider>
               <AssetsProvider>
-                <GameProvider> {element}</GameProvider>
+                <GameProvider>
+                  <FaucetProvider>{element}</FaucetProvider>
+                </GameProvider>
               </AssetsProvider>
             </WalletProvider>
           </LoaderProvider>

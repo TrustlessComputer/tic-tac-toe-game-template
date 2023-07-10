@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import BigNumber from 'bignumber.js';
 import { TOPUP_AMOUNT } from '@/configs';
 import * as formatter from 'tc-formatter';
+import faucetStorage from '@/components/Faucet/faucet.storage';
 
 const INITIAL_BALANCE = {
   isLoaded: false,
@@ -50,8 +51,8 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
   const debounceLoadBalance = React.useCallback(debounce(onLoadBalance, 1000), [keySet.address]);
 
   const isNeedTopupTC = React.useMemo(() => {
-    return balance.isLoaded && new BigNumber(balance.amount).lt(TOPUP_AMOUNT);
-  }, [balance]);
+    return balance.isLoaded && new BigNumber(balance.amount).lt(TOPUP_AMOUNT) && !faucetStorage.getFaucetStorage();
+  }, [balance, faucetStorage]);
 
   const contextValues = React.useMemo(() => {
     return {

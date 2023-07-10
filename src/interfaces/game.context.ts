@@ -26,13 +26,17 @@ export interface IGameContext {
   gameInfo: IGameState | undefined;
   localState: ILocalState;
   playerState: IGetPlayerState;
+  loadedPlayerState: boolean;
 
   showJoinRoom: boolean;
   showCreateRoom: boolean;
+  showAutoMatchRoom: boolean;
 
   resetGame: () => void;
 
   setShowJoinRoom: (show: boolean) => void;
+  setShowAutoMatchRoom: (show: boolean) => void;
+
   setShowCreateRoom: (show: boolean) => void;
 
   onJoinRoom: (payload: IJoinGamePayload) => void;

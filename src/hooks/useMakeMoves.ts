@@ -18,7 +18,8 @@ const useMakeMoves = () => {
   }) => {
     if (!contractSigner) return;
     const geo = (INDEX_TO_GEO_MAPPER as any)[Number(moveIdx) as any];
-    await contractSigner.makeMove(gameID, geo.x, geo.y);
+    const winner = await contractSigner.calculateWinner(gameID, geo.x, geo.y);
+    await contractSigner.makeMove(gameID, geo.x, geo.y, winner.toString() !== '0');
     const games = await onWaitingUpdateNextMove({ gameID, myRolePlayer });
     return { games };
   };

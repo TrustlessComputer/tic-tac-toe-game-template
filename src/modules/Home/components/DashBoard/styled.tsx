@@ -7,6 +7,11 @@ import { motion } from 'framer-motion';
 const ContainerLG = css`
   flex: unset;
 `;
+
+const ContainerMD = css`
+  margin-top: 32px;
+`;
+
 const Container = styled.div`
   margin-top: 120px;
   flex: 1;
@@ -14,7 +19,6 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
-  ${MediaQueryBuilder('lg', ContainerLG)}
   .warning-wrapper {
     background: #fef3cd;
     border: 1px solid #ffeeba;
@@ -28,7 +32,30 @@ const Container = styled.div`
       color: #856404;
       font-size: 18px;
     }
+
+    span {
+      text-decoration: underline;
+      margin-left: 6px;
+      cursor: pointer;
+      :hover {
+        opacity: 0.9;
+      }
+    }
   }
+
+  .wrap-spinner {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+  }
+
+  ${MediaQueryBuilder('lg', ContainerLG)}
+  ${MediaQueryBuilder('md', ContainerMD)}
+`;
+
+const BoxMD = css`
+  min-width: unset;
+  max-width: calc(100vw - 32px);
 `;
 
 const Box = styled.div`
@@ -40,10 +67,16 @@ const Box = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
+  ${MediaQueryBuilder('md', BoxMD)}
+`;
+
+const BannerMD = css`
+  max-width: calc(100vw - 32px);
 `;
 
 const Banner = styled.img`
   border-radius: 12px;
+  ${MediaQueryBuilder('md', BannerMD)}
 `;
 
 const ActionsXL = css`

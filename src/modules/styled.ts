@@ -11,6 +11,7 @@ const Container = styled.div`
   flex: 1;
   display: flex;
   flex-direction: row;
+
   ${MediaQueryBuilder('xl', ContainerLG)}
 `;
 
