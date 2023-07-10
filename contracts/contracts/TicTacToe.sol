@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.19;
 
 import { TurnBasedGame } from "./TurnBasedGame.sol";
 
@@ -76,6 +76,22 @@ contract TicTacToe is TurnBasedGame {
                     endGame(_matchId, result);
                 }
             }
+        }
+    }
+
+    // winner forget trigger make move function with check winner can retry by this function
+    function claimWinner(uint256 _matchId, uint _xCoordinate, uint _yCoordinate) external notEndedMatch(_matchId) {
+        Game storage game = games[_matchId];
+        // invalid request
+        if (game.board[_xCoordinate][_yCoordinate] == Players.None) {
+            revert MoveProhibited();
+        }
+
+        // check and update winner
+        Winners winner = calculateWinner(_matchId, _xCoordinate, _yCoordinate);
+        if (winner != Winners.None) {
+            MatchResult result = MatchResult(uint8(winner));
+            endGame(_matchId, result);
         }
     }
 
