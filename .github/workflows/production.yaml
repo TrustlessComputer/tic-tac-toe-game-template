@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./ui
-          file: Dockerfile
+          file: ./ui/Dockerfile
           push: true
           tags: |
             ${{env.DOCKER_REGISTRY}}/${{env.GOOGLE_CLOUD_PROJECT}}/${{env.DOCKER_IMAGE_NAME}}:latest
