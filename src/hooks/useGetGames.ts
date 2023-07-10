@@ -4,23 +4,17 @@ import { ZeroAddress } from 'ethers';
 import { COUNTER_TIME, SLEEP_TIME } from '@/configs';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import SDKError, { ERROR_CODE } from '@/utils/error';
+import { gamesBuilder } from '@/utils/gameState';
+import useGetGameState from '@/hooks/useGetGameState';
 
 const useGetGames = () => {
   const contractSigner = useContractSigner();
-
-  const gamesBuilder = (games: any): IGameMapper => {
-    return {
-      player1: games[0],
-      player2: games[1],
-      winner: games[2].toString(),
-      turn: games[3].toString(),
-    };
-  };
+  const { onGetGameState } = useGetGameState();
 
   const onGetGameMapper = async (gameID: string): Promise<IGameMapper | undefined> => {
     if (!contractSigner) return undefined;
-    const _games = await contractSigner.games(gameID);
-    const mapper = gamesBuilder(_games);
+    const { matchData } = await onGetGameState(gameID);
+    const mapper = gamesBuilder(matchData);
     return mapper;
   };
 
@@ -31,17 +25,16 @@ const useGetGames = () => {
     try {
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const _games = await contractSigner.games(gameID);
-        const mapper = gamesBuilder(_games);
+        const mapper = await onGetGameMapper(gameID);
         if (counter === COUNTER_TIME) {
           throw new Error(`Timeout.`);
         }
 
         counter++;
-        if (mapper.player1 !== ZeroAddress && mapper.player2 !== ZeroAddress && mapper.player1 === mapper.player2) {
+        if (mapper?.player1 !== ZeroAddress && mapper?.player2 !== ZeroAddress && mapper?.player1 === mapper?.player2) {
           throw new SDKError(ERROR_CODE.JOIN_GAME_ERROR);
         }
-        if (mapper.player1 === ZeroAddress || mapper.player2 === ZeroAddress) {
+        if (mapper?.player1 === ZeroAddress || mapper?.player2 === ZeroAddress) {
           await sleep(SLEEP_TIME);
           continue;
         }
@@ -67,14 +60,13 @@ const useGetGames = () => {
     try {
       // eslint-disable-next-line no-constant-condition
       while (true) {
-        const _games = await contractSigner.games(gameID);
-        const mapper = gamesBuilder(_games);
+        const mapper = await onGetGameMapper(gameID);
         if (counter === COUNTER_TIME) {
           throw new Error('Timeout.');
         }
 
         counter++;
-        if (mapper.turn === myRolePlayer && mapper.winner === WinnerState.Playing) {
+        if (mapper?.turn === myRolePlayer && mapper.winner === WinnerState.Playing) {
           await sleep(SLEEP_TIME);
           continue;
         }
@@ -91,9 +83,8 @@ const useGetGames = () => {
   const onGetWinner = async ({ gameID }: { gameID: string }) => {
     try {
       if (!contractSigner) return undefined;
-      const _games = await contractSigner.games(gameID);
-      const mapper = gamesBuilder(_games);
-      return mapper.winner;
+      const mapper = await onGetGameMapper(gameID);
+      return mapper?.winner;
     } catch (error) {
       console.log('LOGGER--- GET GAMES ERROR: ', error);
     }

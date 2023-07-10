@@ -1,24 +1,26 @@
 import React, { useContext } from 'react';
 import useContractSigner from '@/hooks/useContractSigner';
-import debounce from 'lodash/debounce';
 import { AnimatePresence, motion } from 'framer-motion';
 import Spinner from '@/components/Spinner';
-import Button from '@/components/Button';
 import { GamePopup } from '@/modules/styled';
-import useFindMatch from '@/hooks/useFindMatch';
 import { GameContext } from '@/contexts/game.context';
+import { WalletContext } from '@/contexts/wallet.context';
+import throttle from 'lodash/throttle';
+import Button from '@/components/Button';
+import useFindMatch from '@/hooks/useFindMatch';
 
-const CreateRoom = React.memo(() => {
+const JoinRoom = React.memo(() => {
   const contractSigner = useContractSigner();
-  const { onFindMatch, gameState } = useFindMatch();
+  const { keySet } = useContext(WalletContext);
   const { resetGame } = useContext(GameContext);
+  const { onFindMatch, gameState } = useFindMatch();
 
-  const debounceCreateGameID = React.useCallback(debounce(onFindMatch, 1000), []);
+  const handleAutoMatchRoom = async () => {
+    if (!keySet.address || !contractSigner) return;
+    await onFindMatch();
+  };
 
-  React.useEffect(() => {
-    if (!contractSigner) return;
-    debounceCreateGameID();
-  }, [contractSigner]);
+  const throttleAutoMatchRoom = throttle(handleAutoMatchRoom, 500);
 
   return (
     <AnimatePresence>
@@ -47,26 +49,28 @@ const CreateRoom = React.memo(() => {
               },
             }}
           >
-            {gameState.gameID && gameState.loading ? 'Waiting for user' : 'Create the game'}
+            Auto matching
           </motion.h2>
           {gameState.loading && <Spinner />}
-          {!gameState.loading && (
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{
-                scale: 1,
-                transition: { delay: 1, duration: 0.3 },
-              }}
-            >
-              <Button className="button" variants="outline" onClick={resetGame}>
-                Cancel
-              </Button>
-            </motion.div>
-          )}
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={{
+              scale: 1,
+              transition: { delay: 1.5, duration: 0.3 },
+            }}
+            className="actions"
+          >
+            <Button className="button" variants="outline" onClick={resetGame}>
+              Cancel
+            </Button>
+            <Button className="button" onClick={throttleAutoMatchRoom} disabled={gameState.loading}>
+              Match
+            </Button>
+          </motion.div>
         </motion.div>
       </GamePopup>
     </AnimatePresence>
   );
 });
 
-export default CreateRoom;
+export default JoinRoom;

@@ -11,4 +11,9 @@ const ButtonJoinMatch = styled(Button)`
   background: linear-gradient(180deg, #76ebff 0%, #00a3ff 100%) !important;
 `;
 
-export { ButtonCreateRoom, ButtonJoinMatch };
+const ButtonAutoMatch = styled(Button)`
+  flex: 1;
+  background: linear-gradient(180deg, #76ebff 0%, #00a3ff 100%) !important;
+`;
+
+export { ButtonCreateRoom, ButtonJoinMatch, ButtonAutoMatch };

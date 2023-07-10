@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as S from './styled';
-import { ButtonCreateRoom, ButtonJoinMatch } from '@/components/Button/Button.games';
+import { ButtonCreateRoom, ButtonAutoMatch } from '@/components/Button/Button.games';
 import { GameContext } from '@/contexts/game.context';
 import Square from '@/modules/Home/components/Square';
 import { IRole } from '@/interfaces/useGetGameSttate';
@@ -14,10 +14,13 @@ import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
+import ButtonEndMatch from '@/components/ButtonEndMatch';
+import ButtonCancelFind from '@/components/ButtonCancelFind';
 import { FaucetContext } from '@/contexts/faucet.context';
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, setShowJoinRoom, gameInfo, turn, loading, playerState } = useContext(GameContext);
+  const { setShowCreateRoom, setShowAutoMatchRoom, gameInfo, turn, loading, playerState, loadedPlayerState } =
+    useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
   const { setShow: setShowFaucet } = useContext(FaucetContext);
@@ -47,33 +50,41 @@ const DashBoard = React.memo(() => {
 
   const renderActions = () => {
     const isFinding = !gameInfo?.gameID && playerState.isFinding;
-    const isDisabled =
-      (!gameInfo?.gameID && (playerState.isFinding || playerState.isPlaying)) ||
-      isNeedTopupTC ||
-      walletState.isNeedCreate ||
-      walletState.isNeedLogin;
+    const isPlaying = !gameInfo?.gameID && playerState.isPlaying;
+
+    const isDisabled = isFinding || isPlaying || isNeedTopupTC || walletState.isNeedCreate || walletState.isNeedLogin;
+
+    const isShowAction = !isPlaying && !isFinding;
+
     return (
       <div>
         {isFinding && renderCancelFinding()}
+        {isPlaying && renderCancelPlaying()}
         <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-          <ButtonCreateRoom
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="22" />}
-            disabled={isDisabled}
-            onClick={() => {
-              setShowCreateRoom(true);
-            }}
-          >
-            Create Room
-          </ButtonCreateRoom>
-          <ButtonJoinMatch
-            leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}
-            disabled={isDisabled}
-            onClick={() => {
-              setShowJoinRoom(true);
-            }}
-          >
-            Join Room
-          </ButtonJoinMatch>
+          {isPlaying && <ButtonEndMatch />}
+          {isFinding && <ButtonCancelFind />}
+          {isShowAction && (
+            <ButtonCreateRoom
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
+              disabled={isDisabled}
+              onClick={() => {
+                setShowCreateRoom(true);
+              }}
+            >
+              Create Room
+            </ButtonCreateRoom>
+          )}
+          {isShowAction && (
+            <ButtonAutoMatch
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}
+              disabled={isDisabled}
+              onClick={() => {
+                setShowAutoMatchRoom(true);
+              }}
+            >
+              Join Room
+            </ButtonAutoMatch>
+          )}
         </S.Actions>
       </div>
     );
@@ -117,16 +128,31 @@ const DashBoard = React.memo(() => {
       </S.MatchContent>
     );
   };
+
   const renderCancelFinding = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-        <p>Waiting for user...</p>
+        <p>Waiting for challenger...</p>
+      </motion.div>
+    );
+  };
+
+  const renderCancelPlaying = () => {
+    return (
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
+        <p>You are in a match, please click cancel to play new game...</p>
       </motion.div>
     );
   };
 
   const renderContent = () => {
     if (!walletState.isLogged) return undefined;
+    if (!loadedPlayerState)
+      return (
+        <div className="wrap-spinner">
+          <Spinner />
+        </div>
+      );
     if (!gameInfo?.gameID) return renderActions();
     return renderMatch();
   };

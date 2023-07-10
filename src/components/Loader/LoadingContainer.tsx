@@ -10,6 +10,16 @@ const Container = styled.div<{ opacity: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  .wrapper {
+    width: 250px;
+    height: 80px;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 6px 6px rgba(0, 0, 0, 0.3);
+  }
 `;
 
 const LoadingContainer = ({ loaded, opacity = 60 }: { loaded: boolean; opacity?: number }) => {
@@ -17,7 +27,9 @@ const LoadingContainer = ({ loaded, opacity = 60 }: { loaded: boolean; opacity?:
 
   return (
     <Container opacity={opacity}>
-      <Spinner />
+      <div className="wrapper">
+        <Spinner />
+      </div>
     </Container>
   );
 };

@@ -43,6 +43,12 @@ const Container = styled.div`
     }
   }
 
+  .wrap-spinner {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 24px;
+  }
+
   ${MediaQueryBuilder('lg', ContainerLG)}
   ${MediaQueryBuilder('md', ContainerMD)}
 `;
