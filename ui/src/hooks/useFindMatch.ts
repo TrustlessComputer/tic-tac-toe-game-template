@@ -1,4 +1,3 @@
-import { GAS_PRICE } from '@/configs';
 import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import React, { useContext } from 'react';
@@ -22,7 +21,7 @@ const useFindMatch = () => {
     if (!contractSigner || !provider) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
-      const tx = await contractSigner.findMatch({ gasPrice: GAS_PRICE });
+      const tx = await contractSigner.findMatch();
       await tx.wait();
       const hash = Object(tx).hash;
       const receipt = await provider.getTransactionReceipt(hash);

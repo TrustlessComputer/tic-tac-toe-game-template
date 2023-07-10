@@ -47,7 +47,7 @@ const CreateRoom = React.memo(() => {
               },
             }}
           >
-            {gameState.gameID && gameState.loading ? 'Waiting for user' : 'Create the game'}
+            {gameState.gameID && gameState.loading ? 'Waiting for challenger' : 'Creating game'}
           </motion.h2>
           {gameState.loading && <Spinner />}
           {!gameState.loading && (

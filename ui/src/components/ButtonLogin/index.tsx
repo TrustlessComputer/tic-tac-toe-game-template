@@ -14,10 +14,12 @@ import ToolTip from '../Tooltip';
 import { CDN_URL_ICONS } from '@/configs';
 import IconSVG from '@/components/IconSVG';
 import PrivateKeyModal from '@/components/PrivateKey';
+import { GameContext } from '@/contexts/game.context';
 
 const ButtonLogin = React.memo(() => {
   const { keySet, walletState } = useContext(WalletContext);
   const { balance } = useContext(AssetsContext);
+  const { playerState } = useContext(GameContext);
 
   const [showCreate, setShowCreate] = React.useState(false);
   const [showLogin, setShowLogin] = React.useState(false);
@@ -53,7 +55,7 @@ const ButtonLogin = React.memo(() => {
       )}
       {walletState.isLogged && keySet.address && (
         <S.Account>
-          <Row gap="12px">
+          <Row gap="12px" className="wrap-address">
             <Jazzicon diameter={24} seed={jsNumberForAddress(keySet.address)} />
             <Text color="txt-primary" size="18" fontWeight="semibold">
               {formatter.ellipsisCenter({ str: keySet.address, limit: 7 })}
@@ -86,7 +88,7 @@ const ButtonLogin = React.memo(() => {
             fontWeight="semibold"
             className="balance"
           >
-            {balance.amountFormated} TC
+            {balance.amountFormated} TC | ELO {playerState.elo}
           </Text>
         </S.Account>
       )}

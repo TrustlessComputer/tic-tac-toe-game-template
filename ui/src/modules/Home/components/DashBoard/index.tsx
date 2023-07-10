@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import * as S from './styled';
-import { ButtonCreateRoom, ButtonAutoMatch } from '@/components/Button/Button.games';
+import { ButtonCreateRoom } from '@/components/Button/Button.games';
 import { GameContext } from '@/contexts/game.context';
 import Square from '@/modules/Home/components/Square';
 import { IRole } from '@/interfaces/useGetGameSttate';
@@ -19,7 +19,7 @@ import ButtonCancelFind from '@/components/ButtonCancelFind';
 import { FaucetContext } from '@/contexts/faucet.context';
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, setShowAutoMatchRoom, gameInfo, turn, loading, playerState, loadedPlayerState } =
+  const { setShowCreateRoom, gameInfo, turn, loading, playerState, loadedPlayerState } =
     useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
@@ -71,20 +71,20 @@ const DashBoard = React.memo(() => {
                 setShowCreateRoom(true);
               }}
             >
-              Create Room
+              Play game
             </ButtonCreateRoom>
           )}
-          {isShowAction && (
-            <ButtonAutoMatch
-              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}
-              disabled={isDisabled}
-              onClick={() => {
-                setShowAutoMatchRoom(true);
-              }}
-            >
-              Join Room
-            </ButtonAutoMatch>
-          )}
+          {/*{isShowAction && (*/}
+          {/*  <ButtonAutoMatch*/}
+          {/*    leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-friend.svg`} maxWidth="22" />}*/}
+          {/*    disabled={isDisabled}*/}
+          {/*    onClick={() => {*/}
+          {/*      setShowAutoMatchRoom(true);*/}
+          {/*    }}*/}
+          {/*  >*/}
+          {/*    Auto matching*/}
+          {/*  </ButtonAutoMatch>*/}
+          {/*)}*/}
         </S.Actions>
       </div>
     );

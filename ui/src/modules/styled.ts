@@ -38,9 +38,10 @@ const GamePopup = styled(motion.div)`
   }
   ${MediaQueryBuilder('md', GamePopupMD)}
   .text h2 {
-    font-size: 2.5em;
+    font-size: 28px;
     margin: 8px 0;
     color: ${({ theme }) => theme['txt-primary']};
+    font-weight: 700;
   }
   .win {
     margin: 0 auto;

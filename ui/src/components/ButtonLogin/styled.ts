@@ -36,6 +36,9 @@ const Account = styled.div`
   justify-content: space-between;
   border: 1px solid ${({ theme }) => theme['border-secondary']};
   border-radius: ${px2rem(12)};
+  .wrap-address {
+    width: fit-content;
+  }
   .ic-copy {
     :hover {
       opacity: 0.8;

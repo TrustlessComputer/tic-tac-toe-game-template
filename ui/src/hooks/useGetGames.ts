@@ -4,7 +4,6 @@ import { ZeroAddress } from 'ethers';
 import { COUNTER_TIME, SLEEP_TIME } from '@/configs';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import SDKError, { ERROR_CODE } from '@/utils/error';
-import { gamesBuilder } from '@/utils/gameState';
 import useGetGameState from '@/hooks/useGetGameState';
 
 const useGetGames = () => {
@@ -14,8 +13,7 @@ const useGetGames = () => {
   const onGetGameMapper = async (gameID: string): Promise<IGameMapper | undefined> => {
     if (!contractSigner) return undefined;
     const { matchData } = await onGetGameState(gameID);
-    const mapper = gamesBuilder(matchData);
-    return mapper;
+    return matchData;
   };
 
   const onWaitingGames = async (gameID: string): Promise<IGameMapper | undefined> => {
@@ -42,7 +40,7 @@ const useGetGames = () => {
         break;
       }
     } catch (error) {
-      console.log('LOGGER--- GET GAMES ERROR: ', error);
+      console.log('LOGGER--- onWaitingGames ERROR: ', error);
     }
     return games;
   };
@@ -76,7 +74,7 @@ const useGetGames = () => {
       }
       return games;
     } catch (error) {
-      console.log('LOGGER--- GET GAMES ERROR: ', error);
+      console.log('LOGGER--- onWaitingUpdateNextMove ERROR: ', error);
     }
   };
 
@@ -86,7 +84,7 @@ const useGetGames = () => {
       const mapper = await onGetGameMapper(gameID);
       return mapper?.winner;
     } catch (error) {
-      console.log('LOGGER--- GET GAMES ERROR: ', error);
+      console.log('LOGGER--- onGetWinner ERROR: ', error);
     }
   };
 
