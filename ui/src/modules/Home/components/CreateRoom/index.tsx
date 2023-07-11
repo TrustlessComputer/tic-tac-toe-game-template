@@ -11,6 +11,8 @@ import useCancelMatch from '@/hooks/useCancelMatch';
 import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import sleep from '@/utils/sleep';
+import BannerImage from '@/images/banner.png';
+import { Banner } from '@/modules/styled';
 
 const CreateRoom = React.memo(() => {
   const [canceling, setCanceling] = React.useState(false);
@@ -56,7 +58,8 @@ const CreateRoom = React.memo(() => {
           exit={{ scale: 0, opacity: 0 }}
           className="text"
         >
-          <motion.h2
+          <Banner src={BannerImage} />
+          <motion.h5
             initial={{ scale: 0, y: 100 }}
             animate={{
               scale: 1,
@@ -67,8 +70,8 @@ const CreateRoom = React.memo(() => {
               },
             }}
           >
-            {gameState.gameID && gameState.loading ? 'Waiting for challenger' : 'Creating game'}
-          </motion.h2>
+            {gameState.gameID && gameState.loading ? 'Waiting...' : 'Creating game'}
+          </motion.h5>
           {gameState.loading && <Spinner />}
           {gameState.gameID && playerState.isFinding && (
             <motion.div
@@ -78,13 +81,7 @@ const CreateRoom = React.memo(() => {
                 transition: { delay: 1, duration: 0.3 },
               }}
             >
-              <Button
-                disabled={canceling}
-                className="button"
-                variants="outline"
-                onClick={onCancelFinding}
-                isLoading={canceling}
-              >
+              <Button disabled={canceling} className="button" onClick={onCancelFinding} isLoading={canceling}>
                 Cancel
               </Button>
             </motion.div>

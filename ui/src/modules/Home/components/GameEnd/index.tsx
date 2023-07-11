@@ -36,7 +36,7 @@ const GameEnd = React.memo(() => {
           exit={{ scale: 0, opacity: 0 }}
           className="text"
         >
-          <motion.h2
+          <motion.h5
             initial={{ scale: 0, y: 100 }}
             animate={{
               scale: 1,
@@ -46,13 +46,14 @@ const GameEnd = React.memo(() => {
                 duration: 0.7,
               },
             }}
+            style={{ fontSize: 32 }}
           >
             {gameInfo?.winner === WinnerState.Draw
               ? 'No Winner :/'
               : gameInfo?.winner === (gameInfo?.myRolePlayer as any)
               ? 'Win !! :)'
               : 'Lose !! :('}
-          </motion.h2>
+          </motion.h5>
           <motion.div
             initial={{ scale: 0 }}
             animate={{

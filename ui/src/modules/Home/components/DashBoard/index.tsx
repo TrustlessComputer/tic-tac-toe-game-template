@@ -74,7 +74,7 @@ const DashBoard = React.memo(() => {
           {isFinding && <ButtonCancelFind />}
           {isShowAction && (
             <ButtonCreateRoom
-              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} />}
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
               disabled={isDisabled}
               onClick={() => {
                 setShowCreateRoom(true);

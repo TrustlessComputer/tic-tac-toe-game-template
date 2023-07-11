@@ -1,6 +1,7 @@
 import px2rem from '@/utils/px2rem';
 import { Modal } from 'react-bootstrap';
 import styled from 'styled-components';
+import BGImage from '@/images/background-popup.jpg';
 
 export const StyledModal = styled(Modal)<{ width?: number }>`
   &.modal {
@@ -10,11 +11,23 @@ export const StyledModal = styled(Modal)<{ width?: number }>`
   }
 
   .modal-content {
-    border-radius: 2px;
     border-radius: ${px2rem(8)};
     padding: ${px2rem(32)};
     padding-top: ${px2rem(8)};
-    background: ${({ theme }) => theme['bg-secondary']};
+    background: transparent;
+    background-image: url(${BGImage});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 12px;
+  }
+
+  p {
+    color: ${({ theme }) => theme['txt-parallel']};
+  }
+
+  input {
+    color: ${({ theme }) => theme['txt-parallel']};
   }
 
   .modal-header {
@@ -55,7 +68,7 @@ export const Title = styled.p`
   :first-letter {
     text-transform: uppercase;
   }
-  color: ${({ theme }) => theme['txt-primary']};
+  color: ${({ theme }) => theme['txt-parallel']};
 `;
 
 export const SubTitle = styled.p`
