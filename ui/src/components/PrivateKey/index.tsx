@@ -18,18 +18,16 @@ const PrivateKeyModal = React.memo(({ show, onClose }: IProps) => {
     <BaseModal show={show} handleClose={onClose} title="Show TC Private Key" width="550">
       <S.Content style={{ gap: 12 }}>
         <S.BoxKey>
-          <Text color="txt-highlight" fontWeight="semibold">
+          <Text fontWeight="semibold" className="balance">
             {balance.amountFormated} TC
           </Text>
-          <Text size="16" color="txt-secondary" fontWeight="medium" className="key-text">
+          <Text size="16" fontWeight="medium" className="key-text address">
             {keySet.address}
           </Text>
         </S.BoxKey>
         <S.BoxKey>
-          <Text color="txt-secondary" fontWeight="semibold">
-            This is your private key
-          </Text>
-          <Text size="16" color="txt-error" fontWeight="medium" className="key-text">
+          <Text>This is your private key</Text>
+          <Text size="16" color="txt-error" fontWeight="medium" className="key-text prvkey-text">
             {keySet.prvKey}
           </Text>
         </S.BoxKey>
