@@ -253,6 +253,8 @@ abstract contract TurnBasedGame is OwnableUpgradeable, PausableUpgradeable {
             matchCount2,
             matchResult
         );
+        players[player1].elo = newElo1;
+        players[player2].elo = newElo2;
 
         emit EloUpdate(player1, elo1, newElo1);
         emit EloUpdate(player2, elo2, newElo2);
