@@ -11,7 +11,6 @@
     "serve:dist": "http-server dist",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --fix --ext .ts,.tsx",
-    "prepare": "husky install",
     "test": "vitest",
     "commit-msg": "commitlint --edit \"$1\"",
     "pre-commit": "yarn lint:fix",
