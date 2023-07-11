@@ -4,10 +4,10 @@ async function main() {
   const V1contract = await ethers.getContractFactory("TicTacToe");
   console.log("Deploying TicTacToe...");
   const v1contract = await upgrades.deployProxy(V1contract, [30, 10000000000], {
-    initializer: "initialvalue",
+    initializer: 'initialize(uint256,uint256)',
   });
-  await v1contract.deployed();
-  console.log("TicTacToe Contract deployed to:", v1contract.address);
+  await v1contract.waitForDeployment();
+  console.log("TicTacToe Contract deployed to:", await v1contract.getAddress());
 }
 
 main().catch((error) => {
