@@ -24,6 +24,9 @@ RUN yarn build
 FROM nginx:stable as runner
 COPY --from=builder /app/dist /usr/share/nginx/html
 
+RUN mkdir -p /usr/share/nginx/html/tic-tac-toe
+COPY --from=builder /app/dist/assets /usr/share/nginx/html/tic-tac-toe/
+COPY --from=builder /app/dist/fonts /usr/share/nginx/html/tic-tac-toe/
 COPY etc/nginx/nginx-docker.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
