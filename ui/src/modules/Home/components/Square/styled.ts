@@ -2,17 +2,18 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { opacify } from '@/theme/utils';
 
-const Container = styled(motion.div)`
+const Container = styled(motion.div)<{ isLastMove: boolean }>`
   border: 2px solid transparent;
   display: grid;
   place-items: center;
   cursor: pointer;
   aspect-ratio: 1 / 1;
-  background-color: ${({ theme }) => opacify(14, theme.black)};
+  background-color: ${({ theme, isLastMove }) => (isLastMove ? opacify(40, theme.black) : opacify(14, theme.black))};
   border-radius: 6px;
   :hover {
     opacity: 0.8;
   }
+
   span {
     display: block;
     position: relative;

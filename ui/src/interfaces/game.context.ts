@@ -28,6 +28,7 @@ export interface IGameContext {
   playerState: IGetPlayerState;
   loadedPlayerState: boolean;
   counter: number;
+  lastMoveIndex: number | undefined;
 
   showJoinRoom: boolean;
   showCreateRoom: boolean;

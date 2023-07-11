@@ -27,6 +27,7 @@ const initialValue: IGameContext = {
   playerState: { ...INIT_PLAYER_STATE },
   loadedPlayerState: false,
   counter: 0,
+  lastMoveIndex: undefined,
 
   showJoinRoom: false,
   showCreateRoom: false,
@@ -55,6 +56,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [turn, setTurn] = React.useState(IRole.Empty);
   const [localState, setLocalState] = React.useState<{ [key: number]: IRole }>({});
   const [playerState, setPlayerState] = React.useState<IGetPlayerState>({ ...INIT_PLAYER_STATE });
+  const [lastMove, setLastMove] = React.useState<number | undefined>(undefined);
 
   const { counter, updateTime } = useCountDown();
 
@@ -80,6 +82,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setShowAutoMatchRoom(false);
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
+    setLastMove(undefined);
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
@@ -102,10 +105,12 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
       if (gameState) {
-        const { squares, newTurn, timeLeftCurrTurn } = gameState;
-        setSquares(squares);
+        const { squares: newSquares, newTurn, timeLeftCurrTurn } = gameState;
+        setSquares(newSquares);
         setTurn(newTurn);
         if (newTurn !== turn) {
+          const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
+          setLastMove(lastMoveIndex);
           const _timeLeft = Number(timeLeftCurrTurn || '0');
           updateTime(_timeLeft);
         }
@@ -126,11 +131,14 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const throttleOnGetGameState = throttle(_onGetGameState, 300);
+
   const updateSquares = async (ind: string | number) => {
     if (squares[Number(ind)] || !gameInfo?.gameID || loading || turn !== gameInfo.myTurn || !counter) return;
     try {
       setLoading(true);
       setLocalState(value => ({ ...value, [ind]: gameInfo.myTurn }));
+      setLastMove(Number(ind));
       const { games } =
         (await onMakeMoves({
           gameID: gameInfo.gameID,
@@ -179,12 +187,12 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       }
       return;
     }
-    _onGetGameState(gameInfo.gameID);
-    intervalGameState = setInterval(() => _onGetGameState(gameInfo.gameID), 500);
+    throttleOnGetGameState(gameInfo.gameID);
+    intervalGameState = setInterval(() => throttleOnGetGameState(gameInfo.gameID), 1000);
     return () => {
       clearGameState();
     };
-  }, [gameInfo?.gameID, turn]);
+  }, [gameInfo?.gameID, turn, squares]);
 
   useAsyncEffect(async () => {
     if (!address) return;
@@ -214,6 +222,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       playerState,
       loadedPlayerState,
       counter,
+      lastMoveIndex: lastMove,
     };
   }, [
     squares,
@@ -233,6 +242,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     loadedPlayerState,
     setShowAutoMatchRoom,
     counter,
+    lastMove,
   ]);
 
   return (
