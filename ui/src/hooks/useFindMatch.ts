@@ -21,7 +21,7 @@ const useFindMatch = () => {
     if (!contractSigner || !provider) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
-      const tx = await contractSigner.findMatch();
+      const tx = await contractSigner.findMatch({ gasLimit: '500000' });
       await tx.wait();
       const hash = Object(tx).hash;
       const receipt = await provider.getTransactionReceipt(hash);
