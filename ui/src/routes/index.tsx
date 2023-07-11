@@ -16,4 +16,9 @@ export default [
     element: <Layout />,
     children: [{ index: true, element: <HomePage /> }],
   },
+  {
+    path: ROUTE_PATH.TIC_TAC_TOE,
+    element: <Layout />,
+    children: [{ index: true, element: <HomePage /> }],
+  },
 ] as RouteObject[];
