@@ -15,10 +15,10 @@ const config: HardhatUserConfig = {
     },
   },
   networks: {
-    mynw: {
-      url: "https://tc-node.trustless.computer",
+    nos: {
+      url: "https://node.l2.trustless.computer/",
       accounts: {
-        mnemonic: "horn hammer original lemon chapter weird gun pond fortune blush cupboard cat",
+        mnemonic: "<your mnemonic with funds>",
       },
       // issue: https://github.com/NomicFoundation/hardhat/issues/3136
       // workaround: https://github.com/NomicFoundation/hardhat/issues/2672#issuecomment-1167409582
