@@ -16,12 +16,21 @@ const BoxKey = styled.div`
   align-items: flex-start;
   padding: ${px2rem(16)} ${px2rem(20)};
   gap: ${px2rem(6)};
-  background: ${({ theme }) => theme['bg-primary']};
+  background-color: rgba(22, 26, 41, 0.5);
   border-radius: ${px2rem(8)};
-  cursor: pointer;
   width: 100%;
   .key-text {
     line-break: anywhere;
+    color: ${({ theme }) => theme['txt-secondary']} !important;
+  }
+  .balance {
+    color: ${({ theme }) => theme['txt-highlight']};
+  }
+  .address {
+    color: ${({ theme }) => theme['txt-parallel']} !important;
+  }
+  .prvkey-text {
+    color: ${({ theme }) => theme['txt-error']} !important;
   }
 `;
 

@@ -70,7 +70,7 @@ const CreateRoom = React.memo(() => {
               },
             }}
           >
-            {gameState.gameID && gameState.loading ? 'Waiting...' : 'Creating game'}
+            {gameState.gameID && gameState.loading ? 'Waiting...' : 'Creating game...'}
           </motion.h5>
           {gameState.loading && <Spinner />}
           {gameState.gameID && playerState.isFinding && (
@@ -81,8 +81,8 @@ const CreateRoom = React.memo(() => {
                 transition: { delay: 1, duration: 0.3 },
               }}
             >
-              <Button disabled={canceling} className="button" onClick={onCancelFinding} isLoading={canceling}>
-                Cancel
+              <Button disabled={canceling} className="button" onClick={onCancelFinding}>
+                {canceling ? 'Canceling...' : 'Cancel'}
               </Button>
             </motion.div>
           )}
