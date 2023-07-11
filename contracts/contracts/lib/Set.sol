@@ -20,7 +20,7 @@ library Set {
         uint256 p = _set.positions[_value];
         if (p == 0) revert ValueNotFound();
         (_set.values[p - 1], _set.values[_set.values.length - 1])
-            = (_set.values[_set.values.length - 1], _set.values[p - 1]);
+        = (_set.values[_set.values.length - 1], _set.values[p - 1]);
         _set.positions[_set.values[p - 1]] = p;
         _set.values.pop();
         _set.positions[_value] = 0;
