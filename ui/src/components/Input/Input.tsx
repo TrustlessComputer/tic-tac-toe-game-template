@@ -2,6 +2,7 @@ import React, { HTMLInputTypeAttribute, useEffect, useRef, useState } from 'reac
 import styled from 'styled-components';
 import { PasswordIcon } from '@/components/Icons';
 import Text from '@/components/Text';
+import { opacify } from '@/theme/utils';
 
 const Container = styled.div`
   display: flex;
@@ -26,15 +27,16 @@ const InputWrapper = styled.div`
   padding-left: 16px;
   padding-right: 16px;
   border-radius: 8px;
-  color: ${({ theme }) => theme['txt-primary']};
-  border: 1px solid ${({ theme }) => theme['border-primary']};
+  color: ${({ theme }) => theme['txt-parallel']};
+  border: 1px solid ${({ theme }) => opacify(50, theme['txt-parallel'])};
 
   :focus {
-    border-color: ${({ theme }) => theme['border-secondary']};
+    border-color: ${({ theme }) => theme['txt-parallel']};
   }
+
   :hover {
     outline: none !important;
-    border-color: ${({ theme }) => theme['border-secondary']};
+    border-color: ${({ theme }) => theme['txt-parallel']};
   }
 
   .input-container-style {
@@ -42,12 +44,12 @@ const InputWrapper = styled.div`
     font-weight: 400;
     font-size: 16px;
     line-height: 140%;
-    color: ${({ theme }) => theme['txt-primary']};
+    color: ${({ theme }) => theme['txt-parallel']};
     height: 100%;
 
     :-webkit-autofill {
       -webkit-background-clip: text;
-      -webkit-text-fill-color: ${({ theme }) => theme['txt-primary']} !important;
+      -webkit-text-fill-color: ${({ theme }) => theme['txt-parallel']} !important;
     }
   }
 
@@ -115,8 +117,8 @@ const Input = (props: InputProps) => {
         <Text
           style={{ textTransform: 'uppercase' }}
           size="12"
-          fontWeight="medium"
-          color="txt-secondary"
+          fontWeight="semibold"
+          color="txt-parallel"
           className="mb-8"
         >
           {title}

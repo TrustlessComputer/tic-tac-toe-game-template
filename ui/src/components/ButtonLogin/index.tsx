@@ -10,14 +10,14 @@ import { AssetsContext } from '@/contexts/assets.context';
 import CopyIcon from '@/components/Icons/Copy';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Row } from '@/components/Row';
-import ToolTip from '../Tooltip';
+import ToolTip from '@/components/Tooltip';
 import { CDN_URL_ICONS } from '@/configs';
 import IconSVG from '@/components/IconSVG';
 import PrivateKeyModal from '@/components/PrivateKey';
 import { GameContext } from '@/contexts/game.context';
 
 const ButtonLogin = React.memo(() => {
-  const { keySet, walletState } = useContext(WalletContext);
+  const { walletState, address, keySet } = useContext(WalletContext);
   const { balance } = useContext(AssetsContext);
   const { playerState } = useContext(GameContext);
 
@@ -33,9 +33,47 @@ const ButtonLogin = React.memo(() => {
 
   return (
     <S.Container>
+      {address && (
+        <S.Account>
+          <Row gap="12px" className="wrap-address">
+            <Jazzicon diameter={24} seed={jsNumberForAddress(address)} />
+            <Text color="txt-primary" size="18" fontWeight="semibold">
+              {formatter.ellipsisCenter({ str: address, limit: 7 })}
+            </Text>
+            <ToolTip unwrapElement={<CopyIcon maxWidth="18" className="ic-copy" content={address} />} width={300}>
+              <Text size="14">Copy TC address</Text>
+            </ToolTip>
+            {keySet.prvKey && (
+              <ToolTip
+                unwrapElement={
+                  <IconSVG
+                    src={`${CDN_URL_ICONS}/ic-exchange.svg`}
+                    maxWidth="18"
+                    className="ic-copy"
+                    onClick={() => setShowPrv(true)}
+                  />
+                }
+                width={300}
+              >
+                <Text size="14">Export TC private key</Text>
+              </ToolTip>
+            )}
+          </Row>
+          <Text
+            style={{ minWidth: 150 }}
+            align="right"
+            color="txt-highlight"
+            size="18"
+            fontWeight="semibold"
+            className="balance"
+          >
+            {balance.amountFormated} TC | ELO {playerState.elo}
+          </Text>
+        </S.Account>
+      )}
       {(walletState.isNeedCreate || walletState.isNeedLogin) && (
-        <Text align="center" size="20" className="mb-24">
-          Please {walletState.isNeedCreate ? 'create wallet' : 'login'} to continue
+        <Text align="center" size="20" className={`mb-24 ${address ? 'mt-24' : ''}`}>
+          Please {walletState.isNeedCreate ? 'create wallet' : 'login'} to play the game
         </Text>
       )}
       {walletState.isNeedCreate && (
@@ -52,45 +90,6 @@ const ButtonLogin = React.memo(() => {
           {/*  Create a new wallet*/}
           {/*</Button>*/}
         </Row>
-      )}
-      {walletState.isLogged && keySet.address && (
-        <S.Account>
-          <Row gap="12px" className="wrap-address">
-            <Jazzicon diameter={24} seed={jsNumberForAddress(keySet.address)} />
-            <Text color="txt-primary" size="18" fontWeight="semibold">
-              {formatter.ellipsisCenter({ str: keySet.address, limit: 7 })}
-            </Text>
-            <ToolTip
-              unwrapElement={<CopyIcon maxWidth="18" className="ic-copy" content={keySet.address} />}
-              width={300}
-            >
-              <Text size="14">Copy TC address</Text>
-            </ToolTip>
-            <ToolTip
-              unwrapElement={
-                <IconSVG
-                  src={`${CDN_URL_ICONS}/ic-exchange.svg`}
-                  maxWidth="18"
-                  className="ic-copy"
-                  onClick={() => setShowPrv(true)}
-                />
-              }
-              width={300}
-            >
-              <Text size="14">Export TC private key</Text>
-            </ToolTip>
-          </Row>
-          <Text
-            style={{ minWidth: 150 }}
-            align="right"
-            color="txt-highlight"
-            size="18"
-            fontWeight="semibold"
-            className="balance"
-          >
-            {balance.amountFormated} TC | ELO {playerState.elo}
-          </Text>
-        </S.Account>
       )}
       <CreateWalletModal show={showCreate} handleClose={onCloseCreate} />
       <LoginModal show={showLogin} handleClose={onCloseLogin} />

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { MediaQueryBuilder } from '@/theme';
 import { motion } from 'framer-motion';
+import BGImage from '@/images/background-popup.jpg';
 
 const ContainerLG = css`
   flex-direction: column;
@@ -22,6 +23,16 @@ const GamePopupMD = css`
   }
 `;
 
+const BannerMD = css`
+  max-width: 80%;
+`;
+
+const Banner = styled.img`
+  border-radius: 12px;
+  max-width: 70%;
+  ${MediaQueryBuilder('md', BannerMD)}
+`;
+
 const GamePopup = styled(motion.div)`
   .text {
     background: ${({ theme }) => theme['bg-secondary']};
@@ -35,13 +46,18 @@ const GamePopup = styled(motion.div)`
     justify-content: center;
     align-items: center;
     gap: 20px;
+    background-image: url(${BGImage});
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    border-radius: 12px;
   }
-  ${MediaQueryBuilder('md', GamePopupMD)}
-  .text h2 {
-    font-size: 28px;
-    margin: 8px 0;
-    color: ${({ theme }) => theme['txt-primary']};
-    font-weight: 700;
+  .text h5 {
+    font-size: 20px;
+    margin: 12px 0;
+    color: ${({ theme }) => theme['txt-parallel']};
+    font-weight: 600;
+    font-style: italic;
   }
   .win {
     margin: 0 auto;
@@ -69,6 +85,7 @@ const GamePopup = styled(motion.div)`
       width: 150px;
     }
   }
+  ${MediaQueryBuilder('md', GamePopupMD)}
 `;
 
-export { Container, GamePopup };
+export { Container, GamePopup, Banner };
