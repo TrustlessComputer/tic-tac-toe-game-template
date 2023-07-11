@@ -21,4 +21,9 @@ export default [
     element: <Layout />,
     children: [{ index: true, element: <HomePage /> }],
   },
+  {
+    path: ROUTE_PATH.GAME_FI,
+    element: <Layout />,
+    children: [{ index: true, element: <HomePage /> }],
+  },
 ] as RouteObject[];
