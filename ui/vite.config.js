@@ -20,10 +20,10 @@ function renderChunks(deps) {
 }
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), 'REACT_');
-
+  const env = loadEnv(mode, process.cwd(), 'VITE_');
   return {
     server: { hmr: true, port: 6010 },
+    base: env.VITE_PUBLIC_URL,
     plugins: [
       visualizer({
         template: 'treemap', // or sunburst
