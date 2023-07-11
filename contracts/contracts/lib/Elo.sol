@@ -21,12 +21,6 @@ library Elo {
         uint256 _matchCount2,
         int256 _matchResult
     ) internal pure returns (int256, int256) {
-        (SD59x18 score1, SD59x18 score2) = getScore(_matchResult);
-
-        return getNewElo(_elo1, _elo2, _matchCount1, _matchCount2, score1, score2);
-    }
-
-    function getScore(int256 _matchResult) internal pure returns(SD59x18, SD59x18) {
         SD59x18 score1;
         SD59x18 score2;
         if (_matchResult < 0) {
@@ -40,17 +34,6 @@ library Elo {
             score2 = sd(5e17);
         }
 
-        return (score1, score2);
-    }
-
-    function getNewElo(
-        int256 _elo1,
-        int256 _elo2,
-        uint256 _matchCount1,
-        uint256 _matchCount2,
-        SD59x18 score1,
-        SD59x18 score2
-    ) internal pure returns(int256, int256) {
         SD59x18 expectedScore1 = getExpectedScore(_elo1, _elo2);
         SD59x18 expectedScore2 = getExpectedScore(_elo2, _elo1);
 
@@ -70,6 +53,7 @@ library Elo {
         if (newElo2 < 1) {
             newElo2 = 1;
         }
+
         return (newElo1, newElo2);
     }
 }
