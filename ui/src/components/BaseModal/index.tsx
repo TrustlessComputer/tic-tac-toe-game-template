@@ -25,6 +25,8 @@ const BaseModal = (props: Props) => {
           onClick={handleClose}
           src={`${CDN_URL_ICONS}/ic-close-dark.svg`}
           maxWidth="32"
+          color="txt-parallel"
+          iconType="fill"
           useDarkmode
         />
       </Modal.Header>

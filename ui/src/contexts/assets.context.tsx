@@ -23,7 +23,7 @@ const initialValue = {
 export const AssetsContext = React.createContext(initialValue);
 
 export const AssetsProvider = ({ children }: PropsWithChildren) => {
-  const { keySet } = useContext(WalletContext);
+  const { address } = useContext(WalletContext);
   const provider = useProvider();
 
   const [balance, setBalance] = React.useState({
@@ -31,9 +31,9 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
   });
 
   const onLoadBalance = async () => {
-    if (!provider || !keySet.address) return;
+    if (!provider || !address) return;
     try {
-      const balance = await provider.getBalance(keySet.address);
+      const balance = await provider.getBalance(address);
       setBalance({
         amount: balance.toString(),
         isLoaded: true,
@@ -48,7 +48,7 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  const debounceLoadBalance = React.useCallback(debounce(onLoadBalance, 1000), [keySet.address]);
+  const debounceLoadBalance = React.useCallback(debounce(onLoadBalance, 1000), [address]);
 
   const isNeedTopupTC = React.useMemo(() => {
     return balance.isLoaded && new BigNumber(balance.amount).lt(TOPUP_AMOUNT) && !faucetStorage.getFaucetStorage();
@@ -69,7 +69,7 @@ export const AssetsProvider = ({ children }: PropsWithChildren) => {
     return () => {
       clearInterval(interval);
     };
-  }, [keySet.address]);
+  }, [address]);
 
   return <AssetsContext.Provider value={contextValues}>{children}</AssetsContext.Provider>;
 };

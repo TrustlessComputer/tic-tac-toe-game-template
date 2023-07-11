@@ -16,6 +16,7 @@ const INIT_KEY_SET = {
 
 const walletValue: IWalletContext = {
   keySet: { ...INIT_KEY_SET },
+  address: undefined,
   onLogin: () => undefined,
   onRandomAccount: () => undefined,
   walletState: {
@@ -29,6 +30,7 @@ export const WalletContext = React.createContext<IWalletContext>(walletValue);
 
 export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const [keySet, setKeySet] = React.useState<IKeySet>({ ...INIT_KEY_SET });
+  const [address, setAddress] = React.useState<string | undefined>(undefined);
 
   const walletState = React.useMemo(() => {
     const isLogged = keySet.prvKey && keySet.address;
@@ -45,6 +47,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     try {
       const prvKey = accountStorage.getAccount(password);
       const wallet = new Wallet(prvKey);
+      const address = wallet.address;
+      accountStorage.setAddress({ address });
+      setAddress(address);
       setKeySet({
         prvKey,
         address: wallet.address,
@@ -78,6 +83,10 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
 
   const onPreload = () => {
     const cipherText = accountStorage.getAccountCipher();
+    const address = accountStorage.getAddress();
+    if (address) {
+      setAddress(address);
+    }
     setKeySet(value => ({ ...value, isNeedCreate: !cipherText }));
 
     if (TEST_PASS_WORD && !!cipherText) {
@@ -93,8 +102,9 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       onLogin,
       onRandomAccount,
       walletState,
+      address,
     };
-  }, [keySet, walletState, onLogin, onRandomAccount]);
+  }, [keySet, walletState, onLogin, onRandomAccount, address]);
 
   return <WalletContext.Provider value={contextValues}>{children}</WalletContext.Provider>;
 };
