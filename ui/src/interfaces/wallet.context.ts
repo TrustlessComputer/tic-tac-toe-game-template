@@ -7,6 +7,7 @@ interface IKeySet {
 
 interface IWalletContext {
   keySet: IKeySet;
+  address: string | undefined;
   onLogin: (password: string) => void;
   onRandomAccount: (password: string) => void;
   walletState: {

@@ -9,7 +9,7 @@ export type IconSVGProps = {
   className?: string;
   maxWidth?: string;
   maxHeight?: string;
-  type?: string;
+  iconType?: 'fill' | 'stroke';
   color?: string;
   onClick?: (e: any) => void;
   useDarkmode?: boolean;
@@ -20,7 +20,7 @@ const IconSVG: FC<IconSVGProps> = ({
   className = '',
   maxWidth = '',
   maxHeight = '',
-  type = '',
+  iconType = undefined,
   color = '',
   onClick,
   useDarkmode = false,
@@ -32,7 +32,7 @@ const IconSVG: FC<IconSVGProps> = ({
       className={className}
       maxWidth={maxWidth}
       maxHeight={maxHeight}
-      type={type}
+      type={iconType}
       color={color}
       onClick={onClick}
     >

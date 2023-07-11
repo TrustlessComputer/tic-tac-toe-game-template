@@ -48,7 +48,7 @@ export const GameContext = React.createContext(initialValue);
 let intervalGameState: any | undefined = undefined;
 
 export const GameProvider = ({ children }: PropsWithChildren) => {
-  const { keySet } = useContext(WalletContext);
+  const { keySet, address } = useContext(WalletContext);
   const [loading, setLoading] = React.useState(false);
   const [loadedPlayerState, setLoadedPlayerState] = React.useState(false);
   const [squares, setSquares] = React.useState(INIT_ARRAY);
@@ -127,7 +127,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   };
 
   const updateSquares = async (ind: string | number) => {
-    if (squares[Number(ind)] || !gameInfo?.gameID || loading || turn !== gameInfo.myTurn) return;
+    if (squares[Number(ind)] || !gameInfo?.gameID || loading || turn !== gameInfo.myTurn || !counter) return;
     try {
       setLoading(true);
       setLocalState(value => ({ ...value, [ind]: gameInfo.myTurn }));
@@ -187,13 +187,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   }, [gameInfo?.gameID, turn]);
 
   useAsyncEffect(async () => {
-    if (!keySet.address) return;
+    if (!address) return;
     await throttleOnCheckPlayerState();
     const interval = setInterval(throttleOnCheckPlayerState, 4000);
     return () => {
       clearInterval(interval);
     };
-  }, [keySet.address]);
+  }, [address]);
 
   const contextValues = React.useMemo(() => {
     return {
