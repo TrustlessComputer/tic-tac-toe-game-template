@@ -38,6 +38,7 @@ const Account = styled.div`
   border-radius: ${px2rem(12)};
   .wrap-address {
     width: fit-content;
+    align-self: start;
   }
   .ic-copy {
     :hover {
