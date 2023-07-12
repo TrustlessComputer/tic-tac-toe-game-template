@@ -16,7 +16,7 @@ const BoxKey = styled.div`
   align-items: flex-start;
   padding: ${px2rem(16)} ${px2rem(20)};
   gap: ${px2rem(6)};
-  background-color: rgba(22, 26, 41, 0.5);
+  background-color: rgba(22, 26, 41, 0.8);
   border-radius: ${px2rem(8)};
   width: 100%;
   .key-text {
@@ -27,7 +27,7 @@ const BoxKey = styled.div`
     color: ${({ theme }) => theme['txt-highlight']};
   }
   .address {
-    color: ${({ theme }) => theme['txt-parallel']} !important;
+    color: white !important;
   }
   .prvkey-text {
     color: ${({ theme }) => theme['txt-error']} !important;

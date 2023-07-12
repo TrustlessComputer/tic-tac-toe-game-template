@@ -10,6 +10,7 @@ export const StyledButton = styled.button`
   justify-content: center;
   gap: 12px;
   text-transform: uppercase;
+  font-weight: 700;
 
   :hover {
     transform: scaleX(1.02);
