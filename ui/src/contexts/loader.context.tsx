@@ -16,7 +16,7 @@ const initialValue: ILoaderContext = {
 export const LoaderContext = React.createContext<ILoaderContext>(initialValue);
 
 export const LoaderProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
-  const [isLoading, setLoading] = React.useState(true);
+  const [isLoading, setLoading] = React.useState(false);
 
   const onSetLoading = (payload: ILoadingPayload) => {
     setLoading(payload.isLoading);
