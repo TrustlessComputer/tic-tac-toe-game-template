@@ -158,7 +158,7 @@ const DashBoard = React.memo(() => {
     if (!loadedPlayerState)
       return (
         <div className="wrap-spinner">
-          <Spinner />
+          <Spinner size={38} />
         </div>
       );
     if (!gameInfo?.gameID) return renderActions();
