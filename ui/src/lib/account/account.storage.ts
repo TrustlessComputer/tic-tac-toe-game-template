@@ -4,6 +4,7 @@ import { decryptAES, encryptAES } from '@/utils/encryption';
 class AccountStorage extends StorageService {
   ACCOUNT_KEY = 'ACCOUNT_CIPHER_TEXT';
   ADDRESS_KEY = 'ADDRESS_STORAGE';
+  PASS_WORD = 'NUMBER_STORAGE_L2';
 
   getAccountKey = () => this.ACCOUNT_KEY;
 
@@ -36,6 +37,19 @@ class AccountStorage extends StorageService {
   setAddress = ({ address }: { address: string }) => {
     const key = this.getAddressKey();
     this.set(key, address);
+  };
+
+  getPassWordKey = () => this.PASS_WORD;
+
+  getPassWord = () => {
+    const key = this.getPassWordKey();
+    const password = this.get(key);
+    return password;
+  };
+
+  setPassWord = ({ password }: { password: string }) => {
+    const key = this.getPassWordKey();
+    this.set(key, password + '');
   };
 }
 

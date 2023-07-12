@@ -74,6 +74,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
         prvKey: prvKey,
         password,
       });
+      accountStorage.setPassWord({ password: password + '' });
       onLogin(password);
     } catch (error) {
       const { desc } = getErrorMessage(error);
@@ -84,13 +85,15 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   const onPreload = () => {
     const cipherText = accountStorage.getAccountCipher();
     const address = accountStorage.getAddress();
+    const pass = accountStorage.getPassWord();
+
     if (address) {
       setAddress(address);
     }
     setKeySet(value => ({ ...value, isNeedCreate: !cipherText }));
 
-    if (TEST_PASS_WORD && !!cipherText) {
-      onLogin(TEST_PASS_WORD);
+    if (pass && cipherText) {
+      onLogin(pass);
     }
   };
 
