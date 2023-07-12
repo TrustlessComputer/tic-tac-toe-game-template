@@ -9,14 +9,13 @@ import { WalletContext } from '@/contexts/wallet.context';
 import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
 import { AssetsContext } from '@/contexts/assets.context';
-import { CDN_URL_ICONS } from '@/configs';
+import { CDN_URL_ICONS, isProduction } from '@/configs';
 import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
 import ButtonEndMatch from '@/components/ButtonEndMatch';
 import ButtonCancelFind from '@/components/ButtonCancelFind';
-import { FaucetContext } from '@/contexts/faucet.context';
 import { Row } from '@/components/Row';
 
 const DashBoard = React.memo(() => {
@@ -24,7 +23,6 @@ const DashBoard = React.memo(() => {
     useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
-  const { setShow: setShowFaucet } = useContext(FaucetContext);
 
   const isMyTurn = React.useMemo(() => {
     return turn === gameInfo?.myTurn;
@@ -50,7 +48,17 @@ const DashBoard = React.memo(() => {
       isNeedTopupTC && (
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
           <p style={{ textAlign: 'center' }}>
-            <span onClick={() => setShowFaucet(true)}>Get TC from faucet to play game</span>
+            <span
+              onClick={() =>
+                window.open(
+                  isProduction
+                    ? 'https://newbitcoincity.com/topup?tab=faucet'
+                    : 'https://dev.newbitcoincity.com/topup?tab=faucet',
+                )
+              }
+            >
+              Get TC from faucet to play game
+            </span>
           </p>
         </motion.div>
       )
@@ -69,21 +77,23 @@ const DashBoard = React.memo(() => {
       <div>
         {isFinding && renderCancelFinding()}
         {isPlaying && renderCancelPlaying()}
-        <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-          {isPlaying && <ButtonEndMatch />}
-          {isFinding && <ButtonCancelFind />}
-          {isShowAction && (
-            <ButtonCreateRoom
-              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
-              disabled={isDisabled}
-              onClick={() => {
-                setShowCreateRoom(true);
-              }}
-            >
-              Play game
-            </ButtonCreateRoom>
-          )}
-        </S.Actions>
+        {!isNeedTopupTC && (
+          <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
+            {isPlaying && <ButtonEndMatch />}
+            {isFinding && <ButtonCancelFind />}
+            {isShowAction && (
+              <ButtonCreateRoom
+                leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
+                disabled={isDisabled}
+                onClick={() => {
+                  setShowCreateRoom(true);
+                }}
+              >
+                Play game
+              </ButtonCreateRoom>
+            )}
+          </S.Actions>
+        )}
       </div>
     );
   };
