@@ -26,7 +26,7 @@ const PrivateKeyModal = React.memo(({ show, onClose }: IProps) => {
           </Text>
         </S.BoxKey>
         <S.BoxKey>
-          <Text>This is your private key</Text>
+          <Text className="address">This is your private key</Text>
           <Text size="16" color="txt-error" fontWeight="medium" className="key-text prvkey-text">
             {keySet.prvKey}
           </Text>
