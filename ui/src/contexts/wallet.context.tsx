@@ -56,6 +56,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
         password,
         isNeedCreate: false,
       });
+      accountStorage.setPassWord({ password: password });
     } catch (error) {
       const { desc } = getErrorMessage(error);
       toast.error(desc);
