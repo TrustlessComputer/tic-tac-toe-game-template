@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import Spinner from '@/components/Spinner';
+import Text from '@/components/Text';
+import px2rem from '@/utils/px2rem';
 
 const Container = styled.div<{ opacity: number }>`
   width: 100%;
@@ -11,14 +13,16 @@ const Container = styled.div<{ opacity: number }>`
   align-items: center;
   justify-content: center;
   .wrapper {
-    width: 250px;
-    height: 80px;
-    background: white;
+    position: relative;
+    flex-direction: column;
+    width: ${px2rem(220)};
+    height: ${px2rem(160)};
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4), 0 6px 6px rgba(0, 0, 0, 0.3);
+    background-color: rgba(22, 26, 41, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5), 0 6px 6px rgba(0, 0, 0, 0.3);
   }
 `;
 
@@ -28,7 +32,8 @@ const LoadingContainer = ({ loaded, opacity = 60 }: { loaded: boolean; opacity?:
   return (
     <Container opacity={opacity}>
       <div className="wrapper">
-        <Spinner />
+        <Spinner size={32} />
+        <Text className="mt-32">Loading...</Text>
       </div>
     </Container>
   );
