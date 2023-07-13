@@ -20,7 +20,7 @@ const Container = styled.div`
   ${MediaQueryBuilder('md', ContainerMD)}
 `;
 
-const GridContainerXL = css`
+const GridContainerXXL = css`
   max-width: 100%;
 `;
 
@@ -45,7 +45,7 @@ const GridContainer = styled.div`
   flex: 1;
   max-width: 38vw;
   min-width: 800px;
-  ${MediaQueryBuilder('xl', GridContainerXL)}
+  ${MediaQueryBuilder('xxl', GridContainerXXL)}
   ${MediaQueryBuilder('md', GridContainerMD)}
 `;
 

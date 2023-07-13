@@ -15,6 +15,7 @@ import { CDN_URL_ICONS } from '@/configs';
 import IconSVG from '@/components/IconSVG';
 import PrivateKeyModal from '@/components/PrivateKey';
 import { GameContext } from '@/contexts/game.context';
+import ImportWalletModal from '@/components/ButtonLogin/import.modal';
 
 const ButtonLogin = React.memo(() => {
   const { walletState, address, keySet } = useContext(WalletContext);
@@ -23,6 +24,7 @@ const ButtonLogin = React.memo(() => {
 
   const [showCreate, setShowCreate] = React.useState(false);
   const [showLogin, setShowLogin] = React.useState(false);
+  const [showImport, setShowImport] = React.useState(false);
   const [showPrv, setShowPrv] = React.useState(false);
 
   const onShowCreate = () => setShowCreate(true);
@@ -30,6 +32,9 @@ const ButtonLogin = React.memo(() => {
 
   const onShowLogin = () => setShowLogin(true);
   const onCloseLogin = () => setShowLogin(false);
+
+  const onShowImport = () => setShowImport(true);
+  const onCloseImport = () => setShowImport(false);
 
   return (
     <S.Container>
@@ -77,9 +82,14 @@ const ButtonLogin = React.memo(() => {
         </Text>
       )}
       {walletState.isNeedCreate && (
-        <Button onClick={onShowCreate} className="button-action">
-          Create wallet
-        </Button>
+        <Row className="login-actions" gap="32px">
+          <Button onClick={onShowImport} className="button-action" variants="outline">
+            Import key
+          </Button>
+          <Button onClick={onShowCreate} className="button-action">
+            Create wallet
+          </Button>
+        </Row>
       )}
       {walletState.isNeedLogin && (
         <Row className="login-actions" gap="32px">
@@ -94,6 +104,7 @@ const ButtonLogin = React.memo(() => {
       <CreateWalletModal show={showCreate} handleClose={onCloseCreate} />
       <LoginModal show={showLogin} handleClose={onCloseLogin} />
       <PrivateKeyModal show={showPrv} onClose={() => setShowPrv(false)} />
+      <ImportWalletModal show={showImport} handleClose={onCloseImport} />
     </S.Container>
   );
 });

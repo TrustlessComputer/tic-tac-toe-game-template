@@ -13,7 +13,7 @@ const isValidPrvKey = (secretKey: string) => {
     }
   } catch (error) {
     const { desc } = getErrorMessage(error);
-    toast.error(desc);
+    console.log(desc);
     isValid = false;
   }
 
