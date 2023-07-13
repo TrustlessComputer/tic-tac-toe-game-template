@@ -5,6 +5,8 @@ import React, { useContext } from 'react';
 import Button from '@/components/Button';
 import { WalletContext } from '@/contexts/wallet.context';
 import { Formik } from 'formik';
+import accountStorage from '@/lib/account/account.storage';
+import { isValidPrvKey } from '@/utils/validate';
 
 interface IProps {
   show: boolean;
@@ -14,14 +16,19 @@ interface IProps {
 interface IFormValue {
   pass: string;
   confirm: string;
+  prvKey: string;
 }
-const CreateWalletModal = ({ show, handleClose }: IProps) => {
-  const { onRandomAccount } = useContext(WalletContext);
+const ImportWalletModal = ({ show, handleClose }: IProps) => {
+  const { onLogin } = useContext(WalletContext);
 
   const validateForm = (values: IFormValue): Record<string, string> => {
     const errors: Record<string, string> = {};
 
-    if (!values.pass) {
+    if (!values.prvKey) {
+      errors.prvKey = 'Required.';
+    } else if (!isValidPrvKey(values.prvKey)) {
+      errors.prvKey = 'Incorrect private key.';
+    } else if (!values.pass) {
       errors.pass = 'Required.';
     } else if ((values.pass + '').length !== 4) {
       errors.pass = 'Enter 4-digit passcode.';
@@ -37,7 +44,11 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
   };
 
   const handleSubmit = async (payload: IFormValue): Promise<void> => {
-    onRandomAccount(payload.pass + '');
+    accountStorage.setAccount({
+      prvKey: payload.prvKey,
+      password: payload.pass + '',
+    });
+    onLogin(payload.pass + '');
     handleClose();
   };
 
@@ -48,12 +59,22 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
         initialValues={{
           pass: '',
           confirm: '',
+          prvKey: '',
         }}
         validate={validateForm}
         onSubmit={handleSubmit}
       >
         {({ values, errors, handleChange, handleSubmit }) => (
           <S.Content>
+            <Input
+              id="prvKey"
+              value={values.prvKey}
+              type="text"
+              placeholder="Enter private key"
+              onChange={handleChange}
+              errorMsg={errors.prvKey}
+            />
+            <S.Space />
             <Input
               id="pass"
               value={values.pass}
@@ -72,7 +93,7 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
               errorMsg={errors.confirm}
             />
             <Button type="submit" sizes="stretch" className="mt-24" onClick={handleSubmit}>
-              Create
+              Import
             </Button>
           </S.Content>
         )}
@@ -81,4 +102,4 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
   );
 };
 
-export default CreateWalletModal;
+export default ImportWalletModal;
