@@ -37,11 +37,11 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
     if (!values.pass) {
       errors.pass = 'Required.';
     } else if ((values.pass + '').length !== 4) {
-      errors.pass = 'Passcode require 4 characters.';
+      errors.pass = 'Enter 4-digit passcode.';
     } else if (!values.confirm) {
       errors.confirm = 'Required.';
     } else if ((values.confirm + '').length !== 4) {
-      errors.confirm = 'Passcode require 4 characters.';
+      errors.confirm = 'Enter 4-digit passcode.';
     } else if (values.pass && values.confirm && values.pass !== values.confirm) {
       errors.confirm = 'Incorrect passcode.';
     }
