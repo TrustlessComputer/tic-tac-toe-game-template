@@ -64,7 +64,7 @@ const LoginModal = ({ show, handleClose }: IProps) => {
                 value={values.password}
                 className="input"
                 autoFocus={true}
-                placeholder="Password"
+                placeholder="Enter 4-digit passcode"
                 errorMsg={errors.password && touched.password ? errors.password : undefined}
               />
               <Button disabled={isSubmitting} sizes="stretch" type="submit" className="mt-24">
