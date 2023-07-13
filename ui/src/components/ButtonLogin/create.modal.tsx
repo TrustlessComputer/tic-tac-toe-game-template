@@ -71,7 +71,7 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
               id="pass"
               value={values.pass}
               type="number"
-              placeholder="Enter passcode"
+              placeholder="Enter 4-digit passcode"
               onChange={handleChange}
               errorMsg={errors.pass}
             />
@@ -80,7 +80,7 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
               id="confirm"
               value={values.confirm}
               type="number"
-              placeholder="Confirm passcode"
+              placeholder="Confirm 4-digit passcode"
               onChange={handleChange}
               errorMsg={errors.confirm}
             />
