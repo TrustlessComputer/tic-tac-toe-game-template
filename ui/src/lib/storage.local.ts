@@ -7,14 +7,22 @@ export class StorageService {
 
   set(key: string, data: unknown) {
     const _key = this._getKey(key);
-    const dataStr = JSON.stringify(data);
-    return localStorage.setItem(_key, dataStr);
+    if (isJsonString(data)) {
+      const dataStr = JSON.stringify(data);
+      return localStorage.setItem(_key, dataStr);
+    } else {
+      return localStorage.setItem(_key, data as any);
+    }
   }
 
   get(key: string) {
     const _key = this._getKey(key);
     const dataStr = localStorage.getItem(_key);
-    return dataStr ? JSON.parse(dataStr) : undefined;
+    if (dataStr && isJsonString(dataStr)) {
+      return JSON.parse(dataStr);
+    } else {
+      return dataStr;
+    }
   }
 
   remove(key: string) {
@@ -38,6 +46,15 @@ export class StorageService {
   removeAll = () => {
     localStorage.clear();
   };
+}
+
+function isJsonString(str: any) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
 }
 
 const storageLocal = new StorageService();
