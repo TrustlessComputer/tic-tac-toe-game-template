@@ -13,7 +13,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
 
-  ${MediaQueryBuilder('xl', ContainerLG)}
+  ${MediaQueryBuilder('xxl', ContainerLG)}
 `;
 
 const GamePopupMD = css`
