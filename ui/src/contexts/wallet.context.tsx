@@ -119,7 +119,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     setKeySet(value => ({ ...value, isNeedCreate: !cipherText }));
 
     if (pass && cipherText) {
-      onLogin(pass);
+      onLogin(pass.toString());
     }
   };
 
