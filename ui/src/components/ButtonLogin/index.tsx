@@ -27,13 +27,19 @@ const ButtonLogin = React.memo(() => {
   const [showImport, setShowImport] = React.useState(false);
   const [showPrv, setShowPrv] = React.useState(false);
 
-  const onShowCreate = () => setShowCreate(true);
+  const onShowCreate = () => {
+    onCloseImport();
+    setShowCreate(true);
+  };
   const onCloseCreate = () => setShowCreate(false);
 
   const onShowLogin = () => setShowLogin(true);
   const onCloseLogin = () => setShowLogin(false);
 
-  const onShowImport = () => setShowImport(true);
+  const onShowImport = () => {
+    onCloseCreate();
+    setShowImport(true);
+  };
   const onCloseImport = () => setShowImport(false);
 
   return (
@@ -82,14 +88,9 @@ const ButtonLogin = React.memo(() => {
         </Text>
       )}
       {walletState.isNeedCreate && (
-        <Row className="login-actions" gap="32px">
-          <Button onClick={onShowImport} className="button-action" variants="outline">
-            Import key
-          </Button>
-          <Button onClick={onShowCreate} className="button-action">
-            Create wallet
-          </Button>
-        </Row>
+        <Button onClick={onShowCreate} className="button-action">
+          Create wallet
+        </Button>
       )}
       {walletState.isNeedLogin && (
         <Row className="login-actions" gap="32px">
@@ -101,10 +102,10 @@ const ButtonLogin = React.memo(() => {
           {/*</Button>*/}
         </Row>
       )}
-      <CreateWalletModal show={showCreate} handleClose={onCloseCreate} />
+      <CreateWalletModal show={showCreate} handleClose={onCloseCreate} openImport={onShowImport} />
       <LoginModal show={showLogin} handleClose={onCloseLogin} />
       <PrivateKeyModal show={showPrv} onClose={() => setShowPrv(false)} />
-      <ImportWalletModal show={showImport} handleClose={onCloseImport} />
+      <ImportWalletModal show={showImport} handleClose={onCloseImport} openCreate={onShowCreate} />
     </S.Container>
   );
 });

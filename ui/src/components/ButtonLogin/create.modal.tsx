@@ -5,17 +5,19 @@ import React, { useContext } from 'react';
 import Button from '@/components/Button';
 import { WalletContext } from '@/contexts/wallet.context';
 import { Formik } from 'formik';
+import Text from '@/components/Text';
 
 interface IProps {
   show: boolean;
   handleClose: () => void;
+  openImport: () => void;
 }
 
 interface IFormValue {
   pass: string;
   confirm: string;
 }
-const CreateWalletModal = ({ show, handleClose }: IProps) => {
+const CreateWalletModal = ({ show, handleClose, openImport }: IProps) => {
   const { onRandomAccount } = useContext(WalletContext);
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -74,6 +76,12 @@ const CreateWalletModal = ({ show, handleClose }: IProps) => {
             <Button type="submit" sizes="stretch" className="mt-24" onClick={handleSubmit}>
               Create
             </Button>
+            <Text className="mt-24" align="center">
+              You already have wallet.{' '}
+              <span className="import" onClick={openImport}>
+                Import private key.
+              </span>
+            </Text>
           </S.Content>
         )}
       </Formik>
