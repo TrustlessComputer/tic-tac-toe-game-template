@@ -7,10 +7,12 @@ import { WalletContext } from '@/contexts/wallet.context';
 import { Formik } from 'formik';
 import accountStorage from '@/lib/account/account.storage';
 import { isValidPrvKey } from '@/utils/validate';
+import Text from '@/components/Text';
 
 interface IProps {
   show: boolean;
   handleClose: () => void;
+  openCreate: () => void;
 }
 
 interface IFormValue {
@@ -18,7 +20,7 @@ interface IFormValue {
   confirm: string;
   prvKey: string;
 }
-const ImportWalletModal = ({ show, handleClose }: IProps) => {
+const ImportWalletModal = ({ show, handleClose, openCreate }: IProps) => {
   const { onLogin } = useContext(WalletContext);
 
   const validateForm = (values: IFormValue): Record<string, string> => {
@@ -95,6 +97,9 @@ const ImportWalletModal = ({ show, handleClose }: IProps) => {
             <Button type="submit" sizes="stretch" className="mt-24" onClick={handleSubmit}>
               Import
             </Button>
+            <Text className="mt-24 create" align="center" fontWeight="light" onClick={openCreate}>
+              Create new wallet
+            </Text>
           </S.Content>
         )}
       </Formik>
