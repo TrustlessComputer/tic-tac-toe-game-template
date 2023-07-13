@@ -61,7 +61,7 @@ const GameEnd = React.memo(() => {
               transition: { delay: 1.5, duration: 0.3 },
             }}
           >
-            <Button onClick={resetGame}>Reset Game</Button>
+            <Button onClick={resetGame}>Replay</Button>
           </motion.div>
         </motion.div>
       </GamePopup>
