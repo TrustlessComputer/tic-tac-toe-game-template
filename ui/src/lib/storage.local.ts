@@ -7,12 +7,7 @@ export class StorageService {
 
   set(key: string, data: unknown) {
     const _key = this._getKey(key);
-    if (isJsonString(data)) {
-      const dataStr = JSON.stringify(data);
-      return localStorage.setItem(_key, dataStr);
-    } else {
-      return localStorage.setItem(_key, data as any);
-    }
+    return localStorage.setItem(_key, data as any);
   }
 
   get(key: string) {
