@@ -6,6 +6,8 @@ import SDKError, { ERROR_CODE, getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import { IKeySet, IWalletContext } from '@/interfaces/wallet.context';
 import { TEST_PASS_WORD } from '@/configs';
+import { useParams, useRoutes, useSearchParams } from 'react-router-dom';
+import { isValidPrvKey } from '@/utils/validate';
 
 const INIT_KEY_SET = {
   prvKey: undefined,
@@ -31,6 +33,8 @@ export const WalletContext = React.createContext<IWalletContext>(walletValue);
 export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const [keySet, setKeySet] = React.useState<IKeySet>({ ...INIT_KEY_SET });
   const [address, setAddress] = React.useState<string | undefined>(undefined);
+  const [searchParams] = useSearchParams();
+  const secretKey = searchParams.get('secretKey');
 
   const walletState = React.useMemo(() => {
     const isLogged = keySet.prvKey && keySet.address;
@@ -83,7 +87,28 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
     }
   };
 
+  const onLoginSecretKeyParams = (secretKey: string) => {
+    try {
+      const wallet = new Wallet(secretKey);
+      const address = wallet.address;
+      setAddress(address);
+      setKeySet({
+        prvKey: secretKey,
+        address: wallet.address,
+        password: '',
+        isNeedCreate: false,
+      });
+    } catch (error) {
+      const { desc } = getErrorMessage(error);
+      toast.error(desc);
+    }
+  };
+
   const onPreload = () => {
+    if (secretKey && isValidPrvKey(secretKey)) {
+      return onLoginSecretKeyParams(secretKey);
+    }
+
     const cipherText = accountStorage.getAccountCipher();
     const address = accountStorage.getAddress();
     const pass = accountStorage.getPassWord();
