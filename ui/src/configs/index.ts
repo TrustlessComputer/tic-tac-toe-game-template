@@ -23,7 +23,7 @@ const CONTRACT_ADDRESS = isProduction
 const SLEEP_TIME = 500;
 const COUNTER_TIME = 500;
 
-const TOPUP_AMOUNT = 0.03 * 1e18;
+const TOPUP_AMOUNT = 0.00324 * 1e18;
 const MIN_AMOUNT = 0.003 * 1e18;
 
 const NUMBER_COLUMN = 15;
