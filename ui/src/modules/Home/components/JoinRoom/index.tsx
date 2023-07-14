@@ -11,7 +11,7 @@ import throttle from 'lodash/throttle';
 import Button from '@/components/Button';
 import toast from 'react-hot-toast';
 import { GAS_PRICE } from '@/configs';
-import { ZeroAddress } from 'ethers';
+import { ethers } from 'ethers';
 
 const JoinRoom = React.memo(() => {
   const [gameID, setGameID] = React.useState<string | undefined>(undefined);
@@ -24,6 +24,7 @@ const JoinRoom = React.memo(() => {
 
   const handleJoinRoom = async () => {
     if (!keySet.address || !contractSigner || !gameID) return;
+    const ZeroAddress: any = ethers.constants.AddressZero;
     try {
       setLoading(true);
       const gameMapper = await onGetGameMapper(gameID);

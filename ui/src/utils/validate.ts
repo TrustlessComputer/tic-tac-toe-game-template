@@ -1,6 +1,5 @@
 import { Wallet } from 'ethers';
 import { getErrorMessage } from '@/utils/error';
-import toast from 'react-hot-toast';
 
 const isValidPrvKey = (secretKey: string) => {
   let isValid = false;

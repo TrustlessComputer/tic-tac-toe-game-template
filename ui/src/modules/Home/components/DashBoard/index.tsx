@@ -89,7 +89,7 @@ const DashBoard = React.memo(() => {
                   setShowCreateRoom(true);
                 }}
               >
-                Play game
+                Play
               </ButtonCreateRoom>
             )}
           </S.Actions>
@@ -150,7 +150,7 @@ const DashBoard = React.memo(() => {
   const renderCancelFinding = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-        <p>Waiting for challenger...</p>
+        <p>Waiting for opponent to connect...</p>
       </motion.div>
     );
   };

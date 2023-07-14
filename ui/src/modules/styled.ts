@@ -88,4 +88,13 @@ const GamePopup = styled(motion.div)`
   ${MediaQueryBuilder('md', GamePopupMD)}
 `;
 
-export { Container, GamePopup, Banner };
+const Actions = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  gap: 32px;
+`;
+
+export { Container, GamePopup, Banner, Actions };

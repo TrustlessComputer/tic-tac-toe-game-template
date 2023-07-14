@@ -1,4 +1,7 @@
-import { isAddress, Wallet, ZeroAddress, Contract, JsonRpcProvider } from 'ethers';
+import { isAddress } from '@ethersproject/address';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { ethers, Wallet } from 'ethers';
+import { Contract } from '@ethersproject/contracts';
 
 const getWalletSigner = ({ privateKey, provider }: { privateKey: string; provider: JsonRpcProvider }) => {
   const wallet = new Wallet(privateKey);
@@ -16,7 +19,7 @@ const getContractSigner = ({
   provider: JsonRpcProvider;
   privateKey: string;
 }) => {
-  if (!isAddress(address) || address === ZeroAddress) {
+  if (!isAddress(address) || address === ethers.constants.AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
   const walletSigner = getWalletSigner({ privateKey, provider });

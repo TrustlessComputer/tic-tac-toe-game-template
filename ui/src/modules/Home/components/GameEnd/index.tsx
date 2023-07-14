@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '@/components/Button';
-import { GamePopup } from '@/modules/styled';
+import { Actions, GamePopup } from '@/modules/styled';
 import { GameContext } from '@/contexts/game.context';
 import { WinnerState } from '@/interfaces/useGetGames';
 import useRequestEndMatch from '@/hooks/useRequestEndMatch';
 import useAsyncEffect from 'use-async-effect';
 
 const GameEnd = React.memo(() => {
-  const { resetGame, gameInfo } = useContext(GameContext);
+  const { resetGame, gameInfo, setShowCreateRoom, playerState } = useContext(GameContext);
 
   const { onRequestEndMatch } = useRequestEndMatch();
 
@@ -54,15 +54,36 @@ const GameEnd = React.memo(() => {
               ? 'Win !! :)'
               : 'Lose !! :('}
           </motion.h5>
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{
-              scale: 1,
-              transition: { delay: 1.5, duration: 0.3 },
-            }}
-          >
-            <Button onClick={resetGame}>Replay</Button>
-          </motion.div>
+          <Actions>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{
+                scale: 1,
+                transition: { delay: 1.5, duration: 0.3 },
+              }}
+            >
+              <Button
+                disabled={!playerState.isAvailable}
+                onClick={() => {
+                  resetGame();
+                  setShowCreateRoom(true);
+                }}
+              >
+                Replay
+              </Button>
+            </motion.div>
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{
+                scale: 1,
+                transition: { delay: 1.5, duration: 0.3 },
+              }}
+            >
+              <Button onClick={resetGame} variants="outline">
+                Back
+              </Button>
+            </motion.div>
+          </Actions>
         </motion.div>
       </GamePopup>
     </AnimatePresence>

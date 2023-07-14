@@ -5,7 +5,7 @@ import { TC_NETWORK } from '@/configs';
 function useProvider() {
   return useMemo(() => {
     try {
-      return new ethers.JsonRpcProvider(TC_NETWORK.RPC);
+      return new ethers.providers.JsonRpcProvider(TC_NETWORK.RPC);
     } catch (error) {
       return undefined;
     }
