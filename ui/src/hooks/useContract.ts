@@ -13,7 +13,7 @@ function useContract<T extends Contract = Contract>(
   return useMemo(() => {
     if (!contractAddress || !ABI) return null;
     try {
-      const customProvider = new ethers.JsonRpcProvider(TC_NETWORK.RPC);
+      const customProvider = new ethers.providers.JsonRpcProvider(TC_NETWORK.RPC);
       return getContract(contractAddress, ABI, customProvider);
     } catch (error) {
       console.error('Failed to get contract', error);

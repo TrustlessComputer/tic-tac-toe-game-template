@@ -1,8 +1,10 @@
-import { Contract, ZeroAddress, isAddress } from 'ethers';
-import type { JsonRpcProvider } from 'ethers';
+import { JsonRpcProvider } from '@ethersproject/providers';
+import { Contract } from '@ethersproject/contracts';
+import { isAddress } from '@ethersproject/address';
+import { ethers } from 'ethers';
 
 export function getContract(address: string, ABI: any, provider: JsonRpcProvider): Contract {
-  if (!isAddress(address) || address === ZeroAddress) {
+  if (!isAddress(address) || address === ethers.constants.AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
 

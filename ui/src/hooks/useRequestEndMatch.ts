@@ -32,8 +32,8 @@ const useRequestEndMatch = () => {
         await tx.wait();
       }
     } catch (error) {
-      const { desc } = getErrorMessage(error);
-      toast.error(desc);
+      // const { desc } = getErrorMessage(error);
+      // toast.error(desc);
     } finally {
       await sleep(2000);
       setLoading({ isLoading: false });

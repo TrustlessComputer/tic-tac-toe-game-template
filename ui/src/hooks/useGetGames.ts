@@ -1,10 +1,10 @@
 import useContractSigner from './useContractSigner';
 import sleep from '@/utils/sleep';
-import { ZeroAddress } from 'ethers';
 import { COUNTER_TIME, SLEEP_TIME } from '@/configs';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import SDKError, { ERROR_CODE } from '@/utils/error';
 import useGetGameState from '@/hooks/useGetGameState';
+import { ethers } from 'ethers';
 
 const useGetGames = () => {
   const contractSigner = useContractSigner();
@@ -20,6 +20,7 @@ const useGetGames = () => {
     let games = undefined;
     let counter = 0;
     if (!contractSigner) return undefined;
+    const ZeroAddress: any = ethers.constants.AddressZero;
     try {
       // eslint-disable-next-line no-constant-condition
       while (true) {
