@@ -66,6 +66,7 @@ const DashBoard = React.memo(() => {
   };
 
   const renderActions = () => {
+    if (isNeedTopupTC) return undefined;
     const isFinding = !gameInfo?.gameID && playerState.isFinding;
     const isPlaying = !gameInfo?.gameID && playerState.isPlaying;
 
@@ -77,23 +78,21 @@ const DashBoard = React.memo(() => {
       <div>
         {isFinding && renderCancelFinding()}
         {isPlaying && renderCancelPlaying()}
-        {!isNeedTopupTC && (
-          <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
-            {isPlaying && <ButtonEndMatch />}
-            {isFinding && <ButtonCancelFind />}
-            {isShowAction && (
-              <ButtonCreateRoom
-                leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
-                disabled={isDisabled}
-                onClick={() => {
-                  setShowCreateRoom(true);
-                }}
-              >
-                Play
-              </ButtonCreateRoom>
-            )}
-          </S.Actions>
-        )}
+        <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
+          {isPlaying && <ButtonEndMatch />}
+          {isFinding && <ButtonCancelFind />}
+          {isShowAction && (
+            <ButtonCreateRoom
+              leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
+              disabled={isDisabled}
+              onClick={() => {
+                setShowCreateRoom(true);
+              }}
+            >
+              Play
+            </ButtonCreateRoom>
+          )}
+        </S.Actions>
       </div>
     );
   };
