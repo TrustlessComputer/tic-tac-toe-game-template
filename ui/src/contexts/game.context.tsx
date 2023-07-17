@@ -111,7 +111,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
-          const _timeLeft = Number(timeLeftCurrTurn || '0');
+          const timeLeftNumb = Number(timeLeftCurrTurn || '0');
+          console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
+          const _timeLeft = timeLeftNumb >= 30000 ? 30000 : timeLeftNumb;
           updateTime(_timeLeft);
         }
       }
