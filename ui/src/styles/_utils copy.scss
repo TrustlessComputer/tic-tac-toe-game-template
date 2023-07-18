@@ -1,0 +1,272 @@
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.divider {
+  background-color: rgb(255 255 255 / 10%);
+  height: 1px;
+  width: 100%;
+}
+
+.border-white {
+  border-color: #fff !important;
+}
+
+.mb-10 {
+  margin-bottom: 0.5rem;
+}
+
+.mb-12 {
+  margin-bottom: 0.75rem;
+}
+
+.mb-16 {
+  margin-bottom: 1rem;
+}
+
+.mb-24 {
+  margin-bottom: 1.5rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.image-marker {
+  width: 100vw;
+  height: 100vh;
+
+  > img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+#touch_button {
+  rect {
+    cursor: pointer;
+  }
+}
+
+.pointer-none {
+  pointer-events: none;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -moz-osx-font-smoothing: grayscale;
+  font-smoothing: antialiased !important;
+  -webkit-font-smoothing: antialiased !important;
+  font-size: 10px;
+
+  @include w-max(1023.98px) {
+    font-size: 8px;
+  }
+
+  @include min-pc {
+    @include font-calc(1200px, 1920px, 8px, 10px);
+  }
+
+  @include min-2k {
+    font-size: 11.5px;
+  }
+}
+
+main {
+  position: relative;
+}
+
+.top-100 {
+  transform: translateY(100px) !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.village-animation {
+  #Vector_431,
+  #Vector_433 {
+    animation: flicker 10s infinite;
+  }
+  #Vector_529 {
+    animation: flicker 10s infinite;
+    animation-delay: 1s;
+  }
+  #Vector_564,
+  #Vector_566 {
+    animation: flicker 10s infinite;
+    animation-delay: 1.5s;
+  }
+  #Vector_498,
+  #Vector_504 {
+    animation: flicker 10s infinite;
+    animation-delay: 0.5s;
+  }
+}
+
+.factory-animation {
+  #Group_1112 path,
+  #Group_1125 path,
+  #Group_1164 path,
+  #Group_1151 path,
+  #Group_1138 path {
+    animation: flicker 3s infinite alternate;
+  }
+}
+
+.perceptron-animation {
+  :is(#Group_902, #Group_904, #Group_934, #Group_935) path {
+    animation: blink 1s infinite alternate;
+  }
+
+  :is(#Group_903, #Group_932, #Group_936) path {
+    animation: blink 1.5s infinite alternate;
+  }
+
+  #Vector_1247 {
+    animation: blinkOpacity 1s infinite;
+  }
+}
+
+.fantasy-animation {
+  #Vector_651 {
+    transition: all ease;
+    animation: fantasyBlink 2.5s infinite ease;
+  }
+  #Vector_652 {
+    transition: all ease;
+    animation: fantasyBlink 2s infinite ease;
+  }
+}
+
+#dapps_valley {
+  // display: none;
+}
+
+@keyframes blinkOpacity {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    fill: #ff8d59;
+  }
+  50% {
+    fill: white;
+  }
+}
+@keyframes fantasyBlink {
+  0%,
+  100% {
+    // fill: white;
+    fill: currentColor;
+  }
+  50% {
+    fill: #2596be;
+  }
+}
+
+@keyframes flicker {
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 0.99;
+    fill: yellow;
+  }
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.4;
+    fill: #81c9a1;
+  }
+}
+
+// 104px 46.5px
+
+@keyframes tilt-shaking {
+  0% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// //1
+// #Group_1112 path {
+//   animation: colorChange 1s infinite alternate;
+// }
+
+// //2
+// #Group_1125 path {
+//   animation: colorChange 1s infinite alternate;
+//   animation-delay: 1s;
+// }
+// //3
+// #Group_1164 path {
+//   animation: colorChange 1s infinite alternate;
+//   animation-delay: 2s;
+// }
+
+// //4
+// #Group_1151 path {
+//   animation: colorChange 1s infinite alternate;
+//   animation-delay: 3s;
+// }
+
+// // 5
+// #Group_1138 path {
+//   animation: colorChange 1s infinite alternate;
+//   animation-delay: 4s;
+// }
+
+@keyframes colorChange {
+  from {
+    fill: #81c9a1;
+  }
+
+  to {
+    fill: yellow;
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.default-popover {
+  border: none !important;
+  filter: drop-shadow(0px 4px 20px rgba(0, 0, 0, 0.15));
+  border-radius: 8px !important;
+}
