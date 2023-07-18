@@ -13,6 +13,7 @@ export const BREAKPOINTS = {
 
 const fonts = {
   code: 'serif',
+  sora: `serif`,
 };
 
 const fontSizes = {

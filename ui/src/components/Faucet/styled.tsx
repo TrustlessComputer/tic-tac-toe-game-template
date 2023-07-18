@@ -13,8 +13,7 @@ const Content = styled.div`
 const BoxKey = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  padding: ${px2rem(16)} ${px2rem(20)};
+  padding: ${px2rem(16)} ${px2rem(15)};
   gap: ${px2rem(6)};
   background-color: rgba(22, 26, 41, 0.8);
   border-radius: ${px2rem(8)};
@@ -49,4 +48,14 @@ const Share = styled(TwitterShareButton)`
   }
 `;
 
-export { Content, Share, BoxKey };
+const Row = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
+  .wrapperIcon {
+    padding: 5px;
+  }
+`;
+export { Content, Share, BoxKey, Row };

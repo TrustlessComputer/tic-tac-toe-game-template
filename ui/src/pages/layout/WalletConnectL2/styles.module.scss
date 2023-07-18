@@ -1,0 +1,180 @@
+.btnConnect {
+  border: 1px solid var(--chakra-colors-gray-200);
+  border-radius: rem(100);
+  background: transparent !important;
+  padding: rem(20) rem(20) !important;
+
+  p {
+    font-family: var(--chakra-fonts-sora);
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: rem(24);
+    text-align: center;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+
+  &__light {
+    border: 1px solid #000000;
+    p {
+      color: #000000;
+    }
+  }
+}
+
+.connectedContainer {
+  position: relative;
+  .btnConnected {
+    padding: 0 !important;
+    background-color: transparent;
+    height: rem(40);
+
+    .avatar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 3px;
+      height: rem(40);
+      width: rem(40);
+      border-radius: rem(20);
+      border: 1px solid #E2E8F0;
+    }
+
+    & > span {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      justify-content: flex-end;
+      gap: rem(8);
+      .walletBalance {
+        font-style: normal;
+        font-weight: 600;
+        font-size: rem(16);
+        line-height: 16px;
+        color: #ffffff;
+        background-color: #E2E8F0;
+        padding: rem(8) rem(12);
+        border-radius: 100px;
+      }
+    }
+  }
+
+  &__light {
+    .btnConnected {
+      border: 1px solid #000000;
+
+      & > span {
+        .walletBalance {
+          color: #000000;
+        }
+      }
+    }
+  }
+
+  & > div {
+    width: 100%;
+    :global {
+      .chakra-menu__menu-list {
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        background-color: white;
+        padding: 0;
+        overflow: hidden;
+        .chakra-menu__menuitem {
+          padding: rem(20);
+          font-style: normal;
+          font-weight: 400;
+          font-size: rem(16);
+          line-height: 140%;
+          gap: rem(8);
+          align-items: center;
+          justify-content: space-between;
+
+          .icCopy {
+            max-width: 16px;
+          }
+
+          &:hover {
+            background-color: #EDF2F7;
+          }
+        }
+      }
+    }
+    .borderTop {
+      border-top: 1px solid #EDF2F7;
+    }
+  }
+}
+
+.contentMenuList {
+  padding: rem(16);
+  .wallet {
+    border-radius: rem(12);
+    gap: rem(12);
+    border: 1px solid #ececec;
+    padding-top: rem(12);
+    margin-bottom: rem(20);
+    overflow: hidden;
+
+    .ingame {
+      padding: rem(12);
+      .title {
+        font-size: rem(12);
+        font-weight: 500;
+        line-height: rem(17);
+        letter-spacing: 0em;
+        text-align: left;
+        color: #5b5b5b;
+      }
+
+      .wallet_address {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: rem(8);
+        margin-top: rem(8);
+      }
+
+      .address {
+        font-size: rem(14);
+        font-weight: 500;
+        line-height: rem(20);
+        letter-spacing: 0em;
+        text-align: left;
+        color: #000000;
+      }
+
+      .icCopy {
+        cursor: pointer;
+      }
+    }
+
+    .amount {
+      padding: rem(10) rem(16) rem(10) rem(16);
+      background: #f6f6f6;
+      p {
+        font-size: rem(16);
+        font-weight: 500;
+        line-height: rem(22);
+        letter-spacing: 0em;
+        text-align: left;
+        color: #1c1c1c;
+      }
+    }
+  }
+
+  .actions {
+    border-top: 1px solid #ececec;
+  }
+
+  .btnExport {
+    cursor: pointer;
+    margin-top: rem(20);
+    display: flex;
+    flex-direction: row;
+
+    :hover {
+      opacity: 0.8;
+    }
+  }
+}
