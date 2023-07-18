@@ -106,14 +106,14 @@ const Header = ({
           <div className={s.rightMenu}>
             <ul className={s.navBarRight}>
               <li className={s.navItem}>
-                <Link
+                <a
                   className={cs(s.navLink, {
                     [`${s.navLink__active}`]: activePath === 'story',
                   })}
-                  to={`${ROUTE_PATH.STORY}`}
+                  href={`${ROUTE_PATH.STORY}`}
                 >
                   Our Story
-                </Link>
+                </a>
               </li>
               {!xSMobileScreen && (
                 <div
