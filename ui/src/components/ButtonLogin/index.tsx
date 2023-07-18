@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import { WalletContext } from '@/contexts/wallet.context';
 import Button from '@/components/Button';
-import CreateWalletModal from '@/components/ButtonLogin/create.modal';
+// import CreateWalletModal from '@/components/ButtonLogin/create.modal';
+import CreateWalletModalNew from '@/components/CreateAccountL2/create.modal';
 import LoginModal from '@/components/ButtonLogin/create.login';
 import * as formatter from 'tc-formatter';
 import Text from '@/components/Text';
@@ -15,7 +16,8 @@ import { CDN_URL_ICONS } from '@/configs';
 import IconSVG from '@/components/IconSVG';
 import PrivateKeyModal from '@/components/PrivateKey';
 import { GameContext } from '@/contexts/game.context';
-import ImportWalletModal from '@/components/ButtonLogin/import.modal';
+// import ImportWalletModal from '@/components/ButtonLogin/import.modal';
+import ImportWalletModalNew from '@/components/ImportAccountL2/import.modal';
 
 const ButtonLogin = React.memo(() => {
   const { walletState, address, keySet } = useContext(WalletContext);
@@ -102,10 +104,14 @@ const ButtonLogin = React.memo(() => {
           {/*</Button>*/}
         </Row>
       )}
-      <CreateWalletModal show={showCreate} handleClose={onCloseCreate} openImport={onShowImport} />
+      {/* <CreateWalletModal show={showCreate} handleClose={onCloseCreate} openImport={onShowImport} /> */}
+      {showCreate && <CreateWalletModalNew show={showCreate} handleClose={onCloseCreate} openImport={onShowImport} />}
+
       <LoginModal show={showLogin} handleClose={onCloseLogin} />
       <PrivateKeyModal show={showPrv} onClose={() => setShowPrv(false)} />
-      <ImportWalletModal show={showImport} handleClose={onCloseImport} openCreate={onShowCreate} />
+
+      {/* <ImportWalletModal show={showImport} handleClose={onCloseImport} openCreate={onShowCreate} /> */}
+      {showImport && <ImportWalletModalNew show={showImport} handleClose={onCloseImport} openCreate={onShowCreate} />}
     </S.Container>
   );
 });

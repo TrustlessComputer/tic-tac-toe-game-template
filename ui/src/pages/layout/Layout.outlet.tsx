@@ -1,16 +1,20 @@
-import React from 'react';
 import { Outlet } from 'react-router-dom';
-import Meta from './Meta';
 import Footer from './Footer';
-import { Container, ContentWrapper } from '@/pages/layout';
+import Meta from './Meta';
+// import Header from './Header';
 import { useContentSize } from '@/hooks/useContentSize';
+import { Container, ContentWrapper } from '@/pages/layout';
+import Header from './Header2';
+import { WalletContext } from '@/contexts/wallet.context';
+import { useContext } from 'react';
 
 const LayoutOutlet = () => {
   const { height } = useContentSize();
+  const { walletState } = useContext(WalletContext);
   return (
     <>
       <Meta />
-      {/*<Header />*/}
+      <Header isWallet={!!walletState.isLogged} />
       <Container>
         <ContentWrapper style={{ minHeight: height }}>
           <Outlet />
