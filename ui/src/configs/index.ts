@@ -9,6 +9,7 @@ const GG_RECAPTCHA_SITE = ENVS.VITE_GG_RECAPTCHA_SITE;
 
 const CDN_URL = 'https://cdn.trustlesswallet.io';
 const CDN_URL_ICONS = CDN_URL + '/wallet-icons';
+const CDN_ICONS = CDN_URL + '/nbc/icons';
 
 const TC_NETWORK = {
   RPC: isProduction ? 'https://node.l2.trustless.computer/' : 'https://l2-node.regtest.trustless.computer/',
@@ -45,4 +46,5 @@ export {
   MIN_AMOUNT,
   GG_RECAPTCHA_SITE,
   GAS_PRICE,
+  CDN_ICONS,
 };
