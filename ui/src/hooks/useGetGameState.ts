@@ -23,6 +23,7 @@ const useGetGameState = () => {
       throw new Error('Get game state error.');
     }
     const gameState = await contractSigner.getGameState(gameID);
+
     const squares = flatten(gameState[0]).map((item: any) => {
       const value = item.toString();
       let data = IRole.Empty;

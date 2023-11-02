@@ -28,9 +28,11 @@ const useFindMatch = () => {
       const logs = receipt?.logs;
       if (logs && !!logs.length && logs[0]?.topics.length > 1) {
         const logData = logs[0];
+        console.log('_____logData', logData);
         const gameID = logData.topics[1] as any;
         setGameState(value => ({ ...value, gameID }));
         const games = await onWaitingGames(gameID);
+        console.log('games tra ra: ', games);
         if (games) {
           onJoinRoom({
             games,
