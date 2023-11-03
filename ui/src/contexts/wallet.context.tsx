@@ -111,7 +111,7 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
 
   useEffect(() => {
     window.addEventListener('message', function (event) {
-      if (event.origin === PARENT_PATH) {
+      if (event.origin.includes(PARENT_PATH)) {
         const data = event.data;
 
         if (typeof data === 'object') {
