@@ -220,7 +220,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     window.addEventListener('message', function (event) {
-      console.log({ event });
+      console.log('EVENT___', event);
+      console.log('Parent Path___', PARENT_PATH);
       if (event.origin === PARENT_PATH) {
         const data = event.data;
 
