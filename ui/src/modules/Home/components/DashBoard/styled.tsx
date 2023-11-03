@@ -13,7 +13,7 @@ const ContainerMD = css`
 `;
 
 const Container = styled.div`
-  margin-top: 120px;
+  // margin-top: 120px;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -56,6 +56,11 @@ const Container = styled.div`
 const BoxMD = css`
   min-width: unset;
   max-width: calc(100vw - 32px);
+
+  @media screen and (max-width: 600px) {
+    max-width: 100%;
+    width: 100%;
+  }
 `;
 
 const Box = styled.div`
@@ -109,6 +114,49 @@ const MatchContent = styled(motion.div)`
   gap: 24px;
   align-items: center;
   margin-top: 32px;
+
+  .alert-move {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 15px 30px 15px 30px;
+    animation: aniAlert 0.5s forwards;
+    background: #fff1bc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 99;
+
+    .rowFlex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    @keyframes aniAlert {
+      from {
+        top: -100%;
+      }
+      to {
+        top: 0;
+      }
+    }
+
+    span {
+      color: black;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+
+  @media screen and (max-width: 600px) {
+    .wrap-counter {
+      display: none;
+    }
+  }
 `;
 
 const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
@@ -127,6 +175,11 @@ const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`
   .square-box {
     width: 65px;
     height: 65px;
+
+    @media screen and (max-width: 600px) {
+      width: 40px;
+      height: 40px;
+    }
   }
 
   .address-highlight {

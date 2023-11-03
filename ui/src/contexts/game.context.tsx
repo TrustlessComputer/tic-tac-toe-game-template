@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext } from 'react';
+import React, { PropsWithChildren, useContext, useEffect } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameContext, IGameState } from '@/interfaces/game.context';
 import { NUMBER_COLUMN } from '@/configs';
@@ -17,6 +17,7 @@ import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks
 import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 import useCountDown from '@/hooks/useCountDown';
+import { PARENT_PATH } from '@/constants/parent-path';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -101,13 +102,29 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     });
   };
 
+  console.log('Game Info ====___', gameInfo);
+
   const _onGetGameState = async (gameID: string) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
+      console.log('gameState___', gameState);
       if (gameState) {
-        const { squares: newSquares, newTurn, timeLeftCurrTurn } = gameState;
+        const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData } = gameState;
         setSquares(newSquares);
         setTurn(newTurn);
+        if (gameInfo?.infoForWatcher && !gameInfo?.infoForWatcher.player1 && !gameInfo?.infoForWatcher.player2) {
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  infoForWatcher: {
+                    player1: matchData.player1,
+                    player2: matchData.player2,
+                  },
+                }
+              : undefined,
+          );
+        }
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
@@ -189,12 +206,50 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       }
       return;
     }
+    if (gameInfo?.winner !== '0') {
+      if (intervalGameState) {
+        clearGameState();
+      }
+      return;
+    }
     throttleOnGetGameState(gameInfo.gameID);
     intervalGameState = setInterval(() => throttleOnGetGameState(gameInfo.gameID), 1000);
     return () => {
       clearGameState();
     };
-  }, [gameInfo?.gameID, turn, squares]);
+  }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
+
+  useEffect(() => {
+    window.addEventListener('message', function (event) {
+      console.log({ event });
+      if (event.origin === PARENT_PATH) {
+        const data = event.data;
+
+        if (typeof data === 'object') {
+          switch (data?.status) {
+            case 'PLAY':
+              setShowCreateRoom(true);
+              break;
+            case 'WATCH':
+              setGameInfo({
+                myRolePlayer: Player.Empty,
+                winner: WinnerState.Playing,
+                myTurn: IRole.O,
+                competitorAddress: '',
+                gameID: data?.gameId,
+                infoForWatcher: {
+                  player1: '',
+                  player2: '',
+                },
+              });
+              break;
+            default:
+              break;
+          }
+        }
+      }
+    });
+  }, []);
 
   useAsyncEffect(async () => {
     if (!address) return;

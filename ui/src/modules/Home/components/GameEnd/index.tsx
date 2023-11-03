@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import Button from '@/components/Button';
 import { Actions, GamePopup } from '@/modules/styled';
@@ -6,6 +6,7 @@ import { GameContext } from '@/contexts/game.context';
 import { WinnerState } from '@/interfaces/useGetGames';
 import useRequestEndMatch from '@/hooks/useRequestEndMatch';
 import useAsyncEffect from 'use-async-effect';
+import { ellipsisCenter } from 'tc-formatter';
 
 const GameEnd = React.memo(() => {
   const { resetGame, gameInfo, setShowCreateRoom, playerState } = useContext(GameContext);
@@ -17,6 +18,26 @@ const GameEnd = React.memo(() => {
       await onRequestEndMatch(false);
     }
   };
+
+  const winnerAddress = useMemo(() => {
+    if (gameInfo?.infoForWatcher) {
+      if (gameInfo?.winner === '1') {
+        return gameInfo?.infoForWatcher?.player1;
+      }
+      if (gameInfo?.winner === '2') {
+        return gameInfo?.infoForWatcher?.player2;
+      }
+      return '';
+    }
+    return '';
+  }, [gameInfo]);
+
+  const isWatcher = useMemo(() => {
+    if (gameInfo?.infoForWatcher) {
+      return true;
+    }
+    return false;
+  }, [gameInfo]);
 
   useAsyncEffect(requestEndGame, []);
 
@@ -48,11 +69,16 @@ const GameEnd = React.memo(() => {
             }}
             style={{ fontSize: 32 }}
           >
-            {gameInfo?.winner === WinnerState.Draw
-              ? 'No Winner :/'
-              : gameInfo?.winner === (gameInfo?.myRolePlayer as any)
-              ? 'Win !! :)'
-              : 'Lose !! :('}
+            {isWatcher &&
+              (gameInfo?.winner === WinnerState.Draw
+                ? 'No Winner'
+                : `Winner is ${ellipsisCenter({ str: winnerAddress, limit: 5 })}`)}
+            {!isWatcher &&
+              (gameInfo?.winner === WinnerState.Draw
+                ? 'No Winner :/'
+                : gameInfo?.winner === (gameInfo?.myRolePlayer as any)
+                ? 'Win !! :)'
+                : 'Lose !! :(')}
           </motion.h5>
           <Actions>
             <motion.div

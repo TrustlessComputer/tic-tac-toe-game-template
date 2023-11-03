@@ -25,7 +25,8 @@ const GridContainerXXL = css`
 `;
 
 const GridContainerMD = css`
-  min-width: 170vw;
+  // min-width: 170vw;
+  min-width: 160vw;
   padding: 12px;
   border-width: 2px;
   border-radius: 24px;

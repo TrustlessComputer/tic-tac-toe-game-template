@@ -10,7 +10,7 @@ import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
 import { AssetsContext } from '@/contexts/assets.context';
 import { CDN_URL_ICONS, isProduction } from '@/configs';
-import BannerImage from '@/images/banner.png';
+// import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
 import IconSVG from '@/components/IconSVG';
@@ -37,7 +37,7 @@ const DashBoard = React.memo(() => {
 
   const renderCounter = () => {
     return (
-      <Text color={counter >= 10 ? 'txt-highlight' : 'txt-error'} fontWeight="semibold" size="24">
+      <Text color={counter >= 10 ? 'black' : 'txt-error'} fontWeight="semibold" size="24">
         {counter}s
       </Text>
     );
@@ -100,6 +100,14 @@ const DashBoard = React.memo(() => {
     if (!gameInfo) return;
     return (
       <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
+        {isMyTurn && (
+          <div className="alert-move">
+            <div className="rowFlex">
+              <span>Your turn</span>
+              {!loading ? renderCounter() : <Spinner size={22} />}
+            </div>
+          </div>
+        )}
         <S.PlayerBox isMyTurn={isMyTurn} turnColor={turnColor.myTurn}>
           <Row align="center" gap="24px">
             <div className="square-box">
@@ -107,8 +115,8 @@ const DashBoard = React.memo(() => {
             </div>
             <div>
               <Text fontWeight="semibold" size="24">
-                <span className="address-highlight">(YOU)</span>
-                {ellipsisCenter({ str: keySet.address, limit: 5 })}
+                {!gameInfo?.infoForWatcher && <span className="address-highlight">(YOU)</span>}
+                {ellipsisCenter({ str: gameInfo?.infoForWatcher?.player1 || keySet.address, limit: 5 })}
               </Text>
               {isMyTurn && (
                 <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
@@ -118,7 +126,7 @@ const DashBoard = React.memo(() => {
             </div>
           </Row>
           {loading && <Spinner size={24} />}
-          {isMyTurn && !loading && renderCounter()}
+          {isMyTurn && !loading && <div className="wrap-counter">{renderCounter()}</div>}
         </S.PlayerBox>
         <S.PlayerBox isMyTurn={!isMyTurn} turnColor={turnColor.yourTurn}>
           <Row align="center" gap="24px">
@@ -131,7 +139,7 @@ const DashBoard = React.memo(() => {
             </div>
             <div>
               <Text fontWeight="semibold" size="24">
-                {ellipsisCenter({ str: gameInfo.competitorAddress, limit: 5 })}
+                {ellipsisCenter({ str: gameInfo?.infoForWatcher?.player2 || gameInfo.competitorAddress, limit: 5 })}
               </Text>
               {!isMyTurn && (
                 <Text fontWeight="medium" size="14" className="moving-now" color="txt-secondary">
@@ -140,7 +148,7 @@ const DashBoard = React.memo(() => {
               )}
             </div>
           </Row>
-          {!isMyTurn && renderCounter()}
+          {!isMyTurn && <div className="wrap-counter">{renderCounter()}</div>}
         </S.PlayerBox>
       </S.MatchContent>
     );
@@ -176,7 +184,7 @@ const DashBoard = React.memo(() => {
 
   return (
     <S.Container>
-      <S.Banner src={BannerImage} />
+      {/* <S.Banner src={BannerImage} /> */}
       <S.Box>
         <ButtonLogin />
         {renderWarning()}

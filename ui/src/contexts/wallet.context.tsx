@@ -1,13 +1,13 @@
-import React, { PropsWithChildren, useMemo } from 'react';
+import React, { PropsWithChildren, useEffect, useMemo } from 'react';
 import accountStorage from '@/lib/account/account.storage';
 import { ethers, Wallet } from 'ethers';
 import CryptoJS from 'crypto-js';
 import SDKError, { ERROR_CODE, getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
 import { IKeySet, IWalletContext } from '@/interfaces/wallet.context';
-import { TEST_PASS_WORD } from '@/configs';
-import { useParams, useRoutes, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { isValidPrvKey } from '@/utils/validate';
+import { PARENT_PATH } from '@/constants/parent-path';
 
 const INIT_KEY_SET = {
   prvKey: undefined,
@@ -30,14 +30,19 @@ const walletValue: IWalletContext = {
 
 export const WalletContext = React.createContext<IWalletContext>(walletValue);
 
+const DEFAULT_KEY_STORAGE = ['ACCOUNT_CIPHER_TEXT', 'ADDRESS_STORAGE', 'NUMBER_STORAGE_L2'];
+
 export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsWithChildren): React.ReactElement => {
   const [keySet, setKeySet] = React.useState<IKeySet>({ ...INIT_KEY_SET });
   const [address, setAddress] = React.useState<string | undefined>(undefined);
   const [searchParams] = useSearchParams();
   const secretKey = searchParams.get('secretKey');
 
+  console.log({ keySet });
+
   const walletState = React.useMemo(() => {
     const isLogged = keySet.prvKey && keySet.address;
+    console.log({ isLogged });
     const isNeedCreate = !isLogged && keySet.isNeedCreate;
     const isNeedLogin = !isLogged && !isNeedCreate;
     return {
@@ -103,6 +108,24 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
       toast.error(desc);
     }
   };
+
+  useEffect(() => {
+    window.addEventListener('message', function (event) {
+      if (event.origin === PARENT_PATH) {
+        const data = event.data;
+
+        if (typeof data === 'object') {
+          console.log('data?.auth___', data?.auth);
+          for (let key in data?.auth) {
+            if (DEFAULT_KEY_STORAGE.includes(key)) {
+              localStorage.setItem(key, data.auth[key]);
+            }
+          }
+          onPreload();
+        }
+      }
+    });
+  }, []);
 
   const onPreload = () => {
     if (secretKey && isValidPrvKey(secretKey)) {

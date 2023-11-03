@@ -22,7 +22,7 @@ function renderChunks(deps) {
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'VITE_');
   return {
-    server: { hmr: true, port: 3000 },
+    server: { hmr: true, port: 3001, host: '0.0.0.0' },
     base: env.VITE_PUBLIC_URL,
     plugins: [
       visualizer({

@@ -40,6 +40,10 @@ export const ThemedGlobalStyle = createGlobalStyle`
       src: local("GoogleSans"), url("../fonts/GoogleSans-Regular.otf") format("opentype");
     }
 
+    @media screen and (max-width: 600px) {
+      font-size: 12px;
+    }
+
 
     @media screen and (min-width: 1920px) {
       font-size: 18px;

@@ -12,8 +12,8 @@ import CopyIcon from '@/components/Icons/Copy';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import { Row } from '@/components/Row';
 import ToolTip from '@/components/Tooltip';
-import { CDN_URL_ICONS } from '@/configs';
-import IconSVG from '@/components/IconSVG';
+// import { CDN_URL_ICONS } from '@/configs';
+// import IconSVG from '@/components/IconSVG';
 import PrivateKeyModal from '@/components/PrivateKey';
 import { GameContext } from '@/contexts/game.context';
 // import ImportWalletModal from '@/components/ButtonLogin/import.modal';
@@ -56,7 +56,7 @@ const ButtonLogin = React.memo(() => {
             <ToolTip unwrapElement={<CopyIcon maxWidth="18" className="ic-copy" content={address} />} width={300}>
               <Text size="14">Copy TC address</Text>
             </ToolTip>
-            {keySet.prvKey && (
+            {/* {keySet.prvKey && (
               <ToolTip
                 unwrapElement={
                   <IconSVG
@@ -70,7 +70,7 @@ const ButtonLogin = React.memo(() => {
               >
                 <Text size="14">Export TC private key</Text>
               </ToolTip>
-            )}
+            )} */}
           </Row>
           <Text
             style={{ minWidth: 150 }}

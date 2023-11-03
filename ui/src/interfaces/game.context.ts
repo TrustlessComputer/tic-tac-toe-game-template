@@ -13,6 +13,11 @@ export interface IGameState {
   winner: WinnerState;
   myRolePlayer: Player;
   competitorAddress: string;
+  infoForWatcher?: {
+    player1: string;
+    player2: string;
+    winner?: string;
+  };
 }
 
 export interface ILocalState {
