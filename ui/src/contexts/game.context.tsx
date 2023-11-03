@@ -218,6 +218,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     };
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
 
+  console.log('PARENT_PATH <<<<<', PARENT_PATH);
+
   useEffect(() => {
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
