@@ -17,6 +17,8 @@ const TC_NETWORK = {
   Name: isProduction ? 'NOS' : 'NOS (Test)',
 };
 
+const PARENT_PATH = isProduction ? 'https://dev.newbitcoincity.com/tic-tac-toe/' : 'http://localhost:3000/';
+
 const CONTRACT_ADDRESS = isProduction
   ? '0x037B7eB2B5c795Ad7E20670A792934a3DCa4b829'
   : '0x9f60A29621f5Eb8B07F8dD96069933CAAff42361';
@@ -47,4 +49,5 @@ export {
   GG_RECAPTCHA_SITE,
   GAS_PRICE,
   CDN_ICONS,
+  PARENT_PATH,
 };

@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useContext, useEffect } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameContext, IGameState } from '@/interfaces/game.context';
-import { NUMBER_COLUMN } from '@/configs';
+import { NUMBER_COLUMN, PARENT_PATH } from '@/configs';
 import CreateRoom from '@/modules/Home/components/CreateRoom';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import { WalletContext } from '@/contexts/wallet.context';
@@ -17,7 +17,6 @@ import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks
 import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 import useCountDown from '@/hooks/useCountDown';
-import { PARENT_PATH } from '@/constants/parent-path';
 
 const initialValue: IGameContext = {
   squares: [],

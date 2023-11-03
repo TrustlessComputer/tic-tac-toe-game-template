@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { IKeySet, IWalletContext } from '@/interfaces/wallet.context';
 import { useSearchParams } from 'react-router-dom';
 import { isValidPrvKey } from '@/utils/validate';
-import { PARENT_PATH } from '@/constants/parent-path';
+import { PARENT_PATH } from '@/configs';
 
 const INIT_KEY_SET = {
   prvKey: undefined,
