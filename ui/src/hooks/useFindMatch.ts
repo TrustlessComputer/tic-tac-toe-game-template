@@ -61,8 +61,9 @@ const useFindMatch = () => {
       const receipt = await provider.getTransactionReceipt(hash);
       console.log('receipt___', receipt);
       const logs = receipt?.logs;
+
       if (logs && !!logs.length && logs[0]?.topics.length > 1) {
-        const logData = logs[0];
+        const logData = logs[2];
         console.log('_____logData', logData);
         const gameID = logData.topics[1] as any;
         setGameState(value => ({ ...value, gameID }));
