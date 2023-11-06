@@ -24,7 +24,7 @@ const useGetGameState = () => {
     }
     const gameState = await contractSigner.getGameState(gameID);
 
-    console.log('gameState__', gameState);
+    // console.log('gameState__', gameState);
 
     const squares = flatten(gameState[0]).map((item: any) => {
       const value = item.toString();
@@ -56,6 +56,7 @@ const useGetGameState = () => {
 
     const isMatchEnd = new BigNumber(timeLeftCurrTurn).lt(0);
     console.log('isMatchEnd__', isMatchEnd);
+
     if (isMatchEnd && matchData.winner === WinnerState.Playing) {
       matchData = {
         ...matchData,

@@ -109,6 +109,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
       console.log('gameState___', gameState);
+      console.log('winner___', winner);
       if (gameState) {
         const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData } = gameState;
         setSquares(newSquares);
