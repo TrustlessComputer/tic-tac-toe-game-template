@@ -23,12 +23,16 @@ const useRequestEndMatch = () => {
       }
       if (!contractSigner || !keySet.address) return;
       const matchID = await onGetMatchID();
+      console.log('matchID __=>>', Number(matchID));
       if (matchID) {
         const gameState = await onGetGameState(matchID);
+        console.log('gameState__', gameState);
         if (!gameState?.isMatchEnd) {
           throw new Error('Please waiting to time end.');
         }
+        console.log('runnnnn');
         const tx = await contractSigner.affirmTimeOut(matchID);
+        console.log('Cancel match ____', tx);
         await tx.wait();
       }
     } catch (error) {

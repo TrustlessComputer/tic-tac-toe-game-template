@@ -10,10 +10,13 @@ const useRequestEndFinding = () => {
   const { keySet } = useContext(WalletContext);
   const { setLoading } = useContext(LoaderContext);
   const onRequestEndFinding = async () => {
+    console.log('Start Cancel Find');
     try {
       setLoading({ isLoading: true });
       if (!contractSigner || !keySet.address) return;
+
       const tx = await contractSigner.cancelMatch();
+      console.log('Cancel match ____', tx);
       await tx.wait();
     } catch (error) {
       const { desc } = getErrorMessage(error);
