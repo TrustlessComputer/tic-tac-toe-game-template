@@ -165,6 +165,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           moveIdx: ind,
           myRolePlayer: gameInfo.myRolePlayer,
         })) || {};
+
+      console.log('aabb__', games);
       if (games?.winner && games?.winner !== WinnerState.Playing) {
         setGameInfo(value =>
           value
@@ -219,8 +221,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       clearGameState();
     };
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
-
-  console.log('PARENT_PATH <<<<<', PARENT_PATH);
 
   useEffect(() => {
     window.addEventListener('message', function (event) {
