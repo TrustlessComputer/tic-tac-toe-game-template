@@ -2,8 +2,8 @@ import useContractSigner from '@/hooks/useContractSigner';
 import { useContext } from 'react';
 import { WalletContext } from '@/contexts/wallet.context';
 import { LoaderContext } from '@/contexts/loader.context';
-import { getErrorMessage } from '@/utils/error';
-import toast from 'react-hot-toast';
+// import { getErrorMessage } from '@/utils/error';
+// import toast from 'react-hot-toast';
 import sleep from '@/utils/sleep';
 import useGetPlayingMatchID from '@/hooks/useGetPlayingMatchID';
 import useGetGameState from '@/hooks/useGetGameState';
@@ -26,7 +26,7 @@ const useRequestEndMatch = () => {
       console.log('matchID __=>>', Number(matchID));
       if (matchID) {
         const gameState = await onGetGameState(matchID);
-        console.log('gameState__', gameState);
+        // console.log('gameState__', gameState);
         if (!gameState?.isMatchEnd) {
           throw new Error('Please waiting to time end.');
         }

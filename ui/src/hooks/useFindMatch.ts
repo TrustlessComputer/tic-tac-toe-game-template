@@ -9,7 +9,7 @@ import { ethers } from 'ethers';
 import useContractERC20 from './useContractERC20';
 import { CONTRACT_ADDRESS } from '@/configs';
 
-const hardValue = '0.000001';
+// const hardValue = '0.000001';
 
 const useFindMatch = () => {
   const [gameState, setGameState] = React.useState({
@@ -22,15 +22,17 @@ const useFindMatch = () => {
   const provider = useProvider();
   const { onWaitingGames } = useGetGames();
 
-  const { onJoinRoom, setShowCreateRoom } = useContext(GameContext);
+  const { onJoinRoom, setShowCreateRoom, roomInfo } = useContext(GameContext);
 
   const onFindMatch = async () => {
     if (!contractSigner || !provider || !contractErc20Signer) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
 
-      console.log('CONTRACT_ADDRESS___', CONTRACT_ADDRESS);
-      const rs: any = await contractErc20Signer.approve(CONTRACT_ADDRESS, ethers.utils.parseEther(hardValue));
+      const rs: any = await contractErc20Signer.approve(
+        CONTRACT_ADDRESS,
+        ethers.utils.parseEther(roomInfo?.reward || '0.00001'),
+      );
 
       console.log('Rs Approve: ', rs, contractErc20Signer);
 
@@ -49,14 +51,16 @@ const useFindMatch = () => {
       // End cal
 
       const tx = await contractSigner.findMatch(
-        '0x427CdB1BbC75a540997082D1D05aAa9064d8de16',
-        ethers.utils.parseEther(hardValue),
-        { gasLimit: '500000' },
+        roomInfo?.roomId || '0x5d9980532e47beae4a36db3ffc4d447c0357c00f',
+        ethers.utils.parseEther(roomInfo?.reward || '0.00001'),
+        {
+          gasLimit: '500000',
+        },
       );
       console.log('TX before: ', tx);
       // const tx = await contractSigner.findMatch({ gasLimit: '500000' });
       await tx.wait();
-      console.log('TX after: ', tx);
+
       const hash = Object(tx).hash;
       const receipt = await provider.getTransactionReceipt(hash);
       console.log('receipt___', receipt);

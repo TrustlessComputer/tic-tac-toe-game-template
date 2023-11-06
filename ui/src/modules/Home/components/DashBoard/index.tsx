@@ -100,7 +100,7 @@ const DashBoard = React.memo(() => {
     if (!gameInfo) return;
     return (
       <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
-        {isMyTurn && (
+        {isMyTurn && !gameInfo?.infoForWatcher && (
           <div className="alert-move">
             <div className="rowFlex">
               <span>Your turn</span>

@@ -230,13 +230,15 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       if (event.origin.includes(PARENT_PATH)) {
         const data = event.data;
 
+        console.log('EVENT___', event.data);
+
         if (typeof data === 'object') {
           switch (data?.status) {
             case 'PLAY':
               setShowCreateRoom(true);
               setRoomInfo({
-                roomId: data?.gameId,
-                reward: data?.reward,
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
               });
               break;
             case 'WATCH':

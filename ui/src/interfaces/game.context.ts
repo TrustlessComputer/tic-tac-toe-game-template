@@ -26,7 +26,7 @@ export interface ILocalState {
 
 export interface IRoomInfoState {
   roomId: string;
-  reward: number;
+  reward: string;
 }
 
 export interface IGameContext {
