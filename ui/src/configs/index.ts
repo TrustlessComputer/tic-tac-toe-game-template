@@ -20,8 +20,11 @@ const TC_NETWORK = {
 const PARENT_PATH = isProduction ? 'https://alpha.dev.newbitcoincity.com/' : 'https://alpha.dev.newbitcoincity.com/';
 
 const CONTRACT_ADDRESS = isProduction
-  ? '0x037B7eB2B5c795Ad7E20670A792934a3DCa4b829'
-  : '0x9f60A29621f5Eb8B07F8dD96069933CAAff42361';
+  ? '0xe840E9648f9C4fe419f667152d55711e86698Bc9'
+  : '0xe840E9648f9C4fe419f667152d55711e86698Bc9';
+const CONTRACT_ERC_20 = isProduction
+  ? '0x1d45c32C97707C916b350042CEAC2164fb6D00A1'
+  : '0x1d45c32C97707C916b350042CEAC2164fb6D00A1';
 
 const SLEEP_TIME = 500;
 const COUNTER_TIME = 500;
@@ -50,4 +53,5 @@ export {
   GAS_PRICE,
   CDN_ICONS,
   PARENT_PATH,
+  CONTRACT_ERC_20,
 };

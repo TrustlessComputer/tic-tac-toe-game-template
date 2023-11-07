@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, useContext, useEffect } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
-import { IGameContext, IGameState } from '@/interfaces/game.context';
+import { IGameContext, IGameState, IRoomInfoState } from '@/interfaces/game.context';
 import { NUMBER_COLUMN, PARENT_PATH } from '@/configs';
 import CreateRoom from '@/modules/Home/components/CreateRoom';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
@@ -32,6 +32,7 @@ const initialValue: IGameContext = {
   showJoinRoom: false,
   showCreateRoom: false,
   showAutoMatchRoom: false,
+  roomInfo: undefined,
 
   resetGame: () => undefined,
   setShowCreateRoom: () => undefined,
@@ -70,6 +71,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [showAutoMatchRoom, setShowAutoMatchRoom] = React.useState(false);
 
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
+  const [roomInfo, setRoomInfo] = useState<IRoomInfoState | undefined>(undefined);
 
   const resetGame = () => {
     setSquares(INIT_ARRAY);
@@ -107,6 +109,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
       console.log('gameState___', gameState);
+      console.log('winner___', winner);
       if (gameState) {
         const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData } = gameState;
         setSquares(newSquares);
@@ -163,6 +166,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           moveIdx: ind,
           myRolePlayer: gameInfo.myRolePlayer,
         })) || {};
+
+      console.log('aabb__', games);
       if (games?.winner && games?.winner !== WinnerState.Playing) {
         setGameInfo(value =>
           value
@@ -218,19 +223,23 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     };
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
 
-  console.log('PARENT_PATH <<<<<', PARENT_PATH);
-
   useEffect(() => {
     window.addEventListener('message', function (event) {
-      console.log('EVENT___', event);
-      console.log('Parent Path___', PARENT_PATH);
+      // console.log('EVENT___', event);
+      // console.log('Parent Path___', PARENT_PATH);
       if (event.origin.includes(PARENT_PATH)) {
         const data = event.data;
+
+        console.log('EVENT___', event.data);
 
         if (typeof data === 'object') {
           switch (data?.status) {
             case 'PLAY':
               setShowCreateRoom(true);
+              setRoomInfo({
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
+              });
               break;
             case 'WATCH':
               setGameInfo({
@@ -282,6 +291,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       loadedPlayerState,
       counter,
       lastMoveIndex: lastMove,
+      roomInfo,
     };
   }, [
     squares,
@@ -302,6 +312,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setShowAutoMatchRoom,
     counter,
     lastMove,
+    roomInfo,
   ]);
 
   return (

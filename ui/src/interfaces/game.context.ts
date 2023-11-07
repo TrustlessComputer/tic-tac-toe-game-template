@@ -24,10 +24,16 @@ export interface ILocalState {
   [key: number]: IRole;
 }
 
+export interface IRoomInfoState {
+  roomId: string;
+  reward: string;
+}
+
 export interface IGameContext {
   squares: IRole[];
   loading: boolean;
   turn: IRole;
+  roomInfo?: IRoomInfoState | undefined;
   gameInfo: IGameState | undefined;
   localState: ILocalState;
   playerState: IGetPlayerState;

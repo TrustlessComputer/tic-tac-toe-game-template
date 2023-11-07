@@ -67,7 +67,7 @@ const GameEnd = React.memo(() => {
                 duration: 0.7,
               },
             }}
-            style={{ fontSize: 32 }}
+            style={{ fontSize: 23 }}
           >
             {isWatcher &&
               (gameInfo?.winner === WinnerState.Draw
@@ -95,7 +95,7 @@ const GameEnd = React.memo(() => {
                   setShowCreateRoom(true);
                 }}
               >
-                Replay
+                {isWatcher ? 'Play game' : 'Replay'}
               </Button>
             </motion.div>
             <motion.div

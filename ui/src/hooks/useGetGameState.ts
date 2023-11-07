@@ -24,6 +24,8 @@ const useGetGameState = () => {
     }
     const gameState = await contractSigner.getGameState(gameID);
 
+    console.log('gameState__', gameState);
+
     const squares = flatten(gameState[0]).map((item: any) => {
       const value = item.toString();
       let data = IRole.Empty;
@@ -46,10 +48,15 @@ const useGetGameState = () => {
 
     const turn = turnMapper(gameState[1]);
     const timeLeftCurrTurn = gameState[2].toString(); // seconds
+    console.log('timeLeftCurrTurn___', timeLeftCurrTurn);
 
     let matchData = gamesBuilder(gameState[4]);
 
+    console.log('matchData____', matchData);
+
     const isMatchEnd = new BigNumber(timeLeftCurrTurn).lt(0);
+    console.log('isMatchEnd__', isMatchEnd);
+
     if (isMatchEnd && matchData.winner === WinnerState.Playing) {
       matchData = {
         ...matchData,

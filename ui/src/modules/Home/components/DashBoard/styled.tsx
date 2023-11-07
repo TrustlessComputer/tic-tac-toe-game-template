@@ -131,9 +131,10 @@ const MatchContent = styled(motion.div)`
 
     .rowFlex {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       flex-wrap: nowrap;
+      gap: 10px;
     }
 
     @keyframes aniAlert {
