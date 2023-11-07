@@ -153,11 +153,11 @@ const MatchContent = styled(motion.div)`
     }
   }
 
-  @media screen and (max-width: 600px) {
-    .wrap-counter {
-      display: none;
-    }
-  }
+  // @media screen and (max-width: 600px) {
+  //   .wrap-counter {
+  //     display: none;
+  //   }
+  // }
 `;
 
 const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`

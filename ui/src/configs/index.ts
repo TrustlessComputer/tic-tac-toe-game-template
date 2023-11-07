@@ -20,8 +20,8 @@ const TC_NETWORK = {
 const PARENT_PATH = isProduction ? 'https://alpha.dev.newbitcoincity.com/' : 'https://alpha.dev.newbitcoincity.com/';
 
 const CONTRACT_ADDRESS = isProduction
-  ? '0xe840E9648f9C4fe419f667152d55711e86698Bc9'
-  : '0xe840E9648f9C4fe419f667152d55711e86698Bc9';
+  ? '0x5c194B1a58B60354969752628b86eee4617F17F3'
+  : '0x5c194B1a58B60354969752628b86eee4617F17F3';
 const CONTRACT_ERC_20 = isProduction
   ? '0x1d45c32C97707C916b350042CEAC2164fb6D00A1'
   : '0x1d45c32C97707C916b350042CEAC2164fb6D00A1';

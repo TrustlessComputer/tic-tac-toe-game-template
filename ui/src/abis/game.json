@@ -291,6 +291,12 @@
         "internalType": "address",
         "name": "player",
         "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "alpha",
+        "type": "address"
       }
     ],
     "name": "MatchCancellation",
@@ -309,6 +315,12 @@
         "indexed": true,
         "internalType": "address",
         "name": "player",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "alpha",
         "type": "address"
       }
     ],
@@ -341,6 +353,12 @@
         "internalType": "enum TurnBasedGame.MatchResult",
         "name": "result",
         "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "alpha",
+        "type": "address"
       }
     ],
     "name": "MatchEnd",
@@ -365,6 +383,12 @@
         "indexed": true,
         "internalType": "address",
         "name": "player2",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "alpha",
         "type": "address"
       }
     ],
@@ -726,12 +750,223 @@
         "type": "address"
       }
     ],
-    "name": "getAlphaPlayingMatches",
+    "name": "getAlphaPendingMatchIds",
     "outputs": [
       {
         "internalType": "uint256[]",
         "name": "",
         "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_alpha",
+        "type": "address"
+      }
+    ],
+    "name": "getAlphaPendingMatches",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnDuration",
+            "type": "uint40"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "feePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "alphaFeePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "alpha",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_alpha",
+        "type": "address"
+      }
+    ],
+    "name": "getAlphaPlayingMatchIds",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_alpha",
+        "type": "address"
+      }
+    ],
+    "name": "getAlphaPlayingMatches",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnDuration",
+            "type": "uint40"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "feePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "alphaFeePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "alpha",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData[]",
+        "name": "",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -856,12 +1091,224 @@
   {
     "inputs": [
       {
+        "internalType": "uint256[]",
+        "name": "matchIds",
+        "type": "uint256[]"
+      }
+    ],
+    "name": "getMatches",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnDuration",
+            "type": "uint40"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "feePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "alphaFeePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "alpha",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "address",
         "name": "_player",
         "type": "address"
       }
     ],
     "name": "getMatchesOfPlayer",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPendingMatchIds",
+    "outputs": [
+      {
+        "internalType": "uint256[]",
+        "name": "",
+        "type": "uint256[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPendingMatches",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnDuration",
+            "type": "uint40"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "feePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "alphaFeePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "alpha",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getPlayingMatchIds",
     "outputs": [
       {
         "internalType": "uint256[]",
@@ -896,9 +1343,86 @@
     "name": "getPlayingMatches",
     "outputs": [
       {
-        "internalType": "uint256[]",
+        "components": [
+          {
+            "internalType": "address",
+            "name": "player1",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnTimePivot",
+            "type": "uint40"
+          },
+          {
+            "internalType": "enum TurnBasedGame.DrawOfferState",
+            "name": "drawOffer",
+            "type": "uint8"
+          },
+          {
+            "internalType": "enum TurnBasedGame.MatchResult",
+            "name": "result",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint40",
+            "name": "turnDuration",
+            "type": "uint40"
+          },
+          {
+            "internalType": "address",
+            "name": "player2",
+            "type": "address"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player1TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint40",
+            "name": "player2TimePool",
+            "type": "uint40"
+          },
+          {
+            "internalType": "uint16",
+            "name": "totalMoved",
+            "type": "uint16"
+          },
+          {
+            "internalType": "uint256",
+            "name": "value",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "token",
+            "type": "address"
+          },
+          {
+            "internalType": "uint8",
+            "name": "feePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint8",
+            "name": "alphaFeePercentage",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bool",
+            "name": "turn",
+            "type": "bool"
+          },
+          {
+            "internalType": "address",
+            "name": "alpha",
+            "type": "address"
+          }
+        ],
+        "internalType": "struct TurnBasedGame.MatchData[]",
         "name": "",
-        "type": "uint256[]"
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
