@@ -132,8 +132,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
           console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
-          const _timeLeft = timeLeftNumb >= 30 ? 30 : timeLeftNumb;
-          updateTime(_timeLeft);
+          const _timeLeft = timeLeftNumb >= 35 ? 35 : timeLeftNumb;
+          updateTime(_timeLeft - 5);
         }
       }
       if (winner) {

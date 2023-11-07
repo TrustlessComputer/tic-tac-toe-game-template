@@ -25,14 +25,11 @@ const useFindMatch = () => {
   const { onJoinRoom, setShowCreateRoom, roomInfo } = useContext(GameContext);
 
   const onFindMatch = async () => {
-    if (!contractSigner || !provider || !contractErc20Signer) return;
+    if (!contractSigner || !provider || !contractErc20Signer || !roomInfo) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
 
-      const rs: any = await contractErc20Signer.approve(
-        CONTRACT_ADDRESS,
-        ethers.utils.parseEther(roomInfo?.reward || '0.00001'),
-      );
+      const rs: any = await contractErc20Signer.approve(CONTRACT_ADDRESS, ethers.utils.parseEther(roomInfo?.reward));
 
       console.log('Rs Approve: ', rs, contractErc20Signer);
 
@@ -50,13 +47,9 @@ const useFindMatch = () => {
       // console.log('gasWithMarkup__', gasWithMarkup);
       // End cal
 
-      const tx = await contractSigner.findMatch(
-        roomInfo?.roomId || '0x5d9980532e47beae4a36db3ffc4d447c0357c00f',
-        ethers.utils.parseEther(roomInfo?.reward || '0.00001'),
-        {
-          gasLimit: '500000',
-        },
-      );
+      const tx = await contractSigner.findMatch(roomInfo?.roomId, ethers.utils.parseEther(roomInfo?.reward), {
+        gasLimit: '700000',
+      });
       console.log('TX before: ', tx);
       // const tx = await contractSigner.findMatch({ gasLimit: '500000' });
       await tx.wait();
