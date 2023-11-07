@@ -171,6 +171,7 @@ const DashBoard = React.memo(() => {
   };
 
   const renderContent = () => {
+    console.log('loadedPlayerState__', loadedPlayerState);
     if (!walletState.isLogged) return undefined;
     if (!loadedPlayerState)
       return (
