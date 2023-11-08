@@ -239,10 +239,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
       console.log('Parent Path___', PARENT_PATH);
-      if (event.origin.includes(PARENT_PATH)) {
+      if (event.origin === PARENT_PATH) {
         const data = event.data;
 
-        // console.log('EVENT___', event.data);
+        console.log('EVENT___ 222', event.data);
 
         if (typeof data === 'object') {
           switch (data?.status) {

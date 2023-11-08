@@ -17,7 +17,7 @@ const TC_NETWORK = {
   Name: isProduction ? 'NOS' : 'NOS (Test)',
 };
 
-const PARENT_PATH = isProduction ? 'https://alpha.dev.newbitcoincity.com/' : 'https://alpha.dev.newbitcoincity.com/';
+const PARENT_PATH = isProduction ? 'https://alpha.dev.newbitcoincity.com' : 'https://alpha.dev.newbitcoincity.com';
 
 const CONTRACT_ADDRESS = isProduction
   ? '0x5c194B1a58B60354969752628b86eee4617F17F3'
