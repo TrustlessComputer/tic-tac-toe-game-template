@@ -351,8 +351,7 @@ const DashBoard = React.memo(() => {
           <Spinner size={38} />
         </div>
       );
-    // if (!gameInfo?.gameID) return renderActions();
-    if (!gameInfo?.gameID) return <></>;
+    if (!gameInfo?.gameID) return renderActions();
     return renderMatch();
   };
 
