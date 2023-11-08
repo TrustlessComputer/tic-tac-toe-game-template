@@ -13,6 +13,7 @@ interface IGameState {
   turn: Player;
   timeLeftCurrTurn: string;
   isMatchEnd: boolean;
+  drawOffer?: number;
 }
 
 const useGetGameState = () => {
@@ -46,6 +47,8 @@ const useGetGameState = () => {
     const player1Moved = squares.filter((item: any) => item === IRole.X).length;
     const player2Moved = squares.filter((item: any) => item === IRole.O).length;
 
+    const drawOffer = gameState[4].drawOffer;
+
     const turn = turnMapper(gameState[1]);
     const timeLeftCurrTurn = gameState[2].toString(); // seconds
     console.log('timeLeftCurrTurn___', timeLeftCurrTurn);
@@ -70,6 +73,7 @@ const useGetGameState = () => {
       isMatchEnd,
       matchData,
       timeLeftCurrTurn,
+      drawOffer,
     });
 
     return {
@@ -79,6 +83,7 @@ const useGetGameState = () => {
       turn,
       timeLeftCurrTurn,
       isMatchEnd,
+      drawOffer,
     };
   };
 
