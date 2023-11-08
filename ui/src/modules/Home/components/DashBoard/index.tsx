@@ -47,6 +47,13 @@ const DashBoard = React.memo(() => {
     };
   }, [gameInfo]);
 
+  const isWatcher = useMemo(() => {
+    if (gameInfo?.infoForWatcher) {
+      return true;
+    }
+    return false;
+  }, [gameInfo]);
+
   // const onOfferDraw = async () => {
   //   setLoadingDraw(true);
   //   if (!contractSigner) return;
@@ -232,14 +239,7 @@ const DashBoard = React.memo(() => {
             <Spinner size={24} />
           </div>
         )} */}
-        {isMyTurn && !gameInfo?.infoForWatcher && (
-          <div className="alert-move">
-            <div className="rowFlex">
-              <span>Your turn</span>
-              {!loading ? renderCounter() : <Spinner size={22} />}
-            </div>
-          </div>
-        )}
+
         {/* {((gameInfo?.drawOffer && gameInfo?.drawOffer !== 0 && gameInfo?.winner === '0') ||
           statusOffer === TYPE_OFFER.OFFERING) && (
           <div className="modal-offer-draw">
@@ -357,12 +357,32 @@ const DashBoard = React.memo(() => {
 
   return (
     <S.Container>
+      {gameInfo?.gameID &&
+        !gameInfo?.infoForWatcher &&
+        gameInfo?.winner === '0' &&
+        (isMyTurn ? (
+          <div className="alert-move">
+            <div className="rowFlex">
+              <span className="myTurn">Your turn</span>
+              {!loading ? renderCounter() : <Spinner size={20} />}
+            </div>
+          </div>
+        ) : (
+          <div className="alert-move">
+            <div className="rowFlex">
+              <span>Wait for your opponent </span>
+              {!loading ? renderCounter() : <Spinner size={20} />}
+            </div>
+          </div>
+        ))}
       {/* <S.Banner src={BannerImage} /> */}
-      <S.Box>
-        <ButtonLogin />
-        {renderWarning()}
-        {renderContent()}
-      </S.Box>
+      {isWatcher && (
+        <S.Box>
+          <ButtonLogin />
+          {renderWarning()}
+          {renderContent()}
+        </S.Box>
+      )}
     </S.Container>
   );
 });

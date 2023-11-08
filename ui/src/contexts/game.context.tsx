@@ -64,7 +64,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
-  const { onGetWinner } = useGetGames();
+  const { onGetWinner, onWaitingGames } = useGetGames();
   const { onCheckPlayer } = useCheckPlayerState();
 
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
@@ -138,12 +138,33 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               : undefined,
           );
         }
+        if (roomInfo?.status === 'CONTINUE' && !gameInfo?.competitorAddress) {
+          // onJoinRoom({ games: matchData, gameID });
+          if (!keySet.address) {
+            return;
+          }
+          const isPlayer1 = keySet.address.toLowerCase() === matchData.player1.toLowerCase();
+          const myRolePlayer = isPlayer1 ? Player.Player1 : Player.Player2;
+          const myTurn = isPlayer1 ? IRole.X : IRole.O;
+          const competitorAddress = isPlayer1 ? matchData.player2 : matchData.player1;
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  myRolePlayer,
+                  winner: matchData.winner,
+                  myTurn,
+                  competitorAddress,
+                }
+              : undefined,
+          );
+        }
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
           console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
-          const _timeLeft = timeLeftNumb >= 35 ? 35 : timeLeftNumb;
+          const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
           updateTime(_timeLeft - 5);
         }
       }
@@ -251,6 +272,21 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               setRoomInfo({
                 roomId: data?.tokenRoom,
                 reward: data?.reward.toString(),
+                status: 'PLAY',
+              });
+              break;
+            case 'CONTINUE':
+              setRoomInfo({
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
+                status: 'CONTINUE',
+              });
+              setGameInfo({
+                myRolePlayer: Player.Empty,
+                winner: WinnerState.Playing,
+                myTurn: IRole.O,
+                competitorAddress: '',
+                gameID: data?.gameId,
               });
               break;
             case 'WATCH':

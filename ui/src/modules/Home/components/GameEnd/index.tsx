@@ -81,25 +81,23 @@ const GameEnd = React.memo(() => {
                 : 'Lose !! :(')}
           </motion.h5>
           <Actions>
-            {roomInfo && (
-              <motion.div
-                initial={{ scale: 0 }}
-                animate={{
-                  scale: 1,
-                  transition: { delay: 1.5, duration: 0.3 },
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{
+                scale: 1,
+                transition: { delay: 1.5, duration: 0.3 },
+              }}
+            >
+              <Button
+                disabled={!playerState.isAvailable}
+                onClick={() => {
+                  resetGame();
+                  setShowCreateRoom(true);
                 }}
               >
-                <Button
-                  disabled={!playerState.isAvailable}
-                  onClick={() => {
-                    resetGame();
-                    setShowCreateRoom(true);
-                  }}
-                >
-                  {isWatcher ? 'Play game' : 'Replay'}
-                </Button>
-              </motion.div>
-            )}
+                {isWatcher ? 'Play game' : 'Replay'}
+              </Button>
+            </motion.div>
             <motion.div
               initial={{ scale: 0 }}
               animate={{

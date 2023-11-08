@@ -29,6 +29,7 @@ export interface ILocalState {
 export interface IRoomInfoState {
   roomId: string;
   reward: string;
+  status: 'PLAY' | 'CONTINUE' | 'WATCH';
 }
 
 export interface IGameContext {

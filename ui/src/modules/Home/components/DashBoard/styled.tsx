@@ -19,6 +19,50 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .alert-move {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 15px 30px 15px 30px;
+    animation: aniAlert 0.5s forwards;
+    background: #fff1bc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 99;
+
+    .myTurn {
+      background: #ffb46c;
+      padding: 3px 15px;
+      border-radius: 999px;
+    }
+
+    .rowFlex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    @keyframes aniAlert {
+      from {
+        top: -100%;
+      }
+      to {
+        top: 0;
+      }
+    }
+
+    span {
+      color: black;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+
   .warning-wrapper {
     background: #fef3cd;
     border: 1px solid #ffeeba;
@@ -185,43 +229,7 @@ const MatchContent = styled(motion.div)`
     }
   }
 
-  .alert-move {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    padding: 15px 30px 15px 30px;
-    animation: aniAlert 0.5s forwards;
-    background: #fff1bc;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 99;
-
-    .rowFlex {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-wrap: nowrap;
-      gap: 10px;
-    }
-
-    @keyframes aniAlert {
-      from {
-        top: -100%;
-      }
-      to {
-        top: 0;
-      }
-    }
-
-    span {
-      color: black;
-      font-weight: 600;
-      font-size: 14px;
-    }
-  }
+  
 
   // @media screen and (max-width: 600px) {
   //   .wrap-counter {
