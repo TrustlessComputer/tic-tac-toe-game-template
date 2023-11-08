@@ -41,6 +41,7 @@ const initialValue: IGameContext = {
 
   onJoinRoom: () => undefined,
   updateSquares: () => undefined,
+  setGameInfo: () => undefined,
 };
 
 const INIT_ARRAY = Array(NUMBER_COLUMN * NUMBER_COLUMN).fill(IRole.Empty);
@@ -108,10 +109,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const _onGetGameState = async (gameID: string) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
-      console.log('gameState___', gameState);
-      console.log('winner___', winner);
+      // console.log('gameState___', gameState);
+      // console.log('winner___', winner);
       if (gameState) {
-        const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData } = gameState;
+        const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData, drawOffer } = gameState;
         setSquares(newSquares);
         setTurn(newTurn);
         if (gameInfo?.infoForWatcher && !gameInfo?.infoForWatcher.player1 && !gameInfo?.infoForWatcher.player2) {
@@ -127,6 +128,16 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               : undefined,
           );
         }
+        if (typeof drawOffer === 'number') {
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  drawOffer,
+                }
+              : undefined,
+          );
+        }
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
@@ -136,6 +147,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           updateTime(_timeLeft - 5);
         }
       }
+
       if (winner) {
         setGameInfo(value =>
           value
@@ -292,6 +304,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       counter,
       lastMoveIndex: lastMove,
       roomInfo,
+      setGameInfo,
     };
   }, [
     squares,
@@ -313,6 +326,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     counter,
     lastMove,
     roomInfo,
+    setGameInfo,
   ]);
 
   return (

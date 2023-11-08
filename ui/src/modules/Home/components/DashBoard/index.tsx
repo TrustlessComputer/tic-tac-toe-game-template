@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import * as S from './styled';
 import { ButtonCreateRoom } from '@/components/Button/Button.games';
 import { GameContext } from '@/contexts/game.context';
@@ -17,12 +17,24 @@ import IconSVG from '@/components/IconSVG';
 import ButtonEndMatch from '@/components/ButtonEndMatch';
 import ButtonCancelFind from '@/components/ButtonCancelFind';
 import { Row } from '@/components/Row';
+import useContractSigner from '@/hooks/useContractSigner';
+import toast from 'react-hot-toast';
+
+export enum TYPE_OFFER {
+  OFFERING,
+  ACCEPT,
+  CANCEL,
+}
 
 const DashBoard = React.memo(() => {
-  const { setShowCreateRoom, gameInfo, turn, loading, playerState, loadedPlayerState, counter } =
+  const { setShowCreateRoom, gameInfo, turn, loading, playerState, loadedPlayerState, counter, setGameInfo } =
     useContext(GameContext);
   const { keySet, walletState } = useContext(WalletContext);
   const { isNeedTopupTC } = useContext(AssetsContext);
+  // const [loadingDraw, setLoadingDraw] = useState(false);
+  // const [statusOffer, setStatusOffer] = useState<TYPE_OFFER | null>(null);
+
+  // const contractSigner = useContractSigner();
 
   const isMyTurn = React.useMemo(() => {
     return turn === gameInfo?.myTurn;
@@ -34,6 +46,121 @@ const DashBoard = React.memo(() => {
       yourTurn: gameInfo?.myTurn === IRole.X ? '#ffa02e' : '#62fffc',
     };
   }, [gameInfo]);
+
+  // const onOfferDraw = async () => {
+  //   setLoadingDraw(true);
+  //   if (!contractSigner) return;
+  //   const rs = await contractSigner?.offerDraw(gameInfo?.gameID);
+  //   console.log('RS offer____ ', rs);
+  //   setStatusOffer(TYPE_OFFER.OFFERING);
+  //   try {
+  //   } catch (error) {
+  //     console.log('error offerr');
+  //   } finally {
+  //     setLoadingDraw(false);
+  //   }
+  // };
+
+  // const onAcceptDraw = async () => {
+  //   setLoadingDraw(true);
+  //   if (!contractSigner) return;
+  //   const rs = await contractSigner?.acceptDraw(gameInfo?.gameID);
+  //   console.log('RS accept____ ', rs);
+  //   setGameInfo((value: any) =>
+  //     value
+  //       ? {
+  //           ...value,
+  //           winner: '3',
+  //         }
+  //       : undefined,
+  //   );
+  //   try {
+  //   } catch (error) {
+  //     console.log('error offerr');
+  //   } finally {
+  //     setLoadingDraw(false);
+  //   }
+  // };
+
+  // const onCancelDraw = async () => {
+  //   setLoadingDraw(true);
+  //   if (!contractSigner) return;
+  //   const rs = await contractSigner?.cancelDraw(gameInfo?.gameID);
+  //   setGameInfo((value: any) =>
+  //     value
+  //       ? {
+  //           ...value,
+  //           drawOffer: 0,
+  //         }
+  //       : undefined,
+  //   );
+  //   console.log('RS cancel offer____ ', rs);
+  //   try {
+  //   } catch (error) {
+  //     console.log('error offerr');
+  //   } finally {
+  //     setLoadingDraw(false);
+  //   }
+  // };
+
+  // const onRejectDraw = async () => {
+  //   setLoadingDraw(true);
+  //   if (!contractSigner) return;
+  //   const rs = await contractSigner?.rejectDraw(gameInfo?.gameID);
+  //   console.log('RS rejectDraw ____ ', rs);
+  //   setGameInfo((value: any) =>
+  //     value
+  //       ? {
+  //           ...value,
+  //           drawOffer: 0,
+  //         }
+  //       : undefined,
+  //   );
+  //   try {
+  //   } catch (error) {
+  //     console.log('error offerr');
+  //   } finally {
+  //     setLoadingDraw(false);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (gameInfo?.winner !== '0') {
+  //     setStatusOffer(null);
+  //   }
+  //   if (contractSigner) {
+  //     contractSigner?.on('DrawOffer', async (matchId, playerAddress, tokenAddress, tx) => {
+  //       console.log('DrawOffer', matchId, playerAddress);
+
+  //       if (statusOffer === TYPE_OFFER.OFFERING) {
+  //         if (playerAddress === gameInfo?.competitorAddress) {
+  //           console.log('aaee');
+  //           setGameInfo((value: any) =>
+  //             value
+  //               ? {
+  //                   ...value,
+  //                   winner: '3',
+  //                 }
+  //               : undefined,
+  //           );
+  //         }
+  //       }
+  //     });
+
+  //     contractSigner?.on('DrawRejection', async (matchId, playerAddress, tokenAddress, tx) => {
+  //       console.log('DrawRejection', matchId, playerAddress, tx);
+  //       if (statusOffer === TYPE_OFFER.OFFERING) {
+  //         if (playerAddress === gameInfo?.competitorAddress) {
+  //           console.log('iiaa');
+  //           setStatusOffer(null);
+  //           toast('Opponents do not accept', {
+  //             icon: '🙅🏻',
+  //           });
+  //         }
+  //       }
+  //     });
+  //   }
+  // }, [contractSigner]);
 
   const renderCounter = () => {
     return (
@@ -53,7 +180,7 @@ const DashBoard = React.memo(() => {
                 window.open(
                   isProduction
                     ? 'https://newbitcoincity.com/topup?tab=faucet'
-                    : 'https://dev.newbitcoincity.com/topup?tab=faucet',
+                    : 'https://alpha.dev.newbitcoincity.com/topup?tab=faucet',
                 )
               }
             >
@@ -100,6 +227,11 @@ const DashBoard = React.memo(() => {
     if (!gameInfo) return;
     return (
       <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
+        {/* {loadingDraw && (
+          <div className="loading-layer">
+            <Spinner size={24} />
+          </div>
+        )} */}
         {isMyTurn && !gameInfo?.infoForWatcher && (
           <div className="alert-move">
             <div className="rowFlex">
@@ -108,6 +240,43 @@ const DashBoard = React.memo(() => {
             </div>
           </div>
         )}
+        {/* {((gameInfo?.drawOffer && gameInfo?.drawOffer !== 0 && gameInfo?.winner === '0') ||
+          statusOffer === TYPE_OFFER.OFFERING) && (
+          <div className="modal-offer-draw">
+            {gameInfo?.drawOffer !== Number(gameInfo?.myRolePlayer) && statusOffer == null ? (
+              <div className="inner">
+                <p>Your opponent wants a draw</p>
+                <p>Do you agee?</p>
+                <div className="footer">
+                  <button onClick={onAcceptDraw} className="yes">
+                    Yes
+                  </button>
+                  <button onClick={onRejectDraw} className="no">
+                    No
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="inner">
+                {statusOffer === TYPE_OFFER.OFFERING ? (
+                  <p>Wait for your opponent accept...</p>
+                ) : (
+                  <p>Opponents do not accept</p>
+                )}
+
+                <div className="footer">
+                  {statusOffer === TYPE_OFFER.OFFERING ? (
+                    <button onClick={onCancelDraw} className="yes">
+                      Cancel
+                    </button>
+                  ) : (
+                    <p className="reject">Auto close after 2s</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+        )} */}
         <S.PlayerBox isMyTurn={isMyTurn} turnColor={turnColor.myTurn}>
           <Row align="center" gap="24px">
             <div className="square-box">
@@ -150,6 +319,9 @@ const DashBoard = React.memo(() => {
           </Row>
           {!isMyTurn && <div className="wrap-counter">{renderCounter()}</div>}
         </S.PlayerBox>
+        {/* <button className="drawOfferBtn" onClick={onOfferDraw}>
+          Draw Offer
+        </button> */}
       </S.MatchContent>
     );
   };

@@ -115,6 +115,76 @@ const MatchContent = styled(motion.div)`
   align-items: center;
   margin-top: 32px;
 
+  .loading-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000000b5;
+    z-index: 9999;
+  }
+
+  .drawOfferBtn {
+    background:#1c1c1c;
+    font-size:14px;
+    color:white;
+    padding:6px; 12px;
+    border-radius: 5px;
+  }
+
+  .modal-offer-draw {
+    width: 95%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    z-index: 999;
+    background: white;
+    border-radius: 10px;
+
+    p {
+      color: black;
+      font-size: 14px;
+      text-align: center;
+
+      &.reject {
+        font-style:italic;
+        margin-top:30px;
+        font-size: 12px;
+        color: gray;
+      }
+    }
+
+    .footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+
+      button {
+        width: 170px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        border-radius: 10px;
+
+        &.yes {
+          background: #f7c700;
+        }
+        &.no {
+          background: #e6e6e6;
+        }
+      }
+    }
+  }
+
   .alert-move {
     position: fixed;
     top: 0;
