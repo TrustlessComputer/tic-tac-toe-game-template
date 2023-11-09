@@ -9,6 +9,8 @@ function useContractSigner() {
   const provider = useProvider();
   const { keySet } = useContext(WalletContext);
 
+  console.log('CONTRACT_ADDRESS__', CONTRACT_ADDRESS);
+
   return useMemo(() => {
     try {
       if (!keySet.prvKey || !provider) return undefined;

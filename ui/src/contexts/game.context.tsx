@@ -64,7 +64,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
-  const { onGetWinner, onWaitingGames } = useGetGames();
+  const { onGetWinner } = useGetGames();
   const { onCheckPlayer } = useCheckPlayerState();
 
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
