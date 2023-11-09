@@ -68,7 +68,7 @@ const Container = styled.div`
     border: 1px solid #ffeeba;
     padding: 12px 32px;
     border-radius: 4px;
-    margin-top: 24px;
+    // margin-top: 24px;
 
     width: 100%;
 

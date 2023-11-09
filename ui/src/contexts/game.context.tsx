@@ -86,6 +86,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
     setLastMove(undefined);
+    window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {

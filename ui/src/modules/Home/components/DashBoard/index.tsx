@@ -215,7 +215,7 @@ const DashBoard = React.memo(() => {
         <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
           {isPlaying && <ButtonEndMatch />}
           {isFinding && <ButtonCancelFind />}
-          {isShowAction && (
+          {/* {isShowAction && (
             <ButtonCreateRoom
               leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
               disabled={isDisabled}
@@ -225,7 +225,7 @@ const DashBoard = React.memo(() => {
             >
               Play
             </ButtonCreateRoom>
-          )}
+          )} */}
         </S.Actions>
       </div>
     );
@@ -343,7 +343,6 @@ const DashBoard = React.memo(() => {
   };
 
   const renderContent = () => {
-    console.log('loadedPlayerState__', loadedPlayerState);
     if (!walletState.isLogged) return undefined;
     if (!loadedPlayerState)
       return (
@@ -352,7 +351,8 @@ const DashBoard = React.memo(() => {
         </div>
       );
     if (!gameInfo?.gameID) return renderActions();
-    return renderMatch();
+    return <></>;
+    // return renderMatch();
   };
 
   return (
@@ -378,11 +378,12 @@ const DashBoard = React.memo(() => {
       {/* <S.Banner src={BannerImage} /> */}
       {isWatcher && (
         <S.Box>
-          <ButtonLogin />
-          {renderWarning()}
+          {/* <ButtonLogin /> */}
+          {/* {renderWarning()} */}
           {renderContent()}
         </S.Box>
       )}
+      {playerState?.isFinding && !gameInfo?.gameID && <S.Box>{renderContent()}</S.Box>}
     </S.Container>
   );
 });
