@@ -17,13 +17,13 @@ const TC_NETWORK = {
   Name: isProduction ? 'NOS' : 'NOS (Test)',
 };
 
-const PARENT_PATH = isProduction ? 'https://alpha.dev.newbitcoincity.com' : 'https://alpha.dev.newbitcoincity.com';
+const PARENT_PATH = isProduction ? 'https://alpha.staging.newbitcoincity.com' : 'https://alpha.dev.newbitcoincity.com/';
 
 const CONTRACT_ADDRESS = isProduction
-  ? '0x5c194B1a58B60354969752628b86eee4617F17F3'
+  ? '0x57804Be65b969056Cf0bC44ac4Cf830F52246f93'
   : '0x5c194B1a58B60354969752628b86eee4617F17F3';
 const CONTRACT_ERC_20 = isProduction
-  ? '0x1d45c32C97707C916b350042CEAC2164fb6D00A1'
+  ? '0x111808AbE352c8003e0eFfcc04998EaB26Cebe3c'
   : '0x1d45c32C97707C916b350042CEAC2164fb6D00A1';
 
 const SLEEP_TIME = 500;
