@@ -86,6 +86,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
     setLastMove(undefined);
+    window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
@@ -258,9 +259,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     window.addEventListener('message', function (event) {
-      // console.log('EVENT___', event);
+      console.log('EVENT___', event);
       // console.log('Parent Path___', PARENT_PATH);
-      if (event.origin.includes(PARENT_PATH)) {
+      if (event.origin === PARENT_PATH) {
         const data = event.data;
 
         console.log('EVENT___', event.data);

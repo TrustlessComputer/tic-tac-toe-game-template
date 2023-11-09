@@ -81,7 +81,7 @@ const GameEnd = React.memo(() => {
                 : 'Lose !! :(')}
           </motion.h5>
           <Actions>
-            <motion.div
+            {/* <motion.div
               initial={{ scale: 0 }}
               animate={{
                 scale: 1,
@@ -97,7 +97,7 @@ const GameEnd = React.memo(() => {
               >
                 {isWatcher ? 'Play game' : 'Replay'}
               </Button>
-            </motion.div>
+            </motion.div> */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{
@@ -106,7 +106,7 @@ const GameEnd = React.memo(() => {
               }}
             >
               <Button onClick={resetGame} variants="outline">
-                Back
+                Close
               </Button>
             </motion.div>
           </Actions>

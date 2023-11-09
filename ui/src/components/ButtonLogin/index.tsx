@@ -72,7 +72,7 @@ const ButtonLogin = React.memo(() => {
               </ToolTip>
             )} */}
           </Row>
-          <Text
+          {/* <Text
             style={{ minWidth: 150 }}
             align="right"
             color="txt-highlight"
@@ -81,7 +81,7 @@ const ButtonLogin = React.memo(() => {
             className="balance"
           >
             {balance.amountFormated} TC | ELO {playerState.elo}
-          </Text>
+          </Text> */}
         </S.Account>
       )}
       {(walletState.isNeedCreate || walletState.isNeedLogin) && (
