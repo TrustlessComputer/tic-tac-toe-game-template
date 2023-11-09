@@ -72,7 +72,7 @@ const ButtonLogin = React.memo(() => {
               </ToolTip>
             )} */}
           </Row>
-          <Text
+          {/* <Text
             style={{ minWidth: 150 }}
             align="right"
             color="txt-highlight"
@@ -81,19 +81,20 @@ const ButtonLogin = React.memo(() => {
             className="balance"
           >
             {balance.amountFormated} TC | ELO {playerState.elo}
-          </Text>
+          </Text> */}
         </S.Account>
       )}
       {(walletState.isNeedCreate || walletState.isNeedLogin) && (
         <Text align="center" size="20" className={`mb-24 ${address ? 'mt-24' : ''}`}>
-          Please {walletState.isNeedCreate ? 'create wallet' : 'login'} to play the game
+          {/* Please {walletState.isNeedCreate ? 'create wallet' : 'login'} to play the game */}
+          Comming soon...
         </Text>
       )}
-      {walletState.isNeedCreate && (
+      {/* {walletState.isNeedCreate && (
         <Button onClick={onShowCreate} className="button-action">
           Create wallet
         </Button>
-      )}
+      )} */}
       {walletState.isNeedLogin && (
         <Row className="login-actions" gap="32px">
           <Button onClick={onShowLogin} className="button-action">

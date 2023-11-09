@@ -9,7 +9,7 @@ import useAsyncEffect from 'use-async-effect';
 import { ellipsisCenter } from 'tc-formatter';
 
 const GameEnd = React.memo(() => {
-  const { resetGame, gameInfo, setShowCreateRoom, playerState } = useContext(GameContext);
+  const { resetGame, gameInfo, setShowCreateRoom, playerState, roomInfo } = useContext(GameContext);
 
   const { onRequestEndMatch } = useRequestEndMatch();
 
@@ -67,7 +67,7 @@ const GameEnd = React.memo(() => {
                 duration: 0.7,
               },
             }}
-            style={{ fontSize: 32 }}
+            style={{ fontSize: 23 }}
           >
             {isWatcher &&
               (gameInfo?.winner === WinnerState.Draw
@@ -81,7 +81,7 @@ const GameEnd = React.memo(() => {
                 : 'Lose !! :(')}
           </motion.h5>
           <Actions>
-            <motion.div
+            {/* <motion.div
               initial={{ scale: 0 }}
               animate={{
                 scale: 1,
@@ -95,9 +95,9 @@ const GameEnd = React.memo(() => {
                   setShowCreateRoom(true);
                 }}
               >
-                Replay
+                {isWatcher ? 'Play game' : 'Replay'}
               </Button>
-            </motion.div>
+            </motion.div> */}
             <motion.div
               initial={{ scale: 0 }}
               animate={{
@@ -106,7 +106,7 @@ const GameEnd = React.memo(() => {
               }}
             >
               <Button onClick={resetGame} variants="outline">
-                Back
+                Close
               </Button>
             </motion.div>
           </Actions>

@@ -19,12 +19,56 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .alert-move {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    padding: 15px 30px 15px 30px;
+    animation: aniAlert 0.5s forwards;
+    background: #fff1bc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 99;
+
+    .myTurn {
+      background: #ffb46c;
+      padding: 3px 15px;
+      border-radius: 999px;
+    }
+
+    .rowFlex {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    @keyframes aniAlert {
+      from {
+        top: -100%;
+      }
+      to {
+        top: 0;
+      }
+    }
+
+    span {
+      color: black;
+      font-weight: 600;
+      font-size: 14px;
+    }
+  }
+
   .warning-wrapper {
     background: #fef3cd;
     border: 1px solid #ffeeba;
     padding: 12px 32px;
     border-radius: 4px;
-    margin-top: 24px;
+    // margin-top: 24px;
 
     width: 100%;
 
@@ -115,48 +159,83 @@ const MatchContent = styled(motion.div)`
   align-items: center;
   margin-top: 32px;
 
-  .alert-move {
+  .loading-layer {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 40px;
-    padding: 15px 30px 15px 30px;
-    animation: aniAlert 0.5s forwards;
-    background: #fff1bc;
+    height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: center;
-    z-index: 99;
+    align-items: center;
+    background: #000000b5;
+    z-index: 9999;
+  }
 
-    .rowFlex {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: nowrap;
-    }
+  .drawOfferBtn {
+    background:#1c1c1c;
+    font-size:14px;
+    color:white;
+    padding:6px; 12px;
+    border-radius: 5px;
+  }
 
-    @keyframes aniAlert {
-      from {
-        top: -100%;
-      }
-      to {
-        top: 0;
-      }
-    }
+  .modal-offer-draw {
+    width: 95%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px;
+    z-index: 999;
+    background: white;
+    border-radius: 10px;
 
-    span {
+    p {
       color: black;
-      font-weight: 600;
       font-size: 14px;
+      text-align: center;
+
+      &.reject {
+        font-style:italic;
+        margin-top:30px;
+        font-size: 12px;
+        color: gray;
+      }
+    }
+
+    .footer {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+
+      button {
+        width: 170px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: black;
+        border-radius: 10px;
+
+        &.yes {
+          background: #f7c700;
+        }
+        &.no {
+          background: #e6e6e6;
+        }
+      }
     }
   }
 
-  @media screen and (max-width: 600px) {
-    .wrap-counter {
-      display: none;
-    }
-  }
+  
+
+  // @media screen and (max-width: 600px) {
+  //   .wrap-counter {
+  //     display: none;
+  //   }
+  // }
 `;
 
 const PlayerBox = styled.div<{ isMyTurn: boolean; turnColor: string }>`

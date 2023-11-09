@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, useContext, useEffect } from 'react';
+import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
-import { IGameContext, IGameState } from '@/interfaces/game.context';
+import { IGameContext, IGameState, IRoomInfoState } from '@/interfaces/game.context';
 import { NUMBER_COLUMN, PARENT_PATH } from '@/configs';
 import CreateRoom from '@/modules/Home/components/CreateRoom';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
@@ -32,6 +32,7 @@ const initialValue: IGameContext = {
   showJoinRoom: false,
   showCreateRoom: false,
   showAutoMatchRoom: false,
+  roomInfo: undefined,
 
   resetGame: () => undefined,
   setShowCreateRoom: () => undefined,
@@ -40,6 +41,7 @@ const initialValue: IGameContext = {
 
   onJoinRoom: () => undefined,
   updateSquares: () => undefined,
+  setGameInfo: () => undefined,
 };
 
 const INIT_ARRAY = Array(NUMBER_COLUMN * NUMBER_COLUMN).fill(IRole.Empty);
@@ -70,6 +72,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [showAutoMatchRoom, setShowAutoMatchRoom] = React.useState(false);
 
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
+  const [roomInfo, setRoomInfo] = useState<IRoomInfoState | undefined>(undefined);
 
   const resetGame = () => {
     setSquares(INIT_ARRAY);
@@ -83,6 +86,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
     setLastMove(undefined);
+    window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
@@ -106,9 +110,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const _onGetGameState = async (gameID: string) => {
     try {
       const [gameState, winner] = await Promise.all([await onGetGameState(gameID), onGetWinner({ gameID })]);
-      console.log('gameState___', gameState);
+      // console.log('gameState___', gameState);
+      // console.log('winner___', winner);
       if (gameState) {
-        const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData } = gameState;
+        const { squares: newSquares, newTurn, timeLeftCurrTurn, matchData, drawOffer } = gameState;
         setSquares(newSquares);
         setTurn(newTurn);
         if (gameInfo?.infoForWatcher && !gameInfo?.infoForWatcher.player1 && !gameInfo?.infoForWatcher.player2) {
@@ -124,15 +129,47 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               : undefined,
           );
         }
+        if (typeof drawOffer === 'number') {
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  drawOffer,
+                }
+              : undefined,
+          );
+        }
+        if (roomInfo?.status === 'CONTINUE' && !gameInfo?.competitorAddress) {
+          // onJoinRoom({ games: matchData, gameID });
+          if (!keySet.address) {
+            return;
+          }
+          const isPlayer1 = keySet.address.toLowerCase() === matchData.player1.toLowerCase();
+          const myRolePlayer = isPlayer1 ? Player.Player1 : Player.Player2;
+          const myTurn = isPlayer1 ? IRole.X : IRole.O;
+          const competitorAddress = isPlayer1 ? matchData.player2 : matchData.player1;
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  myRolePlayer,
+                  winner: matchData.winner,
+                  myTurn,
+                  competitorAddress,
+                }
+              : undefined,
+          );
+        }
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
           console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
-          const _timeLeft = timeLeftNumb >= 30 ? 30 : timeLeftNumb;
-          updateTime(_timeLeft);
+          const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
+          updateTime(_timeLeft - 5);
         }
       }
+
       if (winner) {
         setGameInfo(value =>
           value
@@ -163,6 +200,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           moveIdx: ind,
           myRolePlayer: gameInfo.myRolePlayer,
         })) || {};
+
+      console.log('aabb__', games);
       if (games?.winner && games?.winner !== WinnerState.Playing) {
         setGameInfo(value =>
           value
@@ -175,8 +214,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       }
     } catch (error) {
       setLocalState(value => ({ ...value, [ind]: IRole.Empty }));
-      const { desc } = getErrorMessage(error);
-      toast.error(desc);
+      // const { desc } = getErrorMessage(error);
+      // toast.error(desc);
     } finally {
       setLoading(false);
     }
@@ -223,14 +262,35 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
-      console.log('Parent Path___', PARENT_PATH);
+      // console.log('Parent Path___', PARENT_PATH);
       if (event.origin === PARENT_PATH) {
         const data = event.data;
+
+        console.log('EVENT___', event.data);
 
         if (typeof data === 'object') {
           switch (data?.status) {
             case 'PLAY':
               setShowCreateRoom(true);
+              setRoomInfo({
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
+                status: 'PLAY',
+              });
+              break;
+            case 'CONTINUE':
+              setRoomInfo({
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
+                status: 'CONTINUE',
+              });
+              setGameInfo({
+                myRolePlayer: Player.Empty,
+                winner: WinnerState.Playing,
+                myTurn: IRole.O,
+                competitorAddress: '',
+                gameID: data?.gameId,
+              });
               break;
             case 'WATCH':
               setGameInfo({
@@ -282,6 +342,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       loadedPlayerState,
       counter,
       lastMoveIndex: lastMove,
+      roomInfo,
+      setGameInfo,
     };
   }, [
     squares,
@@ -302,6 +364,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setShowAutoMatchRoom,
     counter,
     lastMove,
+    roomInfo,
+    setGameInfo,
   ]);
 
   return (

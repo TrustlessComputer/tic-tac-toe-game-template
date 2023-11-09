@@ -13,13 +13,14 @@ import toast from 'react-hot-toast';
 import sleep from '@/utils/sleep';
 import BannerImage from '@/images/banner.png';
 import { Banner } from '@/modules/styled';
+import { PARENT_PATH } from '@/configs';
 
 const CreateRoom = React.memo(() => {
   const [canceling, setCanceling] = React.useState(false);
   const contractSigner = useContractSigner();
   const { onFindMatch, gameState } = useFindMatch();
   const { onCancelMatch } = useCancelMatch();
-  const { resetGame, playerState } = useContext(GameContext);
+  const { resetGame, playerState, roomInfo } = useContext(GameContext);
 
   const debounceCreateGameID = React.useCallback(debounce(onFindMatch, 1000), []);
 
@@ -29,6 +30,8 @@ const CreateRoom = React.memo(() => {
       await onCancelMatch();
       await sleep(500);
       resetGame();
+
+      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
     } catch (error) {
       const { desc } = getErrorMessage(error);
       toast.error(desc);

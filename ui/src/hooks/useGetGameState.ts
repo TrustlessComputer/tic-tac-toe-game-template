@@ -13,6 +13,7 @@ interface IGameState {
   turn: Player;
   timeLeftCurrTurn: string;
   isMatchEnd: boolean;
+  drawOffer?: number;
 }
 
 const useGetGameState = () => {
@@ -23,6 +24,8 @@ const useGetGameState = () => {
       throw new Error('Get game state error.');
     }
     const gameState = await contractSigner.getGameState(gameID);
+
+    console.log('gameState__', gameState);
 
     const squares = flatten(gameState[0]).map((item: any) => {
       const value = item.toString();
@@ -44,12 +47,19 @@ const useGetGameState = () => {
     const player1Moved = squares.filter((item: any) => item === IRole.X).length;
     const player2Moved = squares.filter((item: any) => item === IRole.O).length;
 
+    const drawOffer = gameState[4].drawOffer;
+
     const turn = turnMapper(gameState[1]);
     const timeLeftCurrTurn = gameState[2].toString(); // seconds
+    console.log('timeLeftCurrTurn___', timeLeftCurrTurn);
 
     let matchData = gamesBuilder(gameState[4]);
 
+    console.log('matchData____', matchData);
+
     const isMatchEnd = new BigNumber(timeLeftCurrTurn).lt(0);
+    console.log('isMatchEnd__', isMatchEnd);
+
     if (isMatchEnd && matchData.winner === WinnerState.Playing) {
       matchData = {
         ...matchData,
@@ -63,6 +73,7 @@ const useGetGameState = () => {
       isMatchEnd,
       matchData,
       timeLeftCurrTurn,
+      drawOffer,
     });
 
     return {
@@ -72,6 +83,7 @@ const useGetGameState = () => {
       turn,
       timeLeftCurrTurn,
       isMatchEnd,
+      drawOffer,
     };
   };
 

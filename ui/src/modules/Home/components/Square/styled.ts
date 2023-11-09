@@ -20,7 +20,7 @@ const Container = styled(motion.div)<{ isLastMove: boolean }>`
     width: 70%;
     height: 70%;
     border-radius: 50%;
-    border: 8px solid transparent;
+    border: 6px solid transparent;
     &.x::after,
     &.x::before {
       position: absolute;

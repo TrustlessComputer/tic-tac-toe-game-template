@@ -1,6 +1,7 @@
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import { IGetPlayerState } from '@/hooks/useCheckPlayerState';
+import { Dispatch, SetStateAction } from 'react';
 
 export interface IJoinGamePayload {
   games: IGameMapper;
@@ -18,16 +19,24 @@ export interface IGameState {
     player2: string;
     winner?: string;
   };
+  drawOffer?: number;
 }
 
 export interface ILocalState {
   [key: number]: IRole;
 }
 
+export interface IRoomInfoState {
+  roomId: string;
+  reward: string;
+  status: 'PLAY' | 'CONTINUE' | 'WATCH';
+}
+
 export interface IGameContext {
   squares: IRole[];
   loading: boolean;
   turn: IRole;
+  roomInfo?: IRoomInfoState | undefined;
   gameInfo: IGameState | undefined;
   localState: ILocalState;
   playerState: IGetPlayerState;
@@ -48,4 +57,5 @@ export interface IGameContext {
 
   onJoinRoom: (payload: IJoinGamePayload) => void;
   updateSquares: (ind: number | string) => void;
+  setGameInfo: Dispatch<SetStateAction<any>>;
 }
