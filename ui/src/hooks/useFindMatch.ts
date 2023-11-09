@@ -8,6 +8,7 @@ import useGetGames from '@/hooks/useGetGames';
 import { ethers } from 'ethers';
 import useContractERC20 from './useContractERC20';
 import { CONTRACT_ADDRESS } from '@/configs';
+import { getErrorMessage } from '@/utils/error';
 
 // const hardValue = '0.000001';
 
@@ -61,11 +62,10 @@ const useFindMatch = () => {
 
       if (logs && !!logs.length && logs[0]?.topics.length > 1) {
         const logData = logs[2];
-        console.log('_____logData', logData);
         const gameID = logData.topics[1] as any;
+        console.log('mamama', gameID);
         setGameState(value => ({ ...value, gameID }));
         const games = await onWaitingGames(gameID);
-        console.log('games___: ', games);
         if (games) {
           onJoinRoom({
             games,
@@ -75,9 +75,9 @@ const useFindMatch = () => {
       }
     } catch (error) {
       console.log('LOGGER--- create game error: ', error);
-      // const { desc } = getErrorMessage(error);
-      // toast.error(desc);
-      toast.error('Something went wrong.');
+      const { desc } = getErrorMessage(error);
+      toast.error(desc);
+      // toast.error('Something went wrong.');
       setTimeout(() => {
         setShowCreateRoom(false);
       }, 2000);

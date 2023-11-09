@@ -376,14 +376,12 @@ const DashBoard = React.memo(() => {
           </div>
         ))}
       {/* <S.Banner src={BannerImage} /> */}
-      {isWatcher && (
-        <S.Box>
-          {/* <ButtonLogin /> */}
-          {/* {renderWarning()} */}
-          {renderContent()}
-        </S.Box>
-      )}
-      {playerState?.isFinding && !gameInfo?.gameID && <S.Box>{renderContent()}</S.Box>}
+      <S.Box>
+        <ButtonLogin />
+        {renderWarning()}
+        {renderContent()}
+      </S.Box>
+      {/* {playerState?.isFinding && !gameInfo?.gameID && <S.Box>{renderContent()}</S.Box>} */}
     </S.Container>
   );
 });

@@ -7,6 +7,7 @@ import { WinnerState } from '@/interfaces/useGetGames';
 import useRequestEndMatch from '@/hooks/useRequestEndMatch';
 import useAsyncEffect from 'use-async-effect';
 import { ellipsisCenter } from 'tc-formatter';
+import { PARENT_PATH } from '@/configs';
 
 const GameEnd = React.memo(() => {
   const { resetGame, gameInfo, setShowCreateRoom, playerState, roomInfo } = useContext(GameContext);
@@ -105,7 +106,13 @@ const GameEnd = React.memo(() => {
                 transition: { delay: 1.5, duration: 0.3 },
               }}
             >
-              <Button onClick={resetGame} variants="outline">
+              <Button
+                onClick={() => {
+                  resetGame();
+                  window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+                }}
+                variants="outline"
+              >
                 Close
               </Button>
             </motion.div>

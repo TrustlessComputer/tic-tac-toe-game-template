@@ -17,6 +17,8 @@ import useCheckPlayerState, { IGetPlayerState, INIT_PLAYER_STATE } from '@/hooks
 import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 import useCountDown from '@/hooks/useCountDown';
+import useContractSigner from '@/hooks/useContractSigner';
+import { isAddress } from 'ethers/lib/utils';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -64,7 +66,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   const { onMakeMoves } = useMakeMoves();
   const { onGetGameState } = useGetGameState();
-  const { onGetWinner } = useGetGames();
+  const { onGetWinner, onWaitingGames } = useGetGames();
   const { onCheckPlayer } = useCheckPlayerState();
 
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
@@ -74,6 +76,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
   const [roomInfo, setRoomInfo] = useState<IRoomInfoState | undefined>(undefined);
 
+  const contractSigner = useContractSigner();
   const resetGame = () => {
     setSquares(INIT_ARRAY);
     updateTime(undefined);
@@ -86,10 +89,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLocalState({});
     setPlayerState({ ...INIT_PLAYER_STATE });
     setLastMove(undefined);
-    window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
   };
 
   const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
+    console.log('JOIN ROOM ___', games);
     if (!keySet.address) return resetGame();
     resetGame();
     const isPlayer1 = keySet.address.toLowerCase() === games.player1.toLowerCase();
@@ -129,37 +132,17 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               : undefined,
           );
         }
-        if (typeof drawOffer === 'number') {
-          setGameInfo(value =>
-            value
-              ? {
-                  ...value,
-                  drawOffer,
-                }
-              : undefined,
-          );
-        }
-        if (roomInfo?.status === 'CONTINUE' && !gameInfo?.competitorAddress) {
-          // onJoinRoom({ games: matchData, gameID });
-          if (!keySet.address) {
-            return;
-          }
-          const isPlayer1 = keySet.address.toLowerCase() === matchData.player1.toLowerCase();
-          const myRolePlayer = isPlayer1 ? Player.Player1 : Player.Player2;
-          const myTurn = isPlayer1 ? IRole.X : IRole.O;
-          const competitorAddress = isPlayer1 ? matchData.player2 : matchData.player1;
-          setGameInfo(value =>
-            value
-              ? {
-                  ...value,
-                  myRolePlayer,
-                  winner: matchData.winner,
-                  myTurn,
-                  competitorAddress,
-                }
-              : undefined,
-          );
-        }
+        // if (typeof drawOffer === 'number') {
+        //   setGameInfo(value =>
+        //     value
+        //       ? {
+        //           ...value,
+        //           drawOffer,
+        //         }
+        //       : undefined,
+        //   );
+        // }
+
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
@@ -186,6 +169,21 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  const onFetchAfterBack = async (gameID: string) => {
+    try {
+      const games = await onWaitingGames(gameID);
+      console.log('mememe:', games);
+      if (games) {
+        onJoinRoom({
+          games,
+          gameID,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const throttleOnGetGameState = throttle(_onGetGameState, 300);
 
   const updateSquares = async (ind: string | number) => {
@@ -201,7 +199,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           myRolePlayer: gameInfo.myRolePlayer,
         })) || {};
 
-      console.log('aabb__', games);
       if (games?.winner && games?.winner !== WinnerState.Playing) {
         setGameInfo(value =>
           value
@@ -258,6 +255,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
 
   useEffect(() => {
+    if (!contractSigner) return;
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
       console.log('Parent Path___', PARENT_PATH);
@@ -282,13 +280,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
                 reward: data?.reward.toString(),
                 status: 'CONTINUE',
               });
-              setGameInfo({
-                myRolePlayer: Player.Empty,
-                winner: WinnerState.Playing,
-                myTurn: IRole.O,
-                competitorAddress: '',
-                gameID: data?.gameId,
-              });
+              onFetchAfterBack(data?.gameId);
+
               break;
             case 'WATCH':
               setGameInfo({
@@ -309,7 +302,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         }
       }
     });
-  }, []);
+  }, [contractSigner]);
 
   useAsyncEffect(async () => {
     if (!address) return;
