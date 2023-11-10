@@ -19,6 +19,7 @@ import ButtonCancelFind from '@/components/ButtonCancelFind';
 import { Row } from '@/components/Row';
 import useContractSigner from '@/hooks/useContractSigner';
 import toast from 'react-hot-toast';
+import ModalFinding from '../ModalFinding';
 
 export enum TYPE_OFFER {
   OFFERING,
@@ -212,10 +213,10 @@ const DashBoard = React.memo(() => {
       <div>
         {isFinding && renderCancelFinding()}
         {isPlaying && renderCancelPlaying()}
-        <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
+        {/* <S.Actions initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ scale: 0, opacity: 0 }}>
           {isPlaying && <ButtonEndMatch />}
           {isFinding && <ButtonCancelFind />}
-          {/* {isShowAction && (
+          {isShowAction && (
             <ButtonCreateRoom
               leftIcon={<IconSVG src={`${CDN_URL_ICONS}/ic-plus-square.svg`} maxWidth="24px" />}
               disabled={isDisabled}
@@ -225,8 +226,8 @@ const DashBoard = React.memo(() => {
             >
               Play
             </ButtonCreateRoom>
-          )} */}
-        </S.Actions>
+          )}
+        </S.Actions> */}
       </div>
     );
   };
@@ -337,7 +338,7 @@ const DashBoard = React.memo(() => {
   const renderCancelPlaying = () => {
     return (
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="warning-wrapper">
-        <p>You are in a match, please click cancel to play new game...</p>
+        <p>You are in a match...</p>
       </motion.div>
     );
   };
@@ -358,6 +359,7 @@ const DashBoard = React.memo(() => {
   return (
     <S.Container>
       {gameInfo?.gameID &&
+        turn &&
         !gameInfo?.infoForWatcher &&
         gameInfo?.winner === '0' &&
         (isMyTurn ? (
@@ -376,11 +378,14 @@ const DashBoard = React.memo(() => {
           </div>
         ))}
       {/* <S.Banner src={BannerImage} /> */}
-      <S.Box>
-        <ButtonLogin />
-        {renderWarning()}
-        {renderContent()}
-      </S.Box>
+      {playerState?.isFinding && <ModalFinding />}
+      {/* {!playerState?.isPlaying && (
+        <S.Box>
+          <ButtonLogin />
+          {renderWarning()}
+          {renderContent()}
+        </S.Box>
+      )} */}
       {/* {playerState?.isFinding && !gameInfo?.gameID && <S.Box>{renderContent()}</S.Box>} */}
     </S.Container>
   );

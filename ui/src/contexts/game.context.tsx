@@ -18,7 +18,6 @@ import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 import useCountDown from '@/hooks/useCountDown';
 import useContractSigner from '@/hooks/useContractSigner';
-import { isAddress } from 'ethers/lib/utils';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -284,6 +283,11 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
               break;
             case 'WATCH':
+              setRoomInfo({
+                roomId: data?.tokenRoom,
+                reward: data?.reward.toString(),
+                status: 'WATCH',
+              });
               setGameInfo({
                 myRolePlayer: Player.Empty,
                 winner: WinnerState.Playing,

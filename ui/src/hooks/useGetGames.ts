@@ -61,7 +61,7 @@ const useGetGames = () => {
       // eslint-disable-next-line no-constant-condition
       while (true) {
         const mapper = await onGetGameMapper(gameID);
-        console.log('aadd__', mapper);
+
         if (counter === COUNTER_TIME) {
           throw new Error('Timeout.');
         }
