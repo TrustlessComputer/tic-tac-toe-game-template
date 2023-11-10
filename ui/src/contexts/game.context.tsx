@@ -254,6 +254,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
 
   useEffect(() => {
+    console.log('contractSigner___', contractSigner);
     if (!contractSigner) return;
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
