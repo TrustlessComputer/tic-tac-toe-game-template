@@ -256,6 +256,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   console.log('PARENT_PATH <<<<<', PARENT_PATH);
 
   useEffect(() => {
+    console.log('contractSigner___', contractSigner);
     if (!contractSigner) return;
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
