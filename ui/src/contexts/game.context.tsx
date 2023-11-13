@@ -132,24 +132,25 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
               : undefined,
           );
         }
-        // if (typeof drawOffer === 'number') {
-        //   setGameInfo(value =>
-        //     value
-        //       ? {
-        //           ...value,
-        //           drawOffer,
-        //         }
-        //       : undefined,
-        //   );
-        // }
+        if (typeof drawOffer === 'number') {
+          setGameInfo(value =>
+            value
+              ? {
+                  ...value,
+                  drawOffer,
+                }
+              : undefined,
+          );
+        }
 
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
-          console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
-          const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
-          updateTime(_timeLeft - 5);
+          updateTime(timeLeftNumb - 3);
+          // console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
+          // const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
+          // updateTime(_timeLeft - 5);
         }
       }
 
@@ -165,7 +166,12 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       }
     } catch (error) {
       const { desc } = getErrorMessage(error);
-      toast.error(desc);
+      console.log('error get game state__', error);
+      toast.error('Transaction failed!');
+      setTimeout(() => {
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      }, 2000);
+      // toast.error(desc);
     }
   };
 
@@ -256,6 +262,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     console.log('contractSigner___', contractSigner);
+
+    if (roomInfo) return;
+
     window.addEventListener('message', function (event) {
       console.log('event before: ', event.data);
       if (event.origin === PARENT_PATH) {
@@ -270,8 +279,8 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       console.log('Parent Path___', PARENT_PATH);
       if (event.origin === PARENT_PATH) {
         const data = event.data;
-
-        console.log('EVENT___ 222', event.data);
+        // setStoreData(event?.data);
+        console.log('EVENT___', event.data);
 
         if (typeof data === 'object') {
           switch (data?.status) {
@@ -316,7 +325,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         }
       }
     });
-  }, [contractSigner]);
+  }, [contractSigner, roomInfo]);
 
   useAsyncEffect(async () => {
     if (!address) return;
