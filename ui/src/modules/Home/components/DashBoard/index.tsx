@@ -9,7 +9,7 @@ import { WalletContext } from '@/contexts/wallet.context';
 import { ellipsisCenter } from 'tc-formatter';
 import Spinner from '@/components/Spinner';
 import { AssetsContext } from '@/contexts/assets.context';
-import { CDN_URL_ICONS, isProduction } from '@/configs';
+import { API_URL, CDN_URL_ICONS, isProduction } from '@/configs';
 // import BannerImage from '@/images/banner.png';
 import ButtonLogin from '@/components/ButtonLogin';
 import { motion } from 'framer-motion';
@@ -20,6 +20,7 @@ import { Row } from '@/components/Row';
 import useContractSigner from '@/hooks/useContractSigner';
 import toast from 'react-hot-toast';
 import ModalFinding from '../ModalFinding';
+import axios from 'axios';
 
 export enum TYPE_OFFER {
   OFFERING,
@@ -36,6 +37,8 @@ const DashBoard = React.memo(() => {
   // const [statusOffer, setStatusOffer] = useState<TYPE_OFFER | null>(null);
 
   // const contractSigner = useContractSigner();
+  const [player1, setPlayer1] = useState<any>(null);
+  const [player2, setPlayer2] = useState<any>(null);
 
   const isMyTurn = React.useMemo(() => {
     return turn === gameInfo?.myTurn;
@@ -367,7 +370,35 @@ const DashBoard = React.memo(() => {
 
   return (
     <S.Container>
-      {gameInfo?.gameID &&
+      {gameInfo?.gameID && turn && gameInfo?.winner === '0' && (
+        <div className="alert-move">
+          <div className="rowFlex">
+            <div className={`player ${isMyTurn ? 'active' : ''}`}>
+              <span className="tick">
+                <Square ind="1" updateSquares={() => undefined} clsName={gameInfo?.myTurn as any} />
+              </span>
+              <span className="name">{isWatcher ? gameInfo?.player1?.name : isMyTurn ? 'Your turn' : 'You'}</span>
+            </div>
+            <div> {!loading ? renderCounter() : <Spinner size={20} />}</div>
+            <div className={`player ${!isMyTurn ? 'active' : ''}`}>
+              <span className="name right">
+                {/* {ellipsisCenter({ str: gameInfo?.infoForWatcher?.player1 || keySet.address, limit: 5 })} */}
+                {/* {player2} */}
+                {gameInfo?.player2?.name}
+              </span>
+              <span className="tick">
+                <Square
+                  ind="2"
+                  updateSquares={() => undefined}
+                  clsName={gameInfo?.myTurn === IRole.X ? IRole.O : IRole.X}
+                />
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* {gameInfo?.gameID &&
         turn &&
         !gameInfo?.infoForWatcher &&
         gameInfo?.winner === '0' &&
@@ -385,9 +416,10 @@ const DashBoard = React.memo(() => {
               {!loading ? renderCounter() : <Spinner size={20} />}
             </div>
           </div>
-        ))}
+        ))} */}
       {/* <S.Banner src={BannerImage} /> */}
       {playerState?.isFinding && <ModalFinding />}
+      {/* {gameInfo?.gameID && renderMatch()} */}
       {/* {renderDrawOffer()} */}
       {/* {!playerState?.isPlaying && (
         <S.Box>

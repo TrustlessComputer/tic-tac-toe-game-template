@@ -18,6 +18,7 @@ const TC_NETWORK = {
 };
 
 const PARENT_PATH = isProduction ? 'https://alpha.staging.newbitcoincity.com' : 'https://alpha.dev.newbitcoincity.com';
+const API_URL = isProduction ? 'https://alpha-api.newbitcoincity.com' : 'https://stag-perp-api.fprotocol.io';
 
 const CONTRACT_ADDRESS = isProduction
   ? '0x57804Be65b969056Cf0bC44ac4Cf830F52246f93'
@@ -54,4 +55,5 @@ export {
   CDN_ICONS,
   PARENT_PATH,
   CONTRACT_ERC_20,
+  API_URL,
 };
