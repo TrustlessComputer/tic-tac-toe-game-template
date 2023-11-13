@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameContext, IGameState, IRoomInfoState } from '@/interfaces/game.context';
-import { NUMBER_COLUMN, PARENT_PATH } from '@/configs';
+import { API_URL, NUMBER_COLUMN, PARENT_PATH } from '@/configs';
 import CreateRoom from '@/modules/Home/components/CreateRoom';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import { WalletContext } from '@/contexts/wallet.context';
@@ -18,6 +18,8 @@ import useAsyncEffect from 'use-async-effect';
 import AutoMatchRoom from '@/modules/Home/components/AutoMatchRoom';
 import useCountDown from '@/hooks/useCountDown';
 import useContractSigner from '@/hooks/useContractSigner';
+import axios from 'axios';
+import { ellipsisCenter } from 'tc-formatter';
 
 const initialValue: IGameContext = {
   squares: [],
@@ -259,6 +261,47 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       clearGameState();
     };
   }, [gameInfo?.gameID, gameInfo?.winner, turn, squares]);
+
+  const fetchPlayer = async (player_address: any) => {
+    if (!player_address) return '';
+    try {
+      const rs: any = await axios.get(`${API_URL}/api/player-share/profile/v3`, {
+        params: {
+          network: 'nos',
+          player_address: player_address.toLocaleLowerCase(),
+          address: '',
+        },
+      });
+      console.log('RS NAME: ', rs);
+      if (rs.data.result) {
+        const detail = rs.data.result;
+        return detail?.twitter_name || ellipsisCenter({ str: player_address, limit: 5 });
+      }
+    } catch (error) {
+      console.log('error get player');
+    } finally {
+    }
+  };
+
+  useEffect(() => {
+    if (gameInfo?.competitorAddress) {
+      (async () => {
+        const name1 = await fetchPlayer(keySet?.address);
+        const name2 = await fetchPlayer(gameInfo?.competitorAddress);
+        setGameInfo({
+          ...gameInfo,
+          player1: {
+            address: keySet?.address || '',
+            name: name1,
+          },
+          player2: {
+            address: gameInfo?.competitorAddress || '',
+            name: name2,
+          },
+        });
+      })();
+    }
+  }, [gameInfo?.competitorAddress]);
 
   useEffect(() => {
     console.log('contractSigner___', contractSigner);
