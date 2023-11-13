@@ -231,53 +231,65 @@ const DashBoard = React.memo(() => {
       </div>
     );
   };
+
+  // const renderDrawOffer = () => {
+  //   if (!gameInfo) return;
+  //   return (
+  //     <>
+  //       {loadingDraw && (
+  //         <div className="loading-layer">
+  //           <Spinner size={24} />
+  //         </div>
+  //       )}
+
+  //       {((gameInfo?.drawOffer && gameInfo?.drawOffer !== 0 && gameInfo?.winner === '0') ||
+  //         statusOffer === TYPE_OFFER.OFFERING) && (
+  //         <div className="modal-offer-draw">
+  //           {gameInfo?.drawOffer !== Number(gameInfo?.myRolePlayer) && statusOffer == null ? (
+  //             <div className="inner">
+  //               <p>Your opponent wants a draw</p>
+  //               <p>Do you agee?</p>
+  //               <div className="footer">
+  //                 <button onClick={onAcceptDraw} className="yes">
+  //                   Yes
+  //                 </button>
+  //                 <button onClick={onRejectDraw} className="no">
+  //                   No
+  //                 </button>
+  //               </div>
+  //             </div>
+  //           ) : (
+  //             <div className="inner">
+  //               {statusOffer === TYPE_OFFER.OFFERING ? (
+  //                 <p>Wait for your opponent accept...</p>
+  //               ) : (
+  //                 <p>Opponents do not accept</p>
+  //               )}
+
+  //               <div className="footer">
+  //                 {statusOffer === TYPE_OFFER.OFFERING ? (
+  //                   <button onClick={onCancelDraw} className="yes">
+  //                     Cancel
+  //                   </button>
+  //                 ) : (
+  //                   <p className="reject">Auto close after 2s</p>
+  //                 )}
+  //               </div>
+  //             </div>
+  //           )}
+  //         </div>
+  //       )}
+  //       <button className="drawOfferBtn" onClick={onOfferDraw}>
+  //         Draw Offer
+  //       </button>
+  //     </>
+  //   );
+  // };
+
   const renderMatch = () => {
     if (!gameInfo) return;
     return (
       <S.MatchContent initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0, opacity: 0 }}>
-        {/* {loadingDraw && (
-          <div className="loading-layer">
-            <Spinner size={24} />
-          </div>
-        )} */}
-
-        {/* {((gameInfo?.drawOffer && gameInfo?.drawOffer !== 0 && gameInfo?.winner === '0') ||
-          statusOffer === TYPE_OFFER.OFFERING) && (
-          <div className="modal-offer-draw">
-            {gameInfo?.drawOffer !== Number(gameInfo?.myRolePlayer) && statusOffer == null ? (
-              <div className="inner">
-                <p>Your opponent wants a draw</p>
-                <p>Do you agee?</p>
-                <div className="footer">
-                  <button onClick={onAcceptDraw} className="yes">
-                    Yes
-                  </button>
-                  <button onClick={onRejectDraw} className="no">
-                    No
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="inner">
-                {statusOffer === TYPE_OFFER.OFFERING ? (
-                  <p>Wait for your opponent accept...</p>
-                ) : (
-                  <p>Opponents do not accept</p>
-                )}
-
-                <div className="footer">
-                  {statusOffer === TYPE_OFFER.OFFERING ? (
-                    <button onClick={onCancelDraw} className="yes">
-                      Cancel
-                    </button>
-                  ) : (
-                    <p className="reject">Auto close after 2s</p>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        )} */}
         <S.PlayerBox isMyTurn={isMyTurn} turnColor={turnColor.myTurn}>
           <Row align="center" gap="24px">
             <div className="square-box">
@@ -320,9 +332,6 @@ const DashBoard = React.memo(() => {
           </Row>
           {!isMyTurn && <div className="wrap-counter">{renderCounter()}</div>}
         </S.PlayerBox>
-        {/* <button className="drawOfferBtn" onClick={onOfferDraw}>
-          Draw Offer
-        </button> */}
       </S.MatchContent>
     );
   };
@@ -379,6 +388,7 @@ const DashBoard = React.memo(() => {
         ))}
       {/* <S.Banner src={BannerImage} /> */}
       {playerState?.isFinding && <ModalFinding />}
+      {/* {renderDrawOffer()} */}
       {/* {!playerState?.isPlaying && (
         <S.Box>
           <ButtonLogin />

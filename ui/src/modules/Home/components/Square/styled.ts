@@ -10,6 +10,7 @@ const Container = styled(motion.div)<{ isLastMove: boolean }>`
   aspect-ratio: 1 / 1;
   background-color: ${({ theme, isLastMove }) => (isLastMove ? opacify(40, theme.black) : opacify(14, theme.black))};
   border-radius: 6px;
+
   :hover {
     opacity: 0.8;
   }
@@ -17,16 +18,16 @@ const Container = styled(motion.div)<{ isLastMove: boolean }>`
   span {
     display: block;
     position: relative;
-    width: 70%;
-    height: 70%;
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
-    border: 6px solid transparent;
+    border: 7px solid transparent;
     &.x::after,
     &.x::before {
       position: absolute;
       content: '';
       width: 250%;
-      height: 8px;
+      height: 6px;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) rotate(-45deg);
@@ -41,6 +42,9 @@ const Container = styled(motion.div)<{ isLastMove: boolean }>`
 
     &.o {
       border-color: #ffa02e;
+      border-width: 5px;
+      width: 69%;
+      height: 70%;
     }
   }
 `;
