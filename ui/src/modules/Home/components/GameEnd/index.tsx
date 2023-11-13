@@ -43,10 +43,10 @@ const GameEnd = React.memo(() => {
   useAsyncEffect(requestEndGame, []);
 
   const renderWinnerName = () => {
-    if (gameInfo?.player1?.address === winnerAddress) {
+    if (gameInfo?.player1?.address?.toLocaleLowerCase() === winnerAddress?.toLocaleLowerCase()) {
       return gameInfo?.player1?.name;
     }
-    if (gameInfo?.player2?.address === winnerAddress) {
+    if (gameInfo?.player2?.address?.toLocaleLowerCase() === winnerAddress?.toLocaleLowerCase()) {
       return gameInfo?.player2?.name;
     }
   };
