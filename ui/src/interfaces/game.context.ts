@@ -14,6 +14,14 @@ export interface IGameState {
   winner: WinnerState;
   myRolePlayer: Player;
   competitorAddress: string;
+  player1?: {
+    address: string;
+    name: string;
+  };
+  player2?: {
+    address: string;
+    name: string;
+  };
   infoForWatcher?: {
     player1: string;
     player2: string;

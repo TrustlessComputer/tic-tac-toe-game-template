@@ -42,6 +42,15 @@ const GameEnd = React.memo(() => {
 
   useAsyncEffect(requestEndGame, []);
 
+  const renderWinnerName = () => {
+    if (gameInfo?.player1?.address === winnerAddress) {
+      return gameInfo?.player1?.name;
+    }
+    if (gameInfo?.player2?.address === winnerAddress) {
+      return gameInfo?.player2?.name;
+    }
+  };
+
   return (
     <AnimatePresence>
       <GamePopup
@@ -57,6 +66,7 @@ const GameEnd = React.memo(() => {
           animate={{ scale: 1 }}
           exit={{ scale: 0, opacity: 0 }}
           className="text"
+          style={{ textAlign: 'center' }}
         >
           <motion.h5
             initial={{ scale: 0, y: 100 }}
@@ -70,16 +80,16 @@ const GameEnd = React.memo(() => {
             }}
             style={{ fontSize: 23 }}
           >
-            {isWatcher &&
-              (gameInfo?.winner === WinnerState.Draw
-                ? 'No Winner'
-                : `Winner is ${ellipsisCenter({ str: winnerAddress, limit: 5 })}`)}
+            {isWatcher && (gameInfo?.winner === WinnerState.Draw ? 'No Winner' : `Winner is ${renderWinnerName()}`)}
             {!isWatcher &&
               (gameInfo?.winner === WinnerState.Draw
                 ? 'No Winner :/'
                 : gameInfo?.winner === (gameInfo?.myRolePlayer as any)
                 ? 'Win !! :)'
                 : 'Lose !! :(')}
+            <div className="reward" style={{ marginTop: '20px' }}>
+              {roomInfo?.reward} BTC
+            </div>
           </motion.h5>
           <Actions>
             {/* <motion.div

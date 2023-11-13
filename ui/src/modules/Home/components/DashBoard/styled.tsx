@@ -19,6 +19,12 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 
+  .noti-turn {
+    margin-top: 20px;
+    color: white;
+    font-size: 14px;
+  }
+
   .alert-move {
     position: fixed;
     top: 0;
@@ -41,10 +47,53 @@ const Container = styled.div`
 
     .rowFlex {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       flex-wrap: nowrap;
       gap: 10px;
+    }
+
+    .player {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      .tick {
+        span {
+          width: 15px;
+          height: 15px;
+
+          &.x {
+            width: 19px;
+            height: 19px;
+            border: 7px solid transparent;
+
+            &:before,
+            &:after {
+              height: 2px;
+            }
+          }
+
+          @media screen and (max-width: 600px) {
+            width: 17px;
+            height: 17px;
+          }
+        }
+      }
+      .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 80px;
+        &.right {
+          text-align: right;
+        }
+      }
+      &.active {
+        background: #ffcf89;
+        padding: 3px 5px;
+        border-radius: 999px;
+        border: 2px solid #f7c35c;
+      }
     }
 
     @keyframes aniAlert {
@@ -229,6 +278,7 @@ const MatchContent = styled(motion.div)`
     }
   }
 
+  
   
 
   // @media screen and (max-width: 600px) {

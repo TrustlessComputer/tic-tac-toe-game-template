@@ -78,9 +78,9 @@ const useFindMatch = () => {
       const { desc } = getErrorMessage(error);
       // toast.error(desc);
       toast.error('Transaction failed!');
-      setTimeout(() => {
-        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      }, 2000);
+      // setTimeout(() => {
+      //   window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      // }, 2000);
       setTimeout(() => {
         setShowCreateRoom(false);
       }, 2000);
