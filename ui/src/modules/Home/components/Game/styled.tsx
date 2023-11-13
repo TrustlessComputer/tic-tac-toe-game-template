@@ -26,7 +26,7 @@ const GridContainerXXL = css`
 
 const GridContainerMD = css`
   // min-width: 170vw;
-  min-width: 160vw;
+  min-width: 140vw;
   padding: 12px;
   border-width: 2px;
   border-radius: 24px;
@@ -41,7 +41,7 @@ const GridContainer = styled.div`
   border-radius: ${px2rem(50)};
   border: ${px2rem(15)} solid ${({ theme }) => opacify(10, theme.black)};
   padding: ${px2rem(16)};
-  gap: ${px2rem(6)};
+  gap: ${px2rem(5)};
   position: relative;
   flex: 1;
   max-width: 38vw;

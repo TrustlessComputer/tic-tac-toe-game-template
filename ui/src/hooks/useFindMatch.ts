@@ -7,7 +7,7 @@ import useProvider from '@/hooks/useProvider';
 import useGetGames from '@/hooks/useGetGames';
 import { ethers } from 'ethers';
 import useContractERC20 from './useContractERC20';
-import { CONTRACT_ADDRESS } from '@/configs';
+import { CONTRACT_ADDRESS, PARENT_PATH } from '@/configs';
 import { getErrorMessage } from '@/utils/error';
 
 // const hardValue = '0.000001';
@@ -76,8 +76,11 @@ const useFindMatch = () => {
     } catch (error) {
       console.log('LOGGER--- create game error: ', error);
       const { desc } = getErrorMessage(error);
-      toast.error(desc);
-      // toast.error('Something went wrong.');
+      // toast.error(desc);
+      toast.error('Transaction failed!');
+      setTimeout(() => {
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      }, 2000);
       setTimeout(() => {
         setShowCreateRoom(false);
       }, 2000);
