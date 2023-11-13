@@ -71,6 +71,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
   const [showCreateRoom, setShowCreateRoom] = React.useState(false);
   const [showAutoMatchRoom, setShowAutoMatchRoom] = React.useState(false);
+  const [storeData, setStoreData] = useState(null);
 
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
   const [roomInfo, setRoomInfo] = useState<IRoomInfoState | undefined>(undefined);
@@ -255,7 +256,15 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     console.log('contractSigner___', contractSigner);
+    window.addEventListener('message', function (event) {
+      console.log('event before: ', event.data);
+      if (event.origin === PARENT_PATH) {
+        // setStoreData(event?.data);
+      }
+    });
     if (!contractSigner) return;
+    window.parent.postMessage({ status: 'LOADED' }, PARENT_PATH);
+
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
       // console.log('Parent Path___', PARENT_PATH);
