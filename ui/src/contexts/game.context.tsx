@@ -73,7 +73,6 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
   const [showJoinRoom, setShowJoinRoom] = React.useState(false);
   const [showCreateRoom, setShowCreateRoom] = React.useState(false);
   const [showAutoMatchRoom, setShowAutoMatchRoom] = React.useState(false);
-  const [storeData, setStoreData] = useState(null);
 
   const [gameInfo, setGameInfo] = React.useState<IGameState | undefined>(undefined);
   const [roomInfo, setRoomInfo] = useState<IRoomInfoState | undefined>(undefined);
@@ -93,7 +92,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     setLastMove(undefined);
   };
 
-  const onJoinRoom = ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
+  const onJoinRoom = async ({ games, gameID }: { games: IGameMapper; gameID: string }) => {
     console.log('JOIN ROOM ___', games);
     if (!keySet.address) return resetGame();
     resetGame();
@@ -101,16 +100,57 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     const myRolePlayer = isPlayer1 ? Player.Player1 : Player.Player2;
     const myTurn = isPlayer1 ? IRole.X : IRole.O;
     const competitorAddress = isPlayer1 ? games.player2 : games.player1;
+
+    const detail1 = await fetchPlayer(keySet?.address);
+    const detail2 = await fetchPlayer(competitorAddress);
+
     setGameInfo({
       gameID,
       myRolePlayer,
       winner: games.winner,
       myTurn,
       competitorAddress,
+      player1: {
+        address: keySet?.address || '',
+        name: detail1.twitter_name || ellipsisCenter({ str: keySet?.address, limit: 5 }),
+        avatar: detail1?.twitter_avatar || '',
+      },
+      player2: {
+        address: competitorAddress || '',
+        name: detail2.twitter_name || ellipsisCenter({ str: competitorAddress, limit: 5 }),
+        avatar: detail2?.twitter_avatar || '',
+      },
     });
   };
 
   console.log('Game Info ====___', gameInfo);
+
+  const updateInfoForWatcher = async (matchData: any) => {
+    const detail1 = await fetchPlayer(matchData?.player1);
+    const detail2 = await fetchPlayer(matchData?.player2);
+
+    setGameInfo(value =>
+      value
+        ? {
+            ...value,
+            infoForWatcher: {
+              player1: matchData.player1,
+              player2: matchData.player2,
+            },
+            player2: {
+              address: matchData?.player1 || '',
+              name: detail1.twitter_name || ellipsisCenter({ str: matchData?.player1, limit: 5 }),
+              avatar: detail1?.twitter_avatar || '',
+            },
+            player1: {
+              address: matchData?.player2 || '',
+              name: detail2.twitter_name || ellipsisCenter({ str: matchData?.player2, limit: 5 }),
+              avatar: detail2?.twitter_avatar || '',
+            },
+          }
+        : undefined,
+    );
+  };
 
   const _onGetGameState = async (gameID: string) => {
     try {
@@ -122,35 +162,25 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
         setSquares(newSquares);
         setTurn(newTurn);
         if (gameInfo?.infoForWatcher && !gameInfo?.infoForWatcher.player1 && !gameInfo?.infoForWatcher.player2) {
-          setGameInfo(value =>
-            value
-              ? {
-                  ...value,
-                  infoForWatcher: {
-                    player1: matchData.player1,
-                    player2: matchData.player2,
-                  },
-                }
-              : undefined,
-          );
+          updateInfoForWatcher(matchData);
         }
-        if (typeof drawOffer === 'number') {
-          setGameInfo(value =>
-            value
-              ? {
-                  ...value,
-                  drawOffer,
-                }
-              : undefined,
-          );
-        }
+        // if (typeof drawOffer === 'number') {
+        //   setGameInfo(value =>
+        //     value
+        //       ? {
+        //           ...value,
+        //           drawOffer,
+        //         }
+        //       : undefined,
+        //   );
+        // }
 
         if (newTurn !== turn) {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
           updateTime(timeLeftNumb - 3);
-          // console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
+          console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
           // const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
           // updateTime(_timeLeft - 5);
         }
@@ -170,9 +200,9 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       const { desc } = getErrorMessage(error);
       console.log('error get game state__', error);
       toast.error('Transaction failed!');
-      setTimeout(() => {
-        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      }, 2000);
+      // setTimeout(() => {
+      //   window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      // }, 2000);
       // toast.error(desc);
     }
   };
@@ -275,7 +305,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       console.log('RS NAME: ', rs);
       if (rs.data.result) {
         const detail = rs.data.result;
-        return detail?.twitter_name || ellipsisCenter({ str: player_address, limit: 5 });
+        return detail;
       }
     } catch (error) {
       console.log('error get player');
@@ -283,25 +313,48 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  useEffect(() => {
-    if (gameInfo?.competitorAddress) {
-      (async () => {
-        const name1 = await fetchPlayer(keySet?.address);
-        const name2 = await fetchPlayer(gameInfo?.competitorAddress);
-        setGameInfo({
-          ...gameInfo,
-          player1: {
-            address: keySet?.address || '',
-            name: name1,
-          },
-          player2: {
-            address: gameInfo?.competitorAddress || '',
-            name: name2,
-          },
-        });
-      })();
-    }
-  }, [gameInfo?.competitorAddress]);
+  // useEffect(() => {
+  //   if (gameInfo?.player1?.name && gameInfo?.player2?.name) return;
+  //   if (gameInfo?.competitorAddress) {
+  //     (async () => {
+  //       const detail1 = await fetchPlayer(keySet?.address);
+  //       const detail2 = await fetchPlayer(gameInfo?.competitorAddress);
+  //       setGameInfo({
+  //         ...gameInfo,
+  //         player1: {
+  //           address: keySet?.address || '',
+  //           name: detail1.twitter_name || ellipsisCenter({ str: keySet?.address, limit: 5 }),
+  //           avatar: detail1?.twitter_avatar || '',
+  //         },
+  //         player2: {
+  //           address: gameInfo?.competitorAddress || '',
+  //           name: detail2.twitter_name || ellipsisCenter({ str: gameInfo?.competitorAddress, limit: 5 }),
+  //           avatar: detail2?.twitter_avatar || '',
+  //         },
+  //       });
+  //     })();
+  //   }
+  //   if (gameInfo?.infoForWatcher) {
+  //     (async () => {
+  //       console.log('hehehehe');
+  //       const detail1 = await fetchPlayer(gameInfo?.infoForWatcher?.player1);
+  //       const detail2 = await fetchPlayer(gameInfo?.infoForWatcher?.player2);
+  //       setGameInfo({
+  //         ...gameInfo,
+  //         player2: {
+  //           address: gameInfo?.infoForWatcher?.player1 || '',
+  //           name: detail1.twitter_name || ellipsisCenter({ str: gameInfo?.infoForWatcher?.player1, limit: 5 }),
+  //           avatar: detail1?.twitter_avatar || '',
+  //         },
+  //         player1: {
+  //           address: gameInfo?.infoForWatcher?.player2 || '',
+  //           name: detail2.twitter_name || ellipsisCenter({ str: gameInfo?.infoForWatcher?.player2, limit: 5 }),
+  //           avatar: detail2?.twitter_avatar || '',
+  //         },
+  //       });
+  //     })();
+  //   }
+  // }, [gameInfo]);
 
   useEffect(() => {
     console.log('contractSigner___', contractSigner);

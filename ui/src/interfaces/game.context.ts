@@ -17,10 +17,12 @@ export interface IGameState {
   player1?: {
     address: string;
     name: string;
+    avatar: string;
   };
   player2?: {
     address: string;
     name: string;
+    avatar: string;
   };
   infoForWatcher?: {
     player1: string;
