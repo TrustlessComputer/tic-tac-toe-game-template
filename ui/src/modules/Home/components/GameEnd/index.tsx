@@ -20,13 +20,13 @@ const GameEnd = React.memo(() => {
     }
   };
 
-  const winnerAddress = useMemo(() => {
+  const winnerName = useMemo(() => {
     if (gameInfo?.infoForWatcher) {
       if (gameInfo?.winner === '1') {
-        return gameInfo?.infoForWatcher?.player1;
+        return gameInfo?.player1?.name;
       }
       if (gameInfo?.winner === '2') {
-        return gameInfo?.infoForWatcher?.player2;
+        return gameInfo?.player2?.name;
       }
       return '';
     }
@@ -41,15 +41,6 @@ const GameEnd = React.memo(() => {
   }, [gameInfo]);
 
   useAsyncEffect(requestEndGame, []);
-
-  const renderWinnerName = () => {
-    if (gameInfo?.player1?.address?.toLocaleLowerCase() === winnerAddress?.toLocaleLowerCase()) {
-      return gameInfo?.player1?.name;
-    }
-    if (gameInfo?.player2?.address?.toLocaleLowerCase() === winnerAddress?.toLocaleLowerCase()) {
-      return gameInfo?.player2?.name;
-    }
-  };
 
   return (
     <AnimatePresence>
@@ -80,7 +71,7 @@ const GameEnd = React.memo(() => {
             }}
             style={{ fontSize: 23 }}
           >
-            {isWatcher && (gameInfo?.winner === WinnerState.Draw ? 'No Winner' : `Winner is ${renderWinnerName()}`)}
+            {isWatcher && (gameInfo?.winner === WinnerState.Draw ? 'No Winner' : `Winner is ${winnerName}`)}
             {!isWatcher &&
               (gameInfo?.winner === WinnerState.Draw
                 ? 'No Winner :/'

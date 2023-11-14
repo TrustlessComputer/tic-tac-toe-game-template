@@ -374,24 +374,30 @@ const DashBoard = React.memo(() => {
         <div className="alert-move">
           <div className="rowFlex">
             <div className={`player ${isMyTurn ? 'active' : ''}`}>
-              <span className="tick">
+              {/* <span className="tick">
                 <Square ind="1" updateSquares={() => undefined} clsName={gameInfo?.myTurn as any} />
+              </span> */}
+              <span className="avatar">
+                <img src={gameInfo?.player1?.avatar} alt="" />
               </span>
               <span className="name">{isWatcher ? gameInfo?.player1?.name : isMyTurn ? 'Your turn' : 'You'}</span>
             </div>
-            <div> {!loading ? renderCounter() : <Spinner size={20} />}</div>
+            <div className="time"> {!loading ? renderCounter() : <Spinner size={20} />}</div>
             <div className={`player ${!isMyTurn ? 'active' : ''}`}>
               <span className="name right">
                 {/* {ellipsisCenter({ str: gameInfo?.infoForWatcher?.player1 || keySet.address, limit: 5 })} */}
                 {/* {player2} */}
                 {gameInfo?.player2?.name}
               </span>
-              <span className="tick">
+              {/* <span className="tick">
                 <Square
                   ind="2"
                   updateSquares={() => undefined}
                   clsName={gameInfo?.myTurn === IRole.X ? IRole.O : IRole.X}
                 />
+              </span> */}
+              <span className="avatar">
+                <img src={gameInfo?.player2?.avatar} alt="" />
               </span>
             </div>
           </div>

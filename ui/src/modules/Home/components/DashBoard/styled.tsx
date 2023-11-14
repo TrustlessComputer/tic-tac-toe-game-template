@@ -52,11 +52,24 @@ const Container = styled.div`
       flex-wrap: nowrap;
       gap: 10px;
     }
-
+    .time {
+      width: 30px;
+    }
     .player {
       display: flex;
       align-items: center;
       gap: 5px;
+      .avatar {
+        width: 22px;
+        height: 22px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 100%;
+          border: 1px solid white;
+        }
+      }
       .tick {
         span {
           width: 15px;
@@ -90,7 +103,7 @@ const Container = styled.div`
       }
       &.active {
         background: #ffcf89;
-        padding: 3px 5px;
+        padding: 2px 5px;
         border-radius: 999px;
         border: 2px solid #f7c35c;
       }
