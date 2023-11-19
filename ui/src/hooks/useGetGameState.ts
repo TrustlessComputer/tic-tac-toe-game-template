@@ -51,7 +51,7 @@ const useGetGameState = () => {
 
     const turn = turnMapper(gameState[1]);
     const timeLeftCurrTurn = gameState[2].toString(); // seconds
-    console.log('timeLeftCurrTurn___', timeLeftCurrTurn);
+    // console.log('timeLeftCurrTurn___', timeLeftCurrTurn);
 
     let matchData = gamesBuilder(gameState[4]);
 

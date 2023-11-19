@@ -106,6 +106,15 @@ const Container = styled.div`
         padding: 2px 5px;
         border-radius: 999px;
         border: 2px solid #f7c35c;
+        animation: active 1s infinite;
+        @keyframes active {
+          from {
+            background: #ffcf89;
+          }
+          to {
+            background: #dd8b57;
+          }
+        }
       }
     }
 

@@ -7,6 +7,8 @@ const useCountDown = () => {
 
   const [time, setTime] = React.useState(timer || 0);
 
+  console.log('TIme: ', time);
+
   const convertSeconds = () => {
     setTime(value => {
       const countdown = cloneDeep(value) - 1;
