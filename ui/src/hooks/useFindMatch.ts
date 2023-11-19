@@ -77,10 +77,10 @@ const useFindMatch = () => {
       console.log('LOGGER--- create game error: ', error);
       const { desc } = getErrorMessage(error);
       // toast.error(desc);
-      toast.error('Transaction failed!');
+      toast.error('Someone has joined before or transaction find match failed!');
       setTimeout(() => {
         window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      }, 2000);
+      }, 3000);
       setTimeout(() => {
         setShowCreateRoom(false);
       }, 2000);

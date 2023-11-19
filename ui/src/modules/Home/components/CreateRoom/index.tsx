@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import useContractSigner from '@/hooks/useContractSigner';
 import debounce from 'lodash/debounce';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -14,6 +14,7 @@ import sleep from '@/utils/sleep';
 import BannerImage from '@/images/banner.png';
 import { Banner } from '@/modules/styled';
 import { PARENT_PATH } from '@/configs';
+import { WalletContext } from '@/contexts/wallet.context';
 
 const CreateRoom = React.memo(() => {
   const [canceling, setCanceling] = React.useState(false);
@@ -21,6 +22,8 @@ const CreateRoom = React.memo(() => {
   const { onFindMatch, gameState } = useFindMatch();
   const { onCancelMatch } = useCancelMatch();
   const { resetGame, playerState, roomInfo } = useContext(GameContext);
+  const { keySet } = useContext(WalletContext);
+  const [actionText, setActionText] = useState(''); // State to hold action text
 
   const debounceCreateGameID = React.useCallback(debounce(onFindMatch, 1000), []);
 
@@ -39,6 +42,40 @@ const CreateRoom = React.memo(() => {
       setCanceling(false);
     }
   };
+
+  useEffect(() => {
+    if (!contractSigner || !roomInfo || !keySet) return;
+    const fetchActionText = async () => {
+      try {
+        let rs = await contractSigner?.getAlphaPendingMatches(roomInfo?.roomId);
+
+        if (rs && rs?.length > 0) {
+          const detail = rs[0];
+          if (detail) {
+            const isYour =
+              detail?.player1?.toLocaleLowerCase() === keySet.address?.toLocaleLowerCase() ||
+              detail?.player2?.toLocaleLowerCase() === keySet?.address?.toLocaleLowerCase();
+            if (isYour) {
+              setActionText('Creating');
+            } else {
+              setActionText('Joining');
+            }
+          }
+        } else {
+          setActionText('Creating');
+        }
+      } catch (error) {
+        // Handle error if any
+        console.error('Error fetching action text:', error);
+        // Set a default value or handle error case appropriately
+        setActionText('Creating');
+      }
+    };
+
+    fetchActionText(); // Call the async function
+
+    // Pass any dependencies in the array that trigger this effect when changed
+  }, [contractSigner, roomInfo, keySet]);
 
   React.useEffect(() => {
     if (!contractSigner) return;
@@ -73,7 +110,7 @@ const CreateRoom = React.memo(() => {
               },
             }}
           >
-            {gameState.gameID && gameState.loading ? 'Waiting for opponent to connect...' : 'Creating a game...'}
+            {gameState.gameID && gameState.loading ? 'Waiting for opponent to connect...' : `${actionText} game...`}
           </motion.h5>
           {gameState.loading && <Spinner />}
           {gameState.gameID && playerState.isFinding && (

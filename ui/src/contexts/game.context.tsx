@@ -179,10 +179,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
           const lastMoveIndex = newSquares.findIndex((square, index) => squares[index] !== square);
           setLastMove(lastMoveIndex);
           const timeLeftNumb = Number(timeLeftCurrTurn || '0');
-          updateTime(timeLeftNumb - 3);
+          updateTime(timeLeftNumb - 5);
           console.log('LOGGER----TIME LEFT: ', timeLeftNumb);
-          // const _timeLeft = timeLeftNumb >= 45 ? 45 : timeLeftNumb;
-          // updateTime(_timeLeft - 5);
+          // const _timeLeft = timeLeftNumb >= 47 ? 47 : timeLeftNumb;
+          // updateTime(_timeLeft - 3);
         }
       }
 
@@ -199,10 +199,10 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     } catch (error) {
       const { desc } = getErrorMessage(error);
       console.log('error get game state__', error);
-      toast.error('Transaction failed!');
-      // setTimeout(() => {
-      //   window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      // }, 2000);
+      toast.error('Transaction game state failed!');
+      setTimeout(() => {
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      }, 3000);
       // toast.error(desc);
     }
   };
