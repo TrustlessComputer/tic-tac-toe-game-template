@@ -13,7 +13,7 @@ import toast from 'react-hot-toast';
 import sleep from '@/utils/sleep';
 import BannerImage from '@/images/banner.png';
 import { Banner } from '@/modules/styled';
-import { PARENT_PATH } from '@/configs';
+import { PARENT_PATH, PARENT_PATH_V2 } from '@/configs';
 import { WalletContext } from '@/contexts/wallet.context';
 
 const CreateRoom = React.memo(() => {
@@ -35,6 +35,7 @@ const CreateRoom = React.memo(() => {
       resetGame();
 
       window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
     } catch (error) {
       const { desc } = getErrorMessage(error);
       toast.error(desc);

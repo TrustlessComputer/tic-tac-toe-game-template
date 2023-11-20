@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { IRole } from '@/interfaces/useGetGameSttate';
 import { IGameContext, IGameState, IRoomInfoState } from '@/interfaces/game.context';
-import { API_URL, NUMBER_COLUMN, PARENT_PATH } from '@/configs';
+import { API_URL, NUMBER_COLUMN, PARENT_PATH, PARENT_PATH_V2 } from '@/configs';
 import CreateRoom from '@/modules/Home/components/CreateRoom';
 import { IGameMapper, Player, WinnerState } from '@/interfaces/useGetGames';
 import { WalletContext } from '@/contexts/wallet.context';
@@ -202,6 +202,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       toast.error('Transaction game state failed!');
       setTimeout(() => {
         window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
       }, 3000);
       // toast.error(desc);
     }
@@ -369,6 +370,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     });
     if (!contractSigner) return;
     window.parent.postMessage({ status: 'LOADED' }, PARENT_PATH);
+    window.parent.postMessage({ status: 'LOADED' }, PARENT_PATH_V2);
 
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);

@@ -4,7 +4,7 @@ import { WalletContext } from '@/contexts/wallet.context';
 import { LoaderContext } from '@/contexts/loader.context';
 import { getErrorMessage } from '@/utils/error';
 import toast from 'react-hot-toast';
-import { PARENT_PATH } from '@/configs';
+import { PARENT_PATH, PARENT_PATH_V2 } from '@/configs';
 import { GameContext } from '@/contexts/game.context';
 
 const useRequestEndFinding = () => {
@@ -22,6 +22,7 @@ const useRequestEndFinding = () => {
       console.log('Cancel match ____', tx);
 
       window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
       await tx.wait();
     } catch (error) {
       const { desc } = getErrorMessage(error);
