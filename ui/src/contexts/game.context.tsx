@@ -202,6 +202,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       toast.error('Transaction game state failed!');
       setTimeout(() => {
         window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
       }, 3000);
       // toast.error(desc);
     }

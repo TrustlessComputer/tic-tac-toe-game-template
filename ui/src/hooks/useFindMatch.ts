@@ -7,7 +7,7 @@ import useProvider from '@/hooks/useProvider';
 import useGetGames from '@/hooks/useGetGames';
 import { ethers } from 'ethers';
 import useContractERC20 from './useContractERC20';
-import { CONTRACT_ADDRESS, PARENT_PATH } from '@/configs';
+import { CONTRACT_ADDRESS, PARENT_PATH, PARENT_PATH_V2 } from '@/configs';
 import { getErrorMessage } from '@/utils/error';
 
 // const hardValue = '0.000001';
@@ -80,6 +80,7 @@ const useFindMatch = () => {
       toast.error('Someone has joined before or transaction find match failed!');
       setTimeout(() => {
         window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
+        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
       }, 3000);
       setTimeout(() => {
         setShowCreateRoom(false);

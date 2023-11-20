@@ -39,6 +39,10 @@ const Container = styled.div`
     justify-content: center;
     z-index: 99;
 
+    * {
+      font-family: 'GoogleSans';
+    }
+
     .myTurn {
       background: #ffb46c;
       padding: 3px 15px;
