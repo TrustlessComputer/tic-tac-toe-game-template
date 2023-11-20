@@ -373,51 +373,50 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
     window.addEventListener('message', function (event) {
       console.log('EVENT___', event);
       // console.log('Parent Path___', PARENT_PATH);
-      if (event.origin === PARENT_PATH) {
-        const data = event.data;
-        // setStoreData(event?.data);
-        console.log('EVENT___', event.data);
 
-        if (typeof data === 'object') {
-          switch (data?.status) {
-            case 'PLAY':
-              setShowCreateRoom(true);
-              setRoomInfo({
-                roomId: data?.tokenRoom,
-                reward: data?.reward.toString(),
-                status: 'PLAY',
-              });
-              break;
-            case 'CONTINUE':
-              setRoomInfo({
-                roomId: data?.tokenRoom,
-                reward: data?.reward.toString(),
-                status: 'CONTINUE',
-              });
-              onFetchAfterBack(data?.gameId);
+      const data = event.data;
+      // setStoreData(event?.data);
+      console.log('EVENT___', event.data);
 
-              break;
-            case 'WATCH':
-              setRoomInfo({
-                roomId: data?.tokenRoom,
-                reward: data?.reward.toString(),
-                status: 'WATCH',
-              });
-              setGameInfo({
-                myRolePlayer: Player.Empty,
-                winner: WinnerState.Playing,
-                myTurn: IRole.O,
-                competitorAddress: '',
-                gameID: data?.gameId,
-                infoForWatcher: {
-                  player1: '',
-                  player2: '',
-                },
-              });
-              break;
-            default:
-              break;
-          }
+      if (typeof data === 'object') {
+        switch (data?.status) {
+          case 'PLAY':
+            setShowCreateRoom(true);
+            setRoomInfo({
+              roomId: data?.tokenRoom,
+              reward: data?.reward.toString(),
+              status: 'PLAY',
+            });
+            break;
+          case 'CONTINUE':
+            setRoomInfo({
+              roomId: data?.tokenRoom,
+              reward: data?.reward.toString(),
+              status: 'CONTINUE',
+            });
+            onFetchAfterBack(data?.gameId);
+
+            break;
+          case 'WATCH':
+            setRoomInfo({
+              roomId: data?.tokenRoom,
+              reward: data?.reward.toString(),
+              status: 'WATCH',
+            });
+            setGameInfo({
+              myRolePlayer: Player.Empty,
+              winner: WinnerState.Playing,
+              myTurn: IRole.O,
+              competitorAddress: '',
+              gameID: data?.gameId,
+              infoForWatcher: {
+                player1: '',
+                player2: '',
+              },
+            });
+            break;
+          default:
+            break;
         }
       }
     });
