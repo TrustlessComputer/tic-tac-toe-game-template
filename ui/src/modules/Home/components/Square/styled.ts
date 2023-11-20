@@ -10,6 +10,8 @@ const Container = styled(motion.div)<{ isLastMove: boolean }>`
   aspect-ratio: 1 / 1;
   background-color: ${({ theme, isLastMove }) => (isLastMove ? opacify(40, theme.black) : opacify(14, theme.black))};
   border-radius: 6px;
+  width: 33px;
+  height: 33px;
 
   :hover {
     opacity: 0.8;

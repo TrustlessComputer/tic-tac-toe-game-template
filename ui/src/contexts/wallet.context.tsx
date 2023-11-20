@@ -112,17 +112,16 @@ export const WalletProvider: React.FC<PropsWithChildren> = ({ children }: PropsW
   useEffect(() => {
     window.addEventListener('message', function (event) {
       console.log('event wallet__', event);
-      if (event.origin === PARENT_PATH) {
-        const data = event.data;
 
-        if (typeof data === 'object') {
-          for (let key in data?.auth) {
-            if (DEFAULT_KEY_STORAGE.includes(key)) {
-              localStorage.setItem(key, data.auth[key]);
-            }
+      const data = event.data;
+
+      if (typeof data === 'object') {
+        for (let key in data?.auth) {
+          if (DEFAULT_KEY_STORAGE.includes(key)) {
+            localStorage.setItem(key, data.auth[key]);
           }
-          onPreload();
         }
+        onPreload();
       }
     });
   }, []);
