@@ -21,8 +21,7 @@ const useRequestEndFinding = () => {
       const tx = await contractSigner.cancelMatch();
       console.log('Cancel match ____', tx);
 
-      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
+      window.top?.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, '*');
       await tx.wait();
     } catch (error) {
       const { desc } = getErrorMessage(error);

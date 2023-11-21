@@ -201,8 +201,7 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
       console.log('error get game state__', error);
       toast.error('Transaction game state failed!');
       setTimeout(() => {
-        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-        window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
+        window.top?.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, '*');
       }, 3000);
       // toast.error(desc);
     }
@@ -364,18 +363,13 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
 
     window.addEventListener('message', function (event) {
       console.log('event before: ', event.data);
-      if (event.origin === PARENT_PATH) {
-        // setStoreData(event?.data);
-      }
+      // if (event.origin === PARENT_PATH) {
+      // }
     });
     if (!contractSigner) return;
-    window.parent.postMessage({ status: 'LOADED' }, PARENT_PATH);
-    window.parent.postMessage({ status: 'LOADED' }, PARENT_PATH_V2);
+    window.top?.postMessage({ status: 'LOADED' }, '*');
 
     window.addEventListener('message', function (event) {
-      console.log('EVENT___', event);
-      // console.log('Parent Path___', PARENT_PATH);
-
       const data = event.data;
       // setStoreData(event?.data);
       console.log('EVENT___', event.data);
