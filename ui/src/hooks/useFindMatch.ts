@@ -31,7 +31,7 @@ const useFindMatch = () => {
     try {
       const pendingDetails = await contractSigner?.getAlphaPendingMatches(roomInfo?.roomId);
       const pendingIds = await contractSigner?.getAlphaPendingMatchIds(roomInfo?.roomId);
-      const index = pendingDetails.findIndex((item: any, index: number) => {
+      const index = pendingDetails.findIndex((item: any) => {
         if (
           item?.player1?.toLocaleLowerCase() === keySet?.address?.toLocaleLowerCase() ||
           item?.player2?.toLocaleLowerCase() === keySet?.address?.toLocaleLowerCase()
