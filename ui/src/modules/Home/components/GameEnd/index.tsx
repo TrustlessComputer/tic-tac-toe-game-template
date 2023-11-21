@@ -110,8 +110,7 @@ const GameEnd = React.memo(() => {
               <Button
                 onClick={() => {
                   resetGame();
-                  window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-                  window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
+                  window.top?.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, '*');
                 }}
                 variants="outline"
               >

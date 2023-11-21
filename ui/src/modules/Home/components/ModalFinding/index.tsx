@@ -28,8 +28,7 @@ const ModalFinding = React.memo(() => {
       await sleep(500);
       resetGame();
 
-      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH);
-      window.parent.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, PARENT_PATH_V2);
+      window.top?.postMessage({ tokenRoom: roomInfo?.roomId, status: 'CLOSE' }, '*');
     } catch (error) {
       const { desc } = getErrorMessage(error);
       toast.error(desc);
