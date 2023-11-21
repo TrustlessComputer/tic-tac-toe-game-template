@@ -23,10 +23,10 @@ const GameEnd = React.memo(() => {
   const winnerName = useMemo(() => {
     if (gameInfo?.infoForWatcher) {
       if (gameInfo?.winner === '1') {
-        return gameInfo?.player1?.name;
+        return gameInfo?.player2?.name;
       }
       if (gameInfo?.winner === '2') {
-        return gameInfo?.player2?.name;
+        return gameInfo?.player1?.name;
       }
       return '';
     }
