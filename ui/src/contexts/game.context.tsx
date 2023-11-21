@@ -385,12 +385,18 @@ export const GameProvider = ({ children }: PropsWithChildren) => {
             });
             break;
           case 'CONTINUE':
+            setShowCreateRoom(true);
             setRoomInfo({
               roomId: data?.tokenRoom,
               reward: data?.reward.toString(),
-              status: 'CONTINUE',
+              status: 'PLAY',
             });
-            onFetchAfterBack(data?.gameId);
+            // setRoomInfo({
+            //   roomId: data?.tokenRoom,
+            //   reward: data?.reward.toString(),
+            //   status: 'CONTINUE',
+            // });
+            // onFetchAfterBack(data?.gameId);
 
             break;
           case 'WATCH':
