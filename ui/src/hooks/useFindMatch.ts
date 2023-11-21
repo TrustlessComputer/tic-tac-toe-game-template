@@ -9,6 +9,7 @@ import { ethers } from 'ethers';
 import useContractERC20 from './useContractERC20';
 import { CONTRACT_ADDRESS, PARENT_PATH, PARENT_PATH_V2 } from '@/configs';
 import { getErrorMessage } from '@/utils/error';
+import { WalletContext } from '@/contexts/wallet.context';
 
 // const hardValue = '0.000001';
 
@@ -19,16 +20,54 @@ const useFindMatch = () => {
   });
   const contractSigner = useContractSigner();
   const contractErc20Signer = useContractERC20();
+  const { keySet } = useContext(WalletContext);
 
   const provider = useProvider();
   const { onWaitingGames } = useGetGames();
 
   const { onJoinRoom, setShowCreateRoom, roomInfo } = useContext(GameContext);
 
+  const checkMyPending = async () => {
+    try {
+      const pendingDetails = await contractSigner?.getAlphaPendingMatches(roomInfo?.roomId);
+      const pendingIds = await contractSigner?.getAlphaPendingMatchIds(roomInfo?.roomId);
+      const index = pendingDetails.findIndex((item: any) => {
+        if (
+          item?.player1?.toLocaleLowerCase() === keySet?.address?.toLocaleLowerCase() ||
+          item?.player2?.toLocaleLowerCase() === keySet?.address?.toLocaleLowerCase()
+        ) {
+          return item;
+        }
+      });
+      console.log('index:  __', index);
+      if (index >= 0) {
+        const hexString = '0x' + Number(pendingIds[index]).toString(16).padStart(64, '0');
+        return hexString;
+      }
+      return null;
+    } catch (error) {
+      return null;
+    }
+  };
+
   const onFindMatch = async () => {
     if (!contractSigner || !provider || !contractErc20Signer || !roomInfo) return;
     try {
       setGameState(value => ({ ...value, loading: true }));
+
+      const myPendingId: any = await checkMyPending();
+      console.log('myPendingId__', myPendingId);
+      if (myPendingId) {
+        setGameState(value => ({ ...value, gameID: myPendingId }));
+        const games = await onWaitingGames(myPendingId);
+        if (games) {
+          onJoinRoom({
+            games,
+            myPendingId,
+          } as any);
+        }
+        return;
+      }
 
       const rs: any = await contractErc20Signer.approve(CONTRACT_ADDRESS, ethers.utils.parseEther(roomInfo?.reward));
 
@@ -63,7 +102,6 @@ const useFindMatch = () => {
       if (logs && !!logs.length && logs[0]?.topics.length > 1) {
         const logData = logs[2];
         const gameID = logData.topics[1] as any;
-        console.log('mamama', gameID);
         setGameState(value => ({ ...value, gameID }));
         const games = await onWaitingGames(gameID);
         if (games) {
